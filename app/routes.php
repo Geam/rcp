@@ -36,39 +36,56 @@ Route::pattern('token', '[0-9a-z]+');
  */
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
+  # Categories Management
+  Route::group(array('prefix' => 'categories'), function()
+  {
+    Route::get('/', 'AdminCategoriesController');
+  });
 
   # Comment Management
-  Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
-  Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');
-  Route::get('comments/{comment}/delete', 'AdminCommentsController@getDelete');
-  Route::post('comments/{comment}/delete', 'AdminCommentsController@postDelete');
-  Route::controller('comments', 'AdminCommentsController');
+  Route::group(array('prefix' => 'comments'), function()
+  {
+    Route::get('{comment}/edit', 'AdminCommentsController@getEdit');
+    Route::post('{comment}/edit', 'AdminCommentsController@postEdit');
+    Route::get('{comment}/delete', 'AdminCommentsController@getDelete');
+    Route::post('{comment}/delete', 'AdminCommentsController@postDelete');
+    Route::controller('/', 'AdminCommentsController');
+  });
 
   # Blog Management
-  Route::get('blogs/{post}/show', 'AdminBlogsController@getShow');
-  Route::get('blogs/{post}/edit', 'AdminBlogsController@getEdit');
-  Route::post('blogs/{post}/edit', 'AdminBlogsController@postEdit');
-  Route::get('blogs/{post}/content', 'AdminBlogsController@getContent');
-  Route::post('blogs/{post}/content', 'AdminBlogsController@postContent');
-  Route::get('blogs/{post}/delete', 'AdminBlogsController@getDelete');
-  Route::post('blogs/{post}/delete', 'AdminBlogsController@postDelete');
-  Route::controller('blogs', 'AdminBlogsController');
+  Route::group(array('prefix' => 'blogs'), function()
+  {
+    Route::get('{post}/show', 'AdminBlogsController@getShow');
+    Route::get('{post}/edit', 'AdminBlogsController@getEdit');
+    Route::post('{post}/edit', 'AdminBlogsController@postEdit');
+    Route::get('{post}/content', 'AdminBlogsController@getContent');
+    Route::post('{post}/content', 'AdminBlogsController@postContent');
+    Route::get('{post}/delete', 'AdminBlogsController@getDelete');
+    Route::post('{post}/delete', 'AdminBlogsController@postDelete');
+    Route::controller('/', 'AdminBlogsController');
+  });
 
   # User Management
-  Route::get('users/{user}/show', 'AdminUsersController@getShow');
-  Route::get('users/{user}/edit', 'AdminUsersController@getEdit');
-  Route::post('users/{user}/edit', 'AdminUsersController@postEdit');
-  Route::get('users/{user}/delete', 'AdminUsersController@getDelete');
-  Route::post('users/{user}/delete', 'AdminUsersController@postDelete');
-  Route::controller('users', 'AdminUsersController');
+  Route::group(array('prefix' => 'users'), function()
+  {
+    Route::get('{user}/show', 'AdminUsersController@getShow');
+    Route::get('{user}/edit', 'AdminUsersController@getEdit');
+    Route::post('{user}/edit', 'AdminUsersController@postEdit');
+    Route::get('{user}/delete', 'AdminUsersController@getDelete');
+    Route::post('{user}/delete', 'AdminUsersController@postDelete');
+    Route::controller('/', 'AdminUsersController');
+  });
 
   # User Role Management
-  Route::get('roles/{role}/show', 'AdminRolesController@getShow');
-  Route::get('roles/{role}/edit', 'AdminRolesController@getEdit');
-  Route::post('roles/{role}/edit', 'AdminRolesController@postEdit');
-  Route::get('roles/{role}/delete', 'AdminRolesController@getDelete');
-  Route::post('roles/{role}/delete', 'AdminRolesController@postDelete');
-  Route::controller('roles', 'AdminRolesController');
+  Route::group(array('prefix' => 'roles'), function()
+  {
+    Route::get('{role}/show', 'AdminRolesController@getShow');
+    Route::get('{role}/edit', 'AdminRolesController@getEdit');
+    Route::post('{role}/edit', 'AdminRolesController@postEdit');
+    Route::get('{role}/delete', 'AdminRolesController@getDelete');
+    Route::post('{role}/delete', 'AdminRolesController@postDelete');
+    Route::controller('/', 'AdminRolesController');
+  });
 
   # Admin Dashboard
   Route::controller('/', 'AdminDashboardController');
