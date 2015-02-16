@@ -4,117 +4,156 @@ use Illuminate\Support\Facades\URL;
 
 class Post extends Eloquent {
 
-	/**
-	 * Deletes a blog post and all
-	 * the associated comments.
-	 *
-	 * @return bool
-	 */
-	public function delete()
-	{
-		// Delete the comments
-		$this->comments()->delete();
+  /**
+   * All available for this post
+   *
+   */
+  public $posts_text;
 
-		// Delete the blog post
-		return parent::delete();
-	}
+  /**
+   * Deletes a blog post and all
+   * the associated comments.
+   *
+   * @return bool
+   */
+  public function delete()
+  {
+    // Delete the comments
+    $this->comments()->delete();
 
-	/**
-	 * Returns a formatted post content entry,
-	 * this ensures that line breaks are returned.
-	 *
-	 * @return string
-	 */
-	public function content()
-	{
-		return nl2br($this->content);
-	}
+    // Delete the texts
+    $this->posts_texts()->delete();
 
-	/**
-	 * Get the post's author.
-	 *
-	 * @return User
-	 */
-	public function author()
-	{
-		return $this->belongsTo('User', 'user_id');
-	}
+    // Delete the blog post
+    return parent::delete();
+  }
 
-	/**
-	 * Get the post's meta_description.
-	 *
-	 * @return string
-	 */
-	public function meta_description()
-	{
-		return $this->meta_description;
-	}
+  public function posts_cats()
+  {
+    return $this->hasMany('posts_cat', 'post_id');
+  }
 
-	/**
-	 * Get the post's meta_keywords.
-	 *
-	 * @return string
-	 */
-	public function meta_keywords()
-	{
-		return $this->meta_keywords;
-	}
-
-	/**
-	 * Get the post's comments.
-	 *
-	 * @return array
-	 */
-	public function comments()
-	{
-		return $this->hasMany('Comment');
-	}
-
-    /**
-     * Get the date the post was created.
-     *
-     * @param \Carbon|null $date
-     * @return string
-     */
-    public function date($date=null)
+  /**
+   * Return the Posts_text object from which text might be extract
+   * based on current locale or default language if current locale
+   * doesn't exist
+   *
+   * @return Posts_text
+   */
+  public function getPosts_text()
+  {
+    if ($this->posts_texts())
     {
-        if(is_null($date)) {
-            $date = $this->created_at;
-        }
+      if ($temp = $this->posts_text->where('lang', '=', App::getLocale())->first())
+        return $temp;
+     if ($temp = $this->posts_text->where('lang', '=', 'en')->first())
+       return $temp;
+    }
+    return False;
+  }
 
-        return String::date($date);
+  /**
+   * Returns a formatted post content entry,
+   * this ensures that line breaks are returned.
+   *
+   * @return string
+   */
+  public function content()
+  {
+    if ($temp = $this->getPosts_text())
+      return nl2br($temp->content);
+    return "No content attach to post";
+  }
+
+  /**
+   * Return the title
+   *
+   * @return string
+   */
+  public function title()
+  {
+    if ($temp = $this->getPosts_text())
+      return $temp->title;
+    return "No title attach to post";
+  }
+
+  /**
+   * Get the post's author.
+   *
+   * @return User
+   */
+  public function author()
+  {
+    return $this->belongsTo('User', 'user_id');
+  }
+
+  /**
+   * Get the post's comments.
+   *
+   * @return array
+   */
+  public function comments()
+  {
+    return $this->hasMany('Comment');
+  }
+
+  /**
+   * Get the post's posts_texts
+   *
+   * @return array
+   */
+  public function posts_texts()
+  {
+    if (! $this->posts_text)
+      $this->posts_text = $this->hasMany('Posts_text', 'post_id');
+    return $this->posts_text;
+  }
+
+  /**
+   * Get the date the post was created.
+   *
+   * @param \Carbon|null $date
+   * @return string
+   */
+  public function date($date=null)
+  {
+    if(is_null($date)) {
+      $date = $this->created_at;
     }
 
-	/**
-	 * Get the URL to the post.
-	 *
-	 * @return string
-	 */
-	public function url()
-	{
-		return Url::to($this->slug);
-	}
+    return String::date($date);
+  }
 
-	/**
-	 * Returns the date of the blog post creation,
-	 * on a good and more readable format :)
-	 *
-	 * @return string
-	 */
-	public function created_at()
-	{
-		return $this->date($this->created_at);
-	}
+  /**
+   * Get the URL to the post.
+   *
+   * @return string
+   */
+  public function url()
+  {
+    return Url::to($this->slug);
+  }
 
-	/**
-	 * Returns the date of the blog post last update,
-	 * on a good and more readable format :)
-	 *
-	 * @return string
-	 */
-	public function updated_at()
-	{
-        return $this->date($this->updated_at);
-	}
+  /**
+   * Returns the date of the blog post creation,
+   * on a good and more readable format :)
+   *
+   * @return string
+   */
+  public function created_at()
+  {
+    return $this->date($this->created_at);
+  }
+
+  /**
+   * Returns the date of the blog post last update,
+   * on a good and more readable format :)
+   *
+   * @return string
+   */
+  public function updated_at()
+  {
+    return $this->date($this->updated_at);
+  }
 
 }

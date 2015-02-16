@@ -71,14 +71,14 @@ class AdminUsersController extends AdminController {
         // Selected permissions
         $selectedPermissions = Input::old('permissions', array());
 
-		// Title
-		$title = Lang::get('admin/users/title.create_a_new_user');
+    // Title
+    $title = Lang::get('admin/users/title.create_a_new_user');
 
-		// Mode
-		$mode = 'create';
+    // Mode
+    $mode = 'create';
 
-		// Show the page
-		return View::make('admin/users/create_edit', compact('roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
+    // Show the page
+    return View::make('admin/users/create_edit', compact('roles', 'permissions', 'selectedRoles', 'selectedPermissions', 'title', 'mode'));
     }
 
     /**
@@ -168,11 +168,11 @@ class AdminUsersController extends AdminController {
             $permissions = $this->permission->all();
 
             // Title
-        	$title = Lang::get('admin/users/title.user_update');
-        	// mode
-        	$mode = 'edit';
+          $title = Lang::get('admin/users/title.user_update');
+          // mode
+          $mode = 'edit';
 
-        	return View::make('admin/users/create_edit', compact('user', 'roles', 'permissions', 'title', 'mode'));
+          return View::make('admin/users/create_edit', compact('user', 'roles', 'permissions', 'title', 'mode'));
         }
         else
         {
@@ -208,7 +208,7 @@ class AdminUsersController extends AdminController {
                 return Redirect::to('admin/users/' . $user->id . '/edit')->with('error', Lang::get('admin/users/messages.password_does_not_match'));
             }
         }
-            
+
         if($user->confirmed == null) {
             $user->confirmed = $oldUser->confirmed;
         }
