@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
 
@@ -13,7 +13,8 @@ return array(
 	|
 	*/
 
+  'title' => 'Rcp archive',
 	'contact_us' => 'Contact Us',
-        'sign_up' => 'Sign Up',
+  'sign_up' => 'Sign Up',
 
 );

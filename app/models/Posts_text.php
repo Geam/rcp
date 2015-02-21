@@ -6,7 +6,7 @@ class Posts_text extends Eloquent {
 
   public function post()
   {
-    return $this->belongsTo('Post', 'post_id');
+    return $this->belongsTo('Post', 'id');
   }
 
 };

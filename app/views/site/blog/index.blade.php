@@ -1,5 +1,10 @@
 @extends('site.layouts.default')
 
+{{-- Title --}}
+@section('title')
+{{ Lang::get('site.title') }}
+@stop
+
 {{-- Content --}}
 @section('content')
 @foreach ($posts as $post)

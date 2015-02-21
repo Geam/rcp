@@ -30,8 +30,39 @@
 
 {{-- Content --}}
 @section('content')
-<h3>{{ $post->title() }}</h3>
-
+<h3>Affair {{ $post->title() }}</h3>
+<p>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
+        <th>Importance</th>
+        <th>Nature</th>
+        <th>Affair id</th>
+        <th>Lang</th>
+        <th>State</th>
+        <th>Date</th>
+      </tr>
+      <tr>
+        <td>{{ $post->importance }}</td>
+        <td>{{ ucfirst($post->nature) }}</td>
+        <td>{{ $post->affair_id }}</td>
+        <td>{{ $post->lang }}</td>
+        <td>{{ $post->state }}</td>
+        <td>{{ $post->p_date }}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
+        <th>Categories</th>
+      </tr>
+      @foreach ($post->posts_cats()->get() as $cat)
+      <tr><td>{{ $cat->getParentName() }}</td></tr>
+      @endforeach
+    </table>
+  </div>
+</p>
 <p>{{ $post->content() }}</p>
 
 <div>
@@ -74,5 +105,11 @@
 @endif
 
 {{ $commentForm }}
+
+@stop
+
+
+{{-- Scripts --}}
+@section('scripts')
 
 @stop

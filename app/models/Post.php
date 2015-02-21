@@ -28,9 +28,19 @@ class Post extends Eloquent {
     return parent::delete();
   }
 
+//  public function posts_cats()
+//  {
+//    return $this->hasMany('Posts_cat', 'post_id')->with('category');
+//  }
+
   public function posts_cats()
   {
-    return $this->hasMany('posts_cat', 'post_id');
+    return $this->belongsToMany('Category', 'posts_cats', 'post_id', 'cat_id');
+  }
+
+  public function categories()
+  {
+    return $this->belongsToMany('Category', 'posts_cats', 'post_id', 'cat_id');
   }
 
   /**

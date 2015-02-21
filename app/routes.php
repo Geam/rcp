@@ -19,6 +19,7 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
+Route::model('category', 'Category');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -39,7 +40,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
   # Categories Management
   Route::group(array('prefix' => 'categories'), function()
   {
-    Route::get('/', 'AdminCategoriesController');
+    Route::controller('/', 'AdminCategoriesController');
   });
 
   # Comment Management
@@ -91,24 +92,36 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
   Route::controller('/', 'AdminDashboardController');
 });
 
+Route::get('categories', function()
+{
+  return json_encode(Category::getTree(), JSON_PRETTY_PRINT);
+});
+
+# SQL debug
+Route::get('sql', function()
+{
+  return DB::getQueryLog();
+});
 
 /** ------------------------------------------
- *  Frontend Routes
+ *  User Routes
  *  ------------------------------------------
  */
+Route::group(array('prefix' => 'user'), function()
+{
+  // User reset routes
+  Route::get('reset/{token}', 'UserController@getReset');
+  // User password reset
+  Route::post('reset/{token}', 'UserController@postReset');
+  //:: User Account Routes ::
+  Route::post('{user}/edit', 'UserController@postEdit');
 
-// User reset routes
-Route::get('user/reset/{token}', 'UserController@getReset');
-// User password reset
-Route::post('user/reset/{token}', 'UserController@postReset');
-//:: User Account Routes ::
-Route::post('user/{user}/edit', 'UserController@postEdit');
+  //:: User Account Routes ::
+  Route::post('login', 'UserController@postLogin');
 
-//:: User Account Routes ::
-Route::post('user/login', 'UserController@postLogin');
-
-# User RESTful Routes (Login, Logout, Register, etc)
-Route::controller('user', 'UserController');
+  # User RESTful Routes (Login, Logout, Register, etc)
+  Route::controller('/', 'UserController');
+});
 
 //:: Application Routes ::
 
@@ -117,10 +130,10 @@ Route::when('contact-us','detectLang');
 
 # Contact Us Static Page
 Route::get('contact-us', function()
-  {
-    // Return about us page
-    return View::make('site/contact-us');
-  });
+{
+  // Return about us page
+  return View::make('site/contact-us');
+});
 
 # Posts - Second to last set, match slug
 Route::get('{postSlug}', 'BlogController@getView');
