@@ -19,13 +19,12 @@ class BlogController extends BaseController {
      * @param Post $post
      * @param User $user
      */
-    public function __construct(Post $post, User $user, Posts_text $posts_text)
+    public function __construct(Post $post, User $user)
     {
         parent::__construct();
 
         $this->post = $post;
         $this->user = $user;
-        $this->posts_text = $posts_text;
     }
 
   /**
@@ -38,8 +37,11 @@ class BlogController extends BaseController {
     // Get all the blog posts
     $posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
 
+    // Get the category tree
+    $tree = Category::getTree();
+
     // Show the page
-    return View::make('site/blog/index', compact('posts', 'posts_texts'));
+    return View::make('site/blog/index', compact('posts', 'posts_texts', 'tree'));
   }
 
   /**
@@ -87,8 +89,8 @@ class BlogController extends BaseController {
   public function postView($slug)
   {
 
-        $user = $this->user->currentUser();
-        $canComment = $user->can('post_comment');
+    $user = $this->user->currentUser();
+    $canComment = $user->can('post_comment');
     if ( ! $canComment)
     {
       return Redirect::to($slug . '#comments')->with('error', 'You need to be logged in to post comments!');
@@ -126,5 +128,50 @@ class BlogController extends BaseController {
 
     // Redirect to this blog post page
     return Redirect::to($slug)->withInput()->withErrors($validator);
+  }
+
+  public function postSearch()
+  {
+//    return Response::json(Input::all());
+
+    // Rules for validator
+    $rules = array(
+      'category'  => 'Regex:/^[0-9](,[0-9]{1,3})*$/',
+    );
+
+    $validator = Validator::make($input = Input::all(), $rules);
+
+    if (! $validator)
+      return Response::json(null);
+
+
+    // Initialise request
+    $posts = $this->post->select('posts.*')->distinct();
+
+    // search the post that match categories
+    if ($input['category'] != '0')
+      $posts = $posts->join('posts_cats', 'post_id', '=', 'posts.id')->whereIn('cat_id', explode(',', $input['category']));
+
+    // Launch the request
+    $posts = $posts->get();
+//    dd(DB::getQueryLog());
+//    dd($posts);
+    $ret = array();
+    foreach ($posts as $post)
+    {
+      $temp = array(
+        'affair_id'   => $post->affair_id,
+        'importance'  => $post->importance,
+        'lang'        => $post->lang,
+        'state'       => $post->state,
+        'slug'        => $post->sluge,
+        'url'         => $post->url(),
+        'nature'      => $post->nature,
+        'title'       => $post->title(),
+        'content'     => $post->content(),
+      );
+      $ret[] = $temp;
+    }
+    return Response::json($ret);
   }
 }

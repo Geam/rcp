@@ -22,16 +22,11 @@ class Post extends Eloquent {
     $this->comments()->delete();
 
     // Delete the texts
-    $this->posts_texts()->delete();
+    $this->hasMany('Posts_text', 'post_id')->delete();
 
     // Delete the blog post
     return parent::delete();
   }
-
-//  public function posts_cats()
-//  {
-//    return $this->hasMany('Posts_cat', 'post_id')->with('category');
-//  }
 
   public function posts_cats()
   {
@@ -54,10 +49,11 @@ class Post extends Eloquent {
   {
     if ($this->posts_texts())
     {
-      if ($temp = $this->posts_text->where('lang', '=', App::getLocale())->first())
-        return $temp;
-     if ($temp = $this->posts_text->where('lang', '=', 'en')->first())
-       return $temp;
+      foreach ($this-> posts_texts() as $text)
+      {
+        if ($text->lang == $this->lang)
+          return $text;
+      }
     }
     return False;
   }
@@ -114,9 +110,9 @@ class Post extends Eloquent {
    */
   public function posts_texts()
   {
-    if (! $this->posts_text)
-      $this->posts_text = $this->hasMany('Posts_text', 'post_id');
-    return $this->posts_text;
+    if (! $this->posts_texts)
+      $this->posts_texts = $this->hasMany('Posts_text', 'post_id')->get();
+    return $this->posts_texts;
   }
 
   /**

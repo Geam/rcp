@@ -14,11 +14,6 @@ class Posts_cat extends Eloquent {
     return $this->belongsTo('Category', 'cat_id');
   }
 
-//  public function category()
-//  {
-//    return $this->belongsTo('Category', 'cat_id')->with('getParentName');
-//  }
-
 };
 
 ?>

@@ -94,7 +94,7 @@ class AdminBlogsController extends AdminController {
       if($this->post->save())
       {
         // Get Posts_text in english if already exist
-        $posts_text = $this->post->hasMany('Posts_text')->where('lang', '=', 'en')->first();
+        $posts_text = $this->post->hasMany('Posts_text')->where('lang', '=', $this->post->lang)->first();
 
         // If it doesn't exist, create a new one
         if (! $posts_text)
@@ -104,7 +104,7 @@ class AdminBlogsController extends AdminController {
         $posts_text->title    = $input['title'];
         $posts_text->content  = $input['content'];
         $posts_text->post_id  = $this->post->id;
-        $posts_text->lang     = 'en';
+        $posts_text->lang     = $this->post->lang;
 
         // Was the posts_text updated ?
         if ($posts_text->save())
@@ -189,7 +189,7 @@ class AdminBlogsController extends AdminController {
       if($post->save())
       {
         // Get Posts_text in english if already exist
-        $posts_text = $post->hasMany('Posts_text')->where('lang', '=', 'en')->first();
+        $posts_text = $post->hasMany('Posts_text')->where('lang', '=', $post->lang)->first();
 
         // If it doesn't exist, create a new one
         if (! $posts_text)
@@ -199,7 +199,7 @@ class AdminBlogsController extends AdminController {
         $posts_text->title    = $input['title'];
         $posts_text->content  = $input['content'];
         $posts_text->post_id  = $post->id;
-        $posts_text->lang     = 'en';
+        $posts_text->lang     = $post->lang;
 
         // Was the posts_text updated ?
         if ($posts_text->save())
@@ -291,13 +291,12 @@ class AdminBlogsController extends AdminController {
    */
   public function getData()
   {
-    $posts = Post::select(array('posts.id', 'posts.slug', 'posts.affair_id', 'posts.id as comments', 'posts.created_at'));
+    $posts = Post::select(array('posts.id', 'posts.slug', 'posts.affair_id', 'posts.importance', 'posts.id as comments', 'posts.created_at'));
     return Datatables::of($posts)
 
       ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'post_id\', \'=\', $id)->count() }}')
 
       ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
-      <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/content\' ) }}}" class="btn btn-xs btn-default iframe" >{{{ Lang::get(\'button.content\') }}}</a>
       <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
       ')
 

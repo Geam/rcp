@@ -36,6 +36,14 @@ class Category extends Eloquent {
     return $this->cats_text()->short_name;
   }
 
+  private function _getParentName($tree, $id)
+  {
+    if ($tree[$id]['parent_id'])
+      return $this->_getParentName($tree, $tree[$id]['parent_id']) . " | " . $tree[$id]['short_name'];
+    else
+      return $tree[$id]['short_name'];
+  }
+
   static public function getTree()
   {
     $tree = array();
@@ -48,22 +56,30 @@ class Category extends Eloquent {
     {
       $temp = $cat->cats_text();
       $tree[$cat->id] = array(
+        'id'          =>  $cat->id,
         'parent_id'   =>  $cat->parent_id,
         'short_name'  =>  $temp->short_name,
         'long_name'   =>  $temp->long_name,
-        'childs'      =>  $cat->getChildsId(),
       );
+      if (! isset($tree[$cat->id]['childs']))
+        $tree[$cat->id]['childs'] = array();
+      if (! isset($tree[$cat->parent_id]))
+        $tree[$cat->parent_id] = array('childs' => array());
+      $tree[$cat->parent_id]['childs'][] = $cat->id;
     }
 
     return $tree;
   }
 
-  private function _getParentName($tree, $id)
+  static public function getOptionsFromParent($tree, $id)
   {
-    if ($tree[$id]['parent_id'])
-      return $this->_getParentName($tree, $tree[$id]['parent_id']) . " | " . $tree[$id]['short_name'];
-    else
-      return $tree[$id]['short_name'];
+    $ret = array();
+    foreach ($tree as $leaf)
+    {
+      if (isset($leaf['parent_id']) && $leaf['parent_id'] == $id)
+        $ret[] = $leaf;
+    }
+    return $ret;
   }
 
 };

@@ -123,6 +123,10 @@ Route::group(array('prefix' => 'user'), function()
   Route::controller('/', 'UserController');
 });
 
+# search result
+Route::get('search', 'BlogController@postSearch');
+Route::post('search', 'BlogController@postSearch');
+
 //:: Application Routes ::
 
 # Filter for detect language

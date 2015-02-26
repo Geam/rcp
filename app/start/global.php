@@ -53,7 +53,7 @@ App::error(function(Exception $exception, $code)
     $pathInfo = Request::getPathInfo();
     $message = $exception->getMessage() ?: 'Exception';
     Log::error("$code - $message @ $pathInfo\r\n$exception");
-    
+
     if (Config::get('app.debug')) {
     	return;
     }
@@ -108,3 +108,11 @@ require __DIR__.'/../filters.php';
 */
 
 require __DIR__.'/../composers.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require The Macros File
+|--------------------------------------------------------------------------
+|
+*/
+require __DIR__.'/../macros.php';
