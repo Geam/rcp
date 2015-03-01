@@ -124,7 +124,6 @@ Route::group(array('prefix' => 'user'), function()
 });
 
 # search result
-Route::get('search', 'BlogController@postSearch');
 Route::post('search', 'BlogController@postSearch');
 
 //:: Application Routes ::

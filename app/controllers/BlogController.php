@@ -133,15 +133,26 @@ class BlogController extends BaseController {
   public function postSearch()
   {
 //    return Response::json(Input::all());
+//    dd(Input::all());
+
+    $input = Input::all();
+
+//    dd(Input::all());
 
     // Rules for validator
     $rules = array(
-      'category'  => 'Regex:/^[0-9](,[0-9]{1,3})*$/',
+      'category'    => 'required|Regex:/^[0-9](,[0-9]{1,3})*$/',
+      'importance'  => 'required|min:0|max:3',
+      'affair_id'   => 'required',
+      'lang'        => 'required|size:2',
+      'state'       => 'required|size:2',
+      'date'        => 'required',
     );
 
     $validator = Validator::make($input = Input::all(), $rules);
 
     if (! $validator)
+//      return Response::json($validator->fail());
       return Response::json(null);
 
 
@@ -151,6 +162,31 @@ class BlogController extends BaseController {
     // search the post that match categories
     if ($input['category'] != '0')
       $posts = $posts->join('posts_cats', 'post_id', '=', 'posts.id')->whereIn('cat_id', explode(',', $input['category']));
+
+    // add filter by affair_id
+    if ($input['affair_id'] != '')
+      $posts = $posts->where('affair_id', 'like', '%'.$input['affair_id'].'%');
+
+    // add importance filter
+    if ($input['importance'] >= 1 && $input['importance'] <= 3)
+      $posts = $posts->where('importance', $input['importance']);
+
+    // add lang filter
+    if ($input['lang'] != '00')
+      $posts = $posts->where('lang', $input['lang']);
+
+    // add state filter
+    if ($input['state'] != '00')
+      $posts = $posts->where('state', $input['state']);
+
+    // add date filter
+    if ($input['date'] != '') {
+      if (isset($input['date_2'])) {
+        $posts = $posts->wherebetween('p_date', [date('Y-m-d', strtotime($input['date'])), date('Y-m-d', strtotime($input['date_2']))]);
+      } else {
+        $posts = $posts->where('p_date', date('Y-m-d', strtotime($input['date'])));
+      }
+    }
 
     // Launch the request
     $posts = $posts->get();

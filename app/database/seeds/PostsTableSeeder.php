@@ -16,7 +16,7 @@ class PostsTableSeeder extends Seeder {
         'nature'            => 'judgement',
         'affair_id'         => '37975/02',
         'lang'              => 'en',
-        'state'             => 'Russia',
+        'state'             => 'ru',
         'meta_title'        => 'Beresnev c Russia',
         'meta_description'  => 'Beresnev c Russia',
         'meta_keywords'     => 'Beresnev c Russia',

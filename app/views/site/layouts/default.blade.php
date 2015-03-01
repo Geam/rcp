@@ -27,6 +27,8 @@
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
 
+        <link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
     <style>
         body {
             padding: 60px 0;

@@ -1,5 +1,19 @@
 @extends('site.layouts.default')
 
+{{-- Style --}}
+@section('styles')
+.tab-content {
+  padding-top: 1em;
+}
+
+#s2id_r_lang,
+#s2id_r_state {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+@stop
+
 {{-- Title --}}
 @section('title')
 {{ Lang::get('site.title') }}
@@ -56,7 +70,7 @@
 
 {{-- Content --}}
 @section('content')
-{{ Form::open(array('url' => 'search', 'class' => 'form-horizontal')) }}
+{{ Form::token() }}
 {{ Tabbable::withContents([
   [
     'title' => Lang::get('filters.category'),
@@ -64,7 +78,7 @@
   ],
   [
     'title' => Lang::get('filters.affair_id'),
-    'content' => "<p>affair_id</p>"
+    'content' => Form::text('affair_id', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'affair_id'])
   ],
   [
     'title' => Lang::get('filters.nature'),
@@ -72,30 +86,81 @@
   ],
   [
     'title' => Lang::get('filters.importance'),
-    'content' => "<p>importance</p>"
+    'content' => Form::number('importance', null, ['class' => 'col-md-12 form-control', 'min' => 0, 'max' => 3, 'id' => 'r_importance', 'onChange' => 'requestData(this)'])
   ],
   [
     'title' => Lang::get('filters.lang'),
-    'content' => "<p>lang</p>"
+    'content' => Form::selectStateOrLang('r_lang', 'lang', ['class' => 'col-md-12', 'onChange' => 'requestData(this)'])
   ],
   [
     'title' => Lang::get('filters.state'),
-    'content' => "<p>state</p>"
+    'content' => Form::selectStateOrLang('r_state', 'state', ['class' => 'col-md-12', 'onChange' => 'requestData(this)'])
   ],
   [
     'title' => Lang::get('filters.date'),
-    'content' => "<p>date</p>"
+    'content' => Form::inputDate('r_date', True)
   ],
 ]) }}
-{{ Form::close() }}
 <div id="results">
 </div>
 @stop
 
 {{-- Scripts --}}
 @section('scripts')
+
+  <!-- Select2 script -->
+  <script src="{{ asset('select2/select2.min.js') }}"></script>
+  <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
   <script type="text/javascript">
+
+    // var for categories filters
     var catTree = {{ json_encode($tree) }};
+
+    // select to transform in select2
+    $( document ).ready(function() {
+      $('#r_lang').select2();
+      $('#r_state').select2();
+      $('.nav-tabs').append('<li class="navbar-right" id="reset" onclick="reset()"><a>{{ Lang::get('filters.reset') }}</a></li>');
+      $('input[id^="r_date"]').datepicker({
+        startView: 1,
+        orientation: "top auto",
+        language: "{{ App::getLocale() }}",
+        autoclose: true
+      });
+    });
+
+    function datepickerToggle(e) {
+      var r_to = e.parentNode.childNodes[2];
+      var r_d2 = e.parentNode.childNodes[3];
+
+      console.log(e.style['background-color']);
+      if (! e.style['background-color']) {
+        e.style['background-color'] = '#3e3';
+        r_to.className = r_to.className.replace(/hidden/, '');
+        r_d2.className = r_d2.className.replace(/hidden/, '');
+        r_d2.setAttribute('onchange', 'requestData(this)');
+        $('#r_date')[0].removeAttribute('onchange');
+      } else {
+        e.style = "";
+        r_to.className += " hidden";
+        r_d2.className += " hidden";
+        r_d2.removeAttribute('onchange');
+        $('#r_date')[0].setAttribute('onchange', 'requestData(this)');
+      }
+    }
+
+    function reset() {
+      $('#category1')[0].value="0";
+      updateFilter($('#category1')[0]);
+      $('#affair_id')[0].value = "";
+      $('#r_importance')[0].value = "";
+      $('#r_lang').select2('val', '00');
+      $('#r_state').select2('val', '00');
+      $('#r_date')[0].value = '';
+      $('#r_date_2')[0].value = '';
+      $('#results').empty();
+    }
 
     function addFilter(elem, e_parent) {
       var childs = catTree[elem.value].childs;
@@ -104,7 +169,6 @@
       if (arrayLength > 0) {
         // create new div
         var newDiv = document.createElement('div');
-        newDiv.className = "col-md-12";
 
         // create new select element
         var newSelect = document.createElement('select');
@@ -112,7 +176,7 @@
         newSelect.name = extract[1] + (extract[2] * 1 + 1);
         newSelect.id = newSelect.name;
         newSelect.setAttribute('onchange', 'updateFilter(this);requestData(this)');
-        newSelect.className = "col-md-12";
+        newSelect.className = "col-md-12 form-control";
         newDiv.appendChild(newSelect);
 
         // create the default input
@@ -132,6 +196,13 @@
         // add the new select to dom
         e_parent.appendChild(newDiv);
       }
+    }
+
+    function checkEnter(elem,e) {
+      var code = e.keyCode || e.which;
+       if(code == 13) { //Enter keycode
+         requestData(elem);
+        }
     }
 
     function updateFilter(elem) {
@@ -186,25 +257,36 @@
       }
       fillWithChilds(r_json, lastSelect);
 
+      r_json['affair_id'] = $('#affair_id')[0].value;
+      r_json['importance'] = $('#r_importance')[0].value;
+      r_json['lang'] = $('#r_lang')[0].value;
+      r_json['state'] = $('#r_state')[0].value;
+      r_json['date'] = $('#r_date')[0].value;
+      if (! $('#r_date_2')[0].className.match('hidden'))
+        r_json['date_2'] = $('#r_date_2')[0].value;
+
       // add the token or the server hung up
       r_json['_token'] = $('input[name=_token]')[0].value;
 
-      if ( true ) // for form checking but the category, I don't know how to check..
+
+      if ( r_json['importance'] >= 0 && r_json['importance'] <= 3 )
       {
         $.ajax({
           url: "search",
           type: "POST",
           data: (r_json),
           success: function(data) {
-//            console.log(data);
-            $( '#results').empty();
-            if (data) {
+            $( '#results' ).empty();
+            console.log(data);
+            if (!('empty' in data)) {
               data.forEach( function (arrayItem) {
-                $( '#results').append('<a href="' + arrayItem.url + '">' + arrayItem.title + "</a><br>");
+                $( '#results' ).append('<a href="' + arrayItem.url + '">' + arrayItem.title + "</a><br>");
               });
             }
           }
         });
+      } else {
+        $( '#results').empty();
       }
     }
 

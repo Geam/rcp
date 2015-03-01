@@ -10,6 +10,9 @@ return array(
   'lang'        => "Lang",
   'state'       => "State",
   'date'        => "Date",
+  'reset'       => "Reset",
 
   'cat_select'  => "Select a category",
+  'to'          => "to",
+  'range'       => "Range",
 );
