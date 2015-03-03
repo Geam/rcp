@@ -141,73 +141,102 @@ class BlogController extends BaseController {
 
     // Rules for validator
     $rules = array(
-      'category'    => 'required|Regex:/^[0-9](,[0-9]{1,3})*$/',
-      'importance'  => 'required|min:0|max:3',
-      'affair_id'   => 'required',
-      'lang'        => 'required|size:2',
-      'state'       => 'required|size:2',
-      'date'        => 'required',
+      'category'    => 'Regex:/^[0-9]{1,4}(,[0-9]{1,4})*$/',
+      'importance'  => 'min:0|max:3',
+      'affair_id'   => 'min:2',
+      'lang'        => 'size:2',
+      'state'       => 'size:2',
+      'date'        => 'date',
+      'date_2'      => 'date',
+      'title'       => 'min:3',
+      'content'     => 'min:10',
     );
 
-    $validator = Validator::make($input = Input::all(), $rules);
+//    foreach ($rules as $key => $value)
+//    {
+//      if (! Input::has($key))
+//        unset ($rules[$key]);
+//    }
 
-    if (! $validator)
-//      return Response::json($validator->fail());
-      return Response::json(null);
+    $validator = Validator::make($input, $rules);
 
+    if ($validator->fails()) {
+      $ret = array('success' => false, 'msgs' => array());
+      foreach ($validator->messages()->all() as $key => $msg)
+        $ret['msgs'][] = $msg;
+      return Response::json($ret);
+    }
 
     // Initialise request
-    $posts = $this->post->select('posts.*')->distinct();
+    $posts = $this->post->
+      select('posts.*','posts_texts.title','posts_texts.content','posts_texts.lang AS pt_lang')->
+      join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')->
+      join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct();
 
     // search the post that match categories
-    if ($input['category'] != '0')
-      $posts = $posts->join('posts_cats', 'post_id', '=', 'posts.id')->whereIn('cat_id', explode(',', $input['category']));
+    if (Input::has('category') && $input['category'] != '0')
+      $posts = $posts->whereIn('cat_id', explode(',', $input['category']));
 
     // add filter by affair_id
-    if ($input['affair_id'] != '')
+    if (Input::has('affair_id'))
       $posts = $posts->where('affair_id', 'like', '%'.$input['affair_id'].'%');
 
     // add importance filter
-    if ($input['importance'] >= 1 && $input['importance'] <= 3)
+    if (Input::has('importance') && $input['importance'] >= 1 && $input['importance'] <= 3)
       $posts = $posts->where('importance', $input['importance']);
 
     // add lang filter
-    if ($input['lang'] != '00')
+    if (Input::has('lang') && $input['lang'] != '00')
       $posts = $posts->where('lang', $input['lang']);
 
     // add state filter
-    if ($input['state'] != '00')
+    if (Input::has('state') && $input['state'] != '00')
       $posts = $posts->where('state', $input['state']);
 
     // add date filter
-    if ($input['date'] != '') {
-      if (isset($input['date_2'])) {
+    if (Input::has('date')) {
+      if (Input::has('date_2')) {
         $posts = $posts->wherebetween('p_date', [date('Y-m-d', strtotime($input['date'])), date('Y-m-d', strtotime($input['date_2']))]);
       } else {
         $posts = $posts->where('p_date', date('Y-m-d', strtotime($input['date'])));
       }
     }
 
+    // add title filter
+    if (Input::has('title'))
+      $posts = $posts->where('title', 'like', '%'.$input['title'].'%');
+
+    // add content filter
+    if (Input::has('content'))
+      $posts = $posts->where('content', 'like', '%'.$input['content'].'%');
+
     // Launch the request
     $posts = $posts->get();
-//    dd(DB::getQueryLog());
-//    dd($posts);
+
     $ret = array();
     foreach ($posts as $post)
     {
-      $temp = array(
-        'affair_id'   => $post->affair_id,
-        'importance'  => $post->importance,
-        'lang'        => $post->lang,
-        'state'       => $post->state,
-        'slug'        => $post->sluge,
-        'url'         => $post->url(),
-        'nature'      => $post->nature,
-        'title'       => $post->title(),
-        'content'     => $post->content(),
-      );
-      $ret[] = $temp;
+      if (! isset($ret[$post->id]))
+        $ret[$post->id] = [];
+      if ($post->lang == $post->pt_lang) {
+          $ret[$post->id]['importance'] = $post->importance;
+          $ret[$post->id]['lang']       = $post->lang;
+          $ret[$post->id]['state']      = $post->state;
+          $ret[$post->id]['slug']       = $post->sluge;
+          $ret[$post->id]['url']        = $post->url();
+          $ret[$post->id]['nature']     = $post->nature;
+          $ret[$post->id]['title']      = $post->title;
+          $ret[$post->id]['content']    = $post->content;
+      } else {
+        if (!isset($ret[$post->id]['alt']))
+          $ret[$post->id]['alt'] = [];
+        $ret[$post->id]['alt'][$post->pt_lang] = [
+          'title' => $post->title,
+          'content' => $post->content
+        ];
+      }
     }
-    return Response::json($ret);
+    $res = array('success' => 'True', 'posts' => array_values($ret), 'sql' => DB::getQueryLog());
+    return Response::json($res);
   }
 }

@@ -70,6 +70,7 @@
 
 {{-- Content --}}
 @section('content')
+<div id="alerts" class="alert alert-warning hide" role="alert"></div>
 {{ Form::token() }}
 {{ Tabbable::withContents([
   [
@@ -99,6 +100,14 @@
   [
     'title' => Lang::get('filters.date'),
     'content' => Form::inputDate('r_date', True)
+  ],
+  [
+    'title' => Lang::get('filters.title'),
+    'content' => Form::text('r_title', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_title'])
+  ],
+  [
+    'title' => Lang::get('filters.content'),
+    'content' => Form::text('r_content', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content'])
   ],
 ]) }}
 <div id="results">
@@ -137,14 +146,14 @@
       console.log(e.style['background-color']);
       if (! e.style['background-color']) {
         e.style['background-color'] = '#3e3';
-        r_to.className = r_to.className.replace(/hidden/, '');
-        r_d2.className = r_d2.className.replace(/hidden/, '');
+        r_to.className = r_to.className.replace(/hide/, '');
+        r_d2.className = r_d2.className.replace(/hide/, '');
         r_d2.setAttribute('onchange', 'requestData(this)');
         $('#r_date')[0].removeAttribute('onchange');
       } else {
         e.style = "";
-        r_to.className += " hidden";
-        r_d2.className += " hidden";
+        r_to.className += "hide";
+        r_d2.className += "hide";
         r_d2.removeAttribute('onchange');
         $('#r_date')[0].setAttribute('onchange', 'requestData(this)');
       }
@@ -159,6 +168,7 @@
       $('#r_state').select2('val', '00');
       $('#r_date')[0].value = '';
       $('#r_date_2')[0].value = '';
+      $('#r_title')[0].value = '';
       $('#results').empty();
     }
 
@@ -262,12 +272,13 @@
       r_json['lang'] = $('#r_lang')[0].value;
       r_json['state'] = $('#r_state')[0].value;
       r_json['date'] = $('#r_date')[0].value;
-      if (! $('#r_date_2')[0].className.match('hidden'))
+      if (! $('#r_date_2')[0].className.match('hide'))
         r_json['date_2'] = $('#r_date_2')[0].value;
+      r_json['title'] = $('#r_title')[0].value;
+      r_json['content'] = $('#r_content')[0].value;
 
       // add the token or the server hung up
       r_json['_token'] = $('input[name=_token]')[0].value;
-
 
       if ( r_json['importance'] >= 0 && r_json['importance'] <= 3 )
       {
@@ -277,11 +288,21 @@
           data: (r_json),
           success: function(data) {
             $( '#results' ).empty();
+            $( '#alerts' ).empty();
+            if (! $( '#alerts' )[0].className.match('hide'))
+              $( '#alerts' )[0].className += 'hide';
             console.log(data);
-            if (!('empty' in data)) {
-              data.forEach( function (arrayItem) {
+            if (data['success']) {
+              data['posts'].forEach( function (arrayItem) {
                 $( '#results' ).append('<a href="' + arrayItem.url + '">' + arrayItem.title + "</a><br>");
               });
+            } else {
+              $( '#alerts' )[0].className = $( '#alerts' )[0].className.replace(/hide/, '');
+              $( '#alerts' ).append('<ul>');
+              data['msgs'].forEach( function (arrayItem) {
+                $( '#alerts' ).append('<li>' + arrayItem + '</li>');
+              });
+              $( '#alerts' ).append('</ul>');
             }
           }
         });

@@ -66,9 +66,9 @@ Form::macro('inputDate', function($name, $range)
     $name . '" onchange="requestData(this)">';
   if ($range)
   {
-    $ret .= '<span class="input-group-addon hidden">' .
+    $ret .= '<span class="input-group-addon hide">' .
       Lang::get('filters.to') . '</span>' .
-      '<input type="text" class="form-control hidden" id="' .
+      '<input type="text" class="form-control hide" id="' .
       $name . '_2" name="' .
       $name . '_2">' .
       '<span class="input-group-addon" onclick="datepickerToggle(this)">' .

@@ -11,6 +11,8 @@ return array(
   'state'       => "State",
   'date'        => "Date",
   'reset'       => "Reset",
+  'title'       => "Title",
+  'content'     => "Content",
 
   'cat_select'  => "Select a category",
   'to'          => "to",

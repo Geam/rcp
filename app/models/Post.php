@@ -49,7 +49,7 @@ class Post extends Eloquent {
   {
     if ($this->posts_texts())
     {
-      foreach ($this-> posts_texts() as $text)
+      foreach ($this->posts_texts() as $text)
       {
         if ($text->lang == $this->lang)
           return $text;
