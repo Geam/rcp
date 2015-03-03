@@ -169,7 +169,12 @@
       $('#r_date')[0].value = '';
       $('#r_date_2')[0].value = '';
       $('#r_title')[0].value = '';
+      $('#r_content')[0].value = '';
       $('#results').empty();
+      if (! $( '#alerts' )[0].className.match('hide')) {
+        $( '#alerts' )[0].className += 'hide';
+        $( '#alerts' ).empty();
+      }
     }
 
     function addFilter(elem, e_parent) {
