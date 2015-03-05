@@ -5,7 +5,7 @@ Form::macro('selectFilter', function($name, $categories, $default)
   # initialisation of select
   $ret = '<div>' .
     '<select id="' .  $name .
-    '" class="col-md-12 form-control" name="' .  $name .
+    '" class="form-control" name="' .  $name .
     '" onChange="updateFilter(this);requestData(this)">';
 
   # append default entry
@@ -59,7 +59,7 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
 
 Form::macro('inputDate', function($name, $range)
 {
-  $ret = '<div class="input-group col-md-12">' .
+  $ret = '<div class="input-group">' .
     '<span class="input-group-addon">dd/mm/yyyy</span>' .
     '<input type="text" class="form-control" id="' .
     $name . '" name="' .

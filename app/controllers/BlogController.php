@@ -164,6 +164,7 @@ class BlogController extends BaseController {
       $ret = array('success' => false, 'msgs' => array());
       foreach ($validator->messages()->all() as $key => $msg)
         $ret['msgs'][] = $msg;
+        $ret['data'] = array();
       return Response::json($ret);
     }
 
@@ -219,12 +220,13 @@ class BlogController extends BaseController {
       if (! isset($ret[$post->id]))
         $ret[$post->id] = [];
       if ($post->lang == $post->pt_lang) {
+          $ret[$post->id]['affair_id']  = $post->affair_id;
           $ret[$post->id]['importance'] = $post->importance;
-          $ret[$post->id]['lang']       = $post->lang;
-          $ret[$post->id]['state']      = $post->state;
-          $ret[$post->id]['slug']       = $post->sluge;
+          $ret[$post->id]['lang']       = Lang::get('langs.' . $post->lang);
+          $ret[$post->id]['state']      = Lang::get('states.' . $post->state);
           $ret[$post->id]['url']        = $post->url();
           $ret[$post->id]['nature']     = $post->nature;
+          $ret[$post->id]['date']       = $post->p_date;
           $ret[$post->id]['title']      = $post->title;
           $ret[$post->id]['content']    = $post->content;
       } else {
@@ -236,7 +238,7 @@ class BlogController extends BaseController {
         ];
       }
     }
-    $res = array('success' => 'True', 'posts' => array_values($ret), 'sql' => DB::getQueryLog());
+    $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
     return Response::json($res);
   }
 }

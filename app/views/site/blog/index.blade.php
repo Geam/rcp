@@ -12,6 +12,11 @@
   padding-right: 0px;
 }
 
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 100%;
+}
+
 @stop
 
 {{-- Title --}}
@@ -71,6 +76,7 @@
 {{-- Content --}}
 @section('content')
 <div id="alerts" class="alert alert-warning hide" role="alert"></div>
+<div class="jumbotron">
 {{ Form::token() }}
 {{ Tabbable::withContents([
   [
@@ -78,39 +84,43 @@
     'content' => Form::selectFilter('category1', Category::getOptionsFromParent($tree, 0), 'Select a category')
   ],
   [
-    'title' => Lang::get('filters.affair_id'),
-    'content' => Form::text('affair_id', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'affair_id'])
-  ],
-  [
-    'title' => Lang::get('filters.nature'),
-    'content' => "<p>nature</p>"
-  ],
-  [
-    'title' => Lang::get('filters.importance'),
-    'content' => Form::number('importance', null, ['class' => 'col-md-12 form-control', 'min' => 0, 'max' => 3, 'id' => 'r_importance', 'onChange' => 'requestData(this)'])
-  ],
-  [
-    'title' => Lang::get('filters.lang'),
-    'content' => Form::selectStateOrLang('r_lang', 'lang', ['class' => 'col-md-12', 'onChange' => 'requestData(this)'])
-  ],
-  [
-    'title' => Lang::get('filters.state'),
-    'content' => Form::selectStateOrLang('r_state', 'state', ['class' => 'col-md-12', 'onChange' => 'requestData(this)'])
-  ],
-  [
     'title' => Lang::get('filters.date'),
     'content' => Form::inputDate('r_date', True)
   ],
   [
-    'title' => Lang::get('filters.title'),
-    'content' => Form::text('r_title', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_title'])
-  ],
-  [
     'title' => Lang::get('filters.content'),
-    'content' => Form::text('r_content', null, ['class' => 'col-md-12 form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content'])
+    'content' => Form::text('r_content', null, ['class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content'])
   ],
 ]) }}
-<div id="results">
+</div>
+
+<div id="results" class="well">
+<table id="oTable" class="table table-stripped table-hover">
+<thead>
+<tr>
+<th>{{ lang::get('filters.title') }}</th>
+<th>{{ lang::get('filters.affair_id') }}</th>
+<th>{{ lang::get('filters.importance') }}</th>
+<th>{{ lang::get('filters.nature') }}</th>
+<th>{{ lang::get('filters.lang') }}</th>
+<th>{{ lang::get('filters.state') }}</th>
+<th>{{ lang::get('filters.date') }}</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th>{{ lang::get('filters.title') }}</th>
+<th>{{ lang::get('filters.affair_id') }}</th>
+<th>{{ lang::get('filters.importance') }}</th>
+<th>{{ lang::get('filters.nature') }}</th>
+<th>{{ lang::get('filters.lang') }}</th>
+<th>{{ lang::get('filters.state') }}</th>
+<th>{{ lang::get('filters.date') }}</th>
+</tr>
+</tfoot>
+<tbody id="table-content">
+</tbody>
+</table>
 </div>
 @stop
 
@@ -120,22 +130,72 @@
   <!-- Select2 script -->
   <script src="{{ asset('select2/select2.min.js') }}"></script>
   <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script>
+  <script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script>
 
   <script type="text/javascript">
 
     // var for categories filters
     var catTree = {{ json_encode($tree) }};
+    var gTable = {};
 
     // select to transform in select2
     $( document ).ready(function() {
-      $('#r_lang').select2();
-      $('#r_state').select2();
+      // add the select
+      $('#r_lang').select2({ width: '100%' });
+      $('#r_state').select2({ width: '100%' });
+
+      // add the reset
       $('.nav-tabs').append('<li class="navbar-right" id="reset" onclick="reset()"><a>{{ Lang::get('filters.reset') }}</a></li>');
+
+      // initiate datepicker
       $('input[id^="r_date"]').datepicker({
         startView: 1,
         orientation: "top auto",
         language: "{{ App::getLocale() }}",
         autoclose: true
+      });
+
+      // add input filter to dataTable
+      $('#oTable tfoot th').each( function () {
+        var title = $('#oTable thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+      } );
+
+      // init dataTable
+      gTable.table = $('#oTable').DataTable( {
+        "scrollX": true,
+        "ajax": {
+          "url": "search",
+          "type": "POST",
+          "data": function () { return buildAjaxObj(); }
+        },
+        "columns": [
+          { "data": "title" },
+          { "data": "affair_id" },
+          { "data": "importance" },
+          { "data": "nature" },
+          { "data": "lang" },
+          { "data": "state" },
+          { "data": "date" }
+        ],
+      });
+
+      // apply the filter to dataTable
+      gTable.table.columns().eq( 0 ).each( function ( colIdx ) {
+        $( 'input', gTable.table.column( colIdx ).footer() ).on( 'keyup change', function () {
+          gTable.table
+            .column( colIdx )
+            .search( this.value )
+            .draw();
+        } );
+
+      $(".dataTables_scroll").css({ overflow: "auto" });
+      } );
+
+      $('#oTable tbody').on('click', 'tr', function() {
+        window.location.href = gTable.table.row( this ).data().url;
       });
     });
 
@@ -191,7 +251,7 @@
         newSelect.name = extract[1] + (extract[2] * 1 + 1);
         newSelect.id = newSelect.name;
         newSelect.setAttribute('onchange', 'updateFilter(this);requestData(this)');
-        newSelect.className = "col-md-12 form-control";
+        newSelect.className = "form-control";
         newDiv.appendChild(newSelect);
 
         // create the default input
@@ -256,7 +316,7 @@
       }
     }
 
-    function requestData(elem) {
+    function buildAjaxObj() {
       // create object for request
       var r_json = {};
       var lastSelect = 0;
@@ -272,49 +332,49 @@
       }
       fillWithChilds(r_json, lastSelect);
 
-      r_json['affair_id'] = $('#affair_id')[0].value;
-      r_json['importance'] = $('#r_importance')[0].value;
-      r_json['lang'] = $('#r_lang')[0].value;
-      r_json['state'] = $('#r_state')[0].value;
+//      r_json['affair_id'] = $('#affair_id')[0].value;
+//      r_json['importance'] = $('#r_importance')[0].value;
+//      r_json['lang'] = $('#r_lang')[0].value;
+//      r_json['state'] = $('#r_state')[0].value;
       r_json['date'] = $('#r_date')[0].value;
       if (! $('#r_date_2')[0].className.match('hide'))
         r_json['date_2'] = $('#r_date_2')[0].value;
-      r_json['title'] = $('#r_title')[0].value;
+//      r_json['title'] = $('#r_title')[0].value;
       r_json['content'] = $('#r_content')[0].value;
 
       // add the token or the server hung up
       r_json['_token'] = $('input[name=_token]')[0].value;
 
-      if ( r_json['importance'] >= 0 && r_json['importance'] <= 3 )
-      {
-        $.ajax({
-          url: "search",
-          type: "POST",
-          data: (r_json),
-          success: function(data) {
-            $( '#results' ).empty();
-            $( '#alerts' ).empty();
-            if (! $( '#alerts' )[0].className.match('hide'))
-              $( '#alerts' )[0].className += 'hide';
-            console.log(data);
-            if (data['success']) {
-              data['posts'].forEach( function (arrayItem) {
-                $( '#results' ).append('<a href="' + arrayItem.url + '">' + arrayItem.title + "</a><br>");
-              });
-            } else {
-              $( '#alerts' )[0].className = $( '#alerts' )[0].className.replace(/hide/, '');
-              $( '#alerts' ).append('<ul>');
-              data['msgs'].forEach( function (arrayItem) {
-                $( '#alerts' ).append('<li>' + arrayItem + '</li>');
-              });
-              $( '#alerts' ).append('</ul>');
-            }
-          }
-        });
-      } else {
-        $( '#results').empty();
-      }
+      // return rquest object
+      return r_json;
     }
 
-  </script>
+    function requestData(elem) {
+
+      // reload dataTable with function set at initialisation
+      gTable.table.ajax.reload( function (json) {
+        if (! json.success) {
+          console.log(json);
+
+          // clear alert zone
+          $( '#alerts' ).empty();
+
+          // add error msgs
+          $( '#alerts' ).append('<ul>');
+          json.msgs.forEach( function (arrayItem) {
+            $( '#alerts' ).append('<li>' + arrayItem + '</li>');
+          });
+          $( '#alerts' ).append('</ul>');
+
+          // display div
+          $( '#alerts' ).removeClass('hide');
+        } else {
+          // hide div
+          $( '#alerts' ).addClass('hide');
+        }
+      });
+
+    }
+
+    </script>
 @stop

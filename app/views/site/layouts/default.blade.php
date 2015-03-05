@@ -29,6 +29,7 @@
 
         <link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
         <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
+        <link rel="stylesheet" href="{{asset('assets/css/jquery.dataTables.css')}}">
     <style>
         body {
             padding: 60px 0;
@@ -115,7 +116,7 @@
 
     <!-- Javascripts
     ================================================== -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
 
         @yield('scripts')
