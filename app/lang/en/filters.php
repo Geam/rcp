@@ -17,4 +17,6 @@ return array(
   'cat_select'  => "Select a category",
   'to'          => "to",
   'range'       => "Range",
+
+  'search'      => "Search",
 );

@@ -27,12 +27,14 @@
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
 
-        <link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
-        <link rel="stylesheet" href="{{asset('assets/css/jquery.dataTables.css')}}">
     <style>
         body {
-            padding: 60px 0;
+          padding: 60px 0;
+        }
+        .scrollable-dropdown {
+          height: auto;
+          max-height: 200px;
+          overflow-y: auto;
         }
     @section('styles')
     @show
@@ -75,14 +77,22 @@
             <ul class="nav navbar-nav pull-right">
               @if (Auth::check())
                 @if (Auth::user()->hasRole('admin'))
-                   <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
+                   <li><a href="{{{ URL::to('admin') }}}">{{ Lang::get('general.home') }}</a></li>
                 @endif
-                <li><a href="{{{ URL::to('user') }}}">Logged in as {{{ Auth::user()->username }}}</a></li>
-                <li><a href="{{{ URL::to('user/logout') }}}">Logout</a></li>
+                <li><a href="{{{ URL::to('user') }}}">{{ Lang::get('general.logged_in') }} {{{ Auth::user()->username }}}</a></li>
+                <li><a href="{{{ URL::to('user/logout') }}}">{{ Lang::get('general.logout') }}</a></li>
               @else
-                <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
+                <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">{{ Lang::get('general.login') }}</a></li>
                 <li {{ (Request::is('user/create') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/create') }}}">{{{ Lang::get('site.sign_up') }}}</a></li>
               @endif
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ App::getLocale() }}<span class="caret"></span></a>
+                <ul class="dropdown-menu scrollable-dropdown" role="menu">
+                  @foreach( Config::get('constants.langs') as $key => $value )
+                    <li>{{ link_to_route('language.select', $key, [$key]) }}</li>
+                  @endforeach
+                </ul>
+              </li>
             </ul>
             <!-- ./ nav-collapse -->
           </div>

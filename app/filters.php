@@ -110,11 +110,14 @@ Route::filter('csrf', function()
 
 Route::filter('detectLang',  function($route, $request, $lang = 'auto')
 {
-
-    if($lang != "auto" && in_array($lang , Config::get('app.available_language')))
+    if (Session::has('lang') && in_array(Session::get('lang') , Config::get('app.available_language')))
+    {
+//      Config::set('app.locale', Session::get('lang'));
+      App::setLocale(Session::get('lang'));
+    } else if ($lang != "auto" && in_array($lang , Config::get('app.available_language')))
     {
         Config::set('app.locale', $lang);
-    }else{
+    } else {
         $browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
         $browser_lang = substr($browser_lang, 0,2);
         $userLang = (in_array($browser_lang, Config::get('app.available_language'))) ? $browser_lang : Config::get('app.locale');

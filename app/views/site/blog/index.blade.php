@@ -12,12 +12,22 @@
   padding-right: 0px;
 }
 
-th, td { white-space: nowrap; }
-div.dataTables_wrapper {
-    width: 100%;
-}
+//th, td {
+//  white-space: nowrap;
+//}
+//div.dataTables_wrapper {
+//    width: 100%;
+//}
+</style>
 
+<link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
+<!--<link rel="stylesheet" href="{{asset('assets/css/jquery.dataTables.css')}}">-->
+<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+<style>
 @stop
+</style>
 
 {{-- Title --}}
 @section('title')
@@ -130,9 +140,11 @@ div.dataTables_wrapper {
   <!-- Select2 script -->
   <script src="{{ asset('select2/select2.min.js') }}"></script>
   <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-  <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
-  <script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script>
-  <script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script>
+<!--  <script src="//datatables.net/download/build/nightly/jquery.dataTables.js"></script>-->
+  <script src="{{ asset('assets/js/jquery.dataTables.js') }}"></script>
+  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<!--  <script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script> -->
+<!--  <script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script> -->
 
   <script type="text/javascript">
 
@@ -160,7 +172,7 @@ div.dataTables_wrapper {
       // add input filter to dataTable
       $('#oTable tfoot th').each( function () {
         var title = $('#oTable thead th').eq( $(this).index() ).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        $(this).html( '<input type="text" placeholder="{{ Lang::get('filters.search') }} '+title+'" />' );
       } );
 
       // init dataTable
@@ -190,13 +202,14 @@ div.dataTables_wrapper {
             .search( this.value )
             .draw();
         } );
+      });
 
-      $(".dataTables_scroll").css({ overflow: "auto" });
-      } );
+//      $(".dataTables_scroll").css({ overflow: "auto" });
 
       $('#oTable tbody').on('click', 'tr', function() {
         window.location.href = gTable.table.row( this ).data().url;
       });
+
     });
 
     function datepickerToggle(e) {
@@ -222,15 +235,9 @@ div.dataTables_wrapper {
     function reset() {
       $('#category1')[0].value="0";
       updateFilter($('#category1')[0]);
-      $('#affair_id')[0].value = "";
-      $('#r_importance')[0].value = "";
-      $('#r_lang').select2('val', '00');
-      $('#r_state').select2('val', '00');
       $('#r_date')[0].value = '';
       $('#r_date_2')[0].value = '';
-      $('#r_title')[0].value = '';
       $('#r_content')[0].value = '';
-      $('#results').empty();
       if (! $( '#alerts' )[0].className.match('hide')) {
         $( '#alerts' )[0].className += 'hide';
         $( '#alerts' ).empty();
