@@ -16,8 +16,8 @@ class PermissionsTableSeeder extends Seeder {
                 'display_name' => 'manage posts'
             ),
             array( // 3
-                'name'         => 'manage_comments',
-                'display_name' => 'manage comments'
+                'name'         => 'manage_categories',
+                'display_name' => 'manage categories'
             ),
             array( // 4
                 'name'         => 'manage_users',

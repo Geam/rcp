@@ -5,7 +5,7 @@ Class LanguageController extends BaseController {
     public function select($lang)
     {
       Session::put('lang', $lang);
-      return Redirect::route('home');
+      return Redirect::back();
     }
 
 }

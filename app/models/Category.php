@@ -18,7 +18,6 @@ class Category extends Eloquent {
   public function cats_text()
   {
     $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', App::getLocale());
-    $temp = NULL;
     if (!$temp)
       $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', 'en');
     return $temp->first();
@@ -67,8 +66,24 @@ class Category extends Eloquent {
         $tree[$cat->parent_id] = array('childs' => array());
       $tree[$cat->parent_id]['childs'][] = $cat->id;
     }
-
     return $tree;
+  }
+
+  static public function jsTree($lang)
+  {
+    $all = Category::join('cats_texts', 'categories.id', '=', 'cats_texts.cat_id')
+      ->select(
+        'categories.id',
+        'categories.parent_id as parent',
+        'cats_texts.short_name as text',
+        'cats_texts.long_name as long'
+      )
+      ->where('cats_texts.lang', '=', $lang)->get();
+    for ($i = 0; $i < count($all); $i++) {
+      if ($all[$i]['parent'] == '0')
+        $all[$i]['parent'] = '#';
+    }
+    return $all;
   }
 
   static public function getOptionsFromParent($tree, $id)

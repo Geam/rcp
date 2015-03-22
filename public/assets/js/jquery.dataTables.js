@@ -3980,7 +3980,7 @@
 
     // Remoce class on the 'th' tag of the inner table to prevent display of
     // sorting picture on the first row. Probably not the best way to do it..
-    $(".dataTables_scrollBody th").removeAttr('class');
+    //    $(".dataTables_scrollBody th").removeAttr('class');
 
 		/*
 		 * 4. Clean up

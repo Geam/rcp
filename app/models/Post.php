@@ -11,16 +11,12 @@ class Post extends Eloquent {
   public $posts_text;
 
   /**
-   * Deletes a blog post and all
-   * the associated comments.
+   * Deletes a blog post
    *
    * @return bool
    */
   public function delete()
   {
-    // Delete the comments
-    $this->comments()->delete();
-
     // Delete the texts
     $this->hasMany('Posts_text', 'post_id')->delete();
 
@@ -91,16 +87,6 @@ class Post extends Eloquent {
   public function author()
   {
     return $this->belongsTo('User', 'user_id');
-  }
-
-  /**
-   * Get the post's comments.
-   *
-   * @return array
-   */
-  public function comments()
-  {
-    return $this->hasMany('Comment');
   }
 
   /**

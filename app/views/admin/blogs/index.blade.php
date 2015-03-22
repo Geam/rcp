@@ -5,55 +5,84 @@
 {{{ $title }}} :: @parent
 @stop
 
-@section('keywords')Blogs administration @stop
-@section('author')Laravel 4 Bootstrap Starter SIte @stop
-@section('description')Blogs administration index @stop
-
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
+  <div class="page-header">
+    <h3>
+      {{{ $title }}}
 
-			<div class="pull-right">
-				<a href="{{{ URL::to('admin/blogs/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
-			</div>
-		</h3>
-	</div>
+      <div class="pull-right">
+        <a href="{{{ URL::to('admin/blogs/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+      </div>
+    </h3>
+  </div>
 
-	<table id="blogs" class="table table-striped table-hover">
-		<thead>
-			<tr>
-				<th class="col-md-3">{{{ Lang::get('admin/blogs/table.title') }}}</th>
-				<th class="col-md-1">{{{ Lang::get('admin/blogs/table.affair_id') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/blogs/table.importance') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/blogs/table.comments') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('admin/blogs/table.created_at') }}}</th>
-				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
-			</tr>
-		</thead>
-		<tbody>
-		</tbody>
-	</table>
+  <table id="oTable" class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="col-md-3">{{{ Lang::get('admin/blogs/table.title') }}}</th>
+        <th class="col-md-1">{{{ Lang::get('admin/blogs/table.affair_id') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.importance') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.lang') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.state') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th class="col-md-3">{{{ Lang::get('admin/blogs/table.title') }}}</th>
+        <th class="col-md-1">{{{ Lang::get('admin/blogs/table.affair_id') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.importance') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.lang') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('admin/blogs/table.state') }}}</th>
+        <th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
+      </tr>
+    </tfoot>
+    <tbody>
+    </tbody>
+  </table>
 @stop
 
 {{-- Scripts --}}
 @section('scripts')
+@parent
 <script type="text/javascript">
 var oTable;
 $(document).ready(function() {
-  oTable = $('#blogs').dataTable( {
-    "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-      "sPaginationType": "bootstrap",
-      "oLanguage": {
-        "sLengthMenu": "_MENU_ records per page"
+  // add input filter to dataTable
+  $('#oTable tfoot th').each( function () {
+    var title = $('#oTable thead th').eq( $(this).index() ).text();
+    $(this).html( '<input type="text" placeholder="{{ Lang::get('filters.search') }} '+title+'" />' );
+  } );
+
+  // init the dataTable
+  oTable = $('#oTable').DataTable( {
+    "dom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+      "language": {
+        "url": "{{ Lang::get('filters.dataTable') }}"
       },
-      "bProcessing": true,
-      "bServerSide": true,
-      "sAjaxSource": "{{ URL::to('admin/blogs/data') }}",
-      "fnDrawCallback": function ( oSettings ) {
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+        "url": "{{ URL::to('admin/blogs/data') }}",
+      },
+      "drawCallback": function ( oSettings ) {
         $(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
       }
+  });
+
+  // apply the filter to dataTable
+  oTable.columns().eq( 0 ).each( function ( colIdx ) {
+    $( 'input', oTable.column( colIdx ).footer() ).on( 'keyup change', function () {
+      if (oTable.column(colIdx).footer().childNodes[0] == this) {
+        oTable
+          .column( colIdx )
+          .search( this.value )
+          .draw();
+        console.log(colIdx);
+        console.log(this);
+      }
+    } );
   });
 });
 </script>

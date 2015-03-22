@@ -35,27 +35,27 @@
   <div class="table-responsive">
     <table class="table table-bordered">
       <tr>
-        <th>Importance</th>
-        <th>Nature</th>
-        <th>Affair id</th>
-        <th>Lang</th>
-        <th>State</th>
-        <th>Date</th>
+        <th>{{ Lang::get('filters.importance') }}</th>
+        <th>{{ Lang::get('filters.nature') }}</th>
+        <th>{{ Lang::get('filters.affair_id') }}</th>
+        <th>{{ Lang::get('filters.lang') }}</th>
+        <th>{{ Lang::get('filters.state') }}</th>
+        <th>{{Lang::get('filters.date') }}</th>
       </tr>
       <tr>
         <td>{{ $post->importance }}</td>
         <td>{{ ucfirst($post->nature) }}</td>
         <td>{{ $post->affair_id }}</td>
-        <td>{{ $post->lang }}</td>
-        <td>{{ $post->state }}</td>
-        <td>{{ $post->p_date }}</td>
+        <td>{{ Lang::get('langs.' . $post->lang) }}</td>
+        <td>{{ Lang::get('states.' . $post->state) }}</td>
+        <td>{{ date('d/m/Y', strtotime($post->p_date)) }}</td>
       </tr>
     </table>
   </div>
   <div class="table-responsive">
     <table class="table table-bordered">
       <tr>
-        <th>Categories</th>
+        <th>{{ Lang::get('filters.categories') }}</th>
       </tr>
       @foreach ($post->posts_cats()->get() as $cat)
       <tr><td>{{ $cat->getParentName() }}</td></tr>
@@ -63,51 +63,11 @@
     </table>
   </div>
 </p>
+<div class="well">
 <p>{{ $post->content() }}</p>
-
-<div>
-  <span class="badge badge-info">Posted {{{ $post->date() }}}</span>
-</div>
-
-<hr />
-
-<a id="comments"></a>
-<h4>{{ $comments->count() }} {{ \Illuminate\Support\Pluralizer::plural('Comment', $comments->count()) }}</h4>
-
-@if ($comments->count())
-@foreach ($comments as $comment)
-<div class="row">
-  <div class="col-md-1">
-    <img class="thumbnail" src="http://placehold.it/60x60" alt="">
-  </div>
-  <div class="col-md-11">
-    <div class="row">
-      <div class="col-md-11">
-        <span class="muted">{{{ $comment->author->username }}}</span>
-        &bull;
-        {{{ $comment->date() }}}
-      </div>
-
-      <div class="col-md-11">
-        <hr />
-      </div>
-
-      <div class="col-md-11">
-        {{ nl2br(e($comment->content())) }}
-      </div>
-    </div>
-  </div>
 </div>
 <hr />
-@endforeach
-@else
-<hr />
-@endif
-
-{{ $commentForm }}
-
 @stop
-
 
 {{-- Scripts --}}
 @section('scripts')

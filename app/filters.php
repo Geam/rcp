@@ -76,7 +76,7 @@ Entrust::routeNeedsRole( 'admin*', array('admin'), Redirect::to('/') );
 
 // Check for permissions on admin actions
 Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_blogs', Redirect::to('/admin') );
-Entrust::routeNeedsPermission( 'admin/comments*', 'manage_comments', Redirect::to('/admin') );
+Entrust::routeNeedsPermission( 'admin/categories*', 'manage_categories', Redirect::to('/admin') );
 Entrust::routeNeedsPermission( 'admin/users*', 'manage_users', Redirect::to('/admin') );
 Entrust::routeNeedsPermission( 'admin/roles*', 'manage_roles', Redirect::to('/admin') );
 
@@ -112,7 +112,6 @@ Route::filter('detectLang',  function($route, $request, $lang = 'auto')
 {
     if (Session::has('lang') && in_array(Session::get('lang') , Config::get('app.available_language')))
     {
-//      Config::set('app.locale', Session::get('lang'));
       App::setLocale(Session::get('lang'));
     } else if ($lang != "auto" && in_array($lang , Config::get('app.available_language')))
     {

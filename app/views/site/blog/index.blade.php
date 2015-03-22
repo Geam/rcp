@@ -2,6 +2,7 @@
 
 {{-- Style --}}
 @section('styles')
+<style>
 .tab-content {
   padding-top: 1em;
 }
@@ -12,75 +13,17 @@
   padding-right: 0px;
 }
 
-//th, td {
-//  white-space: nowrap;
-//}
-//div.dataTables_wrapper {
-//    width: 100%;
-//}
 </style>
 
 <link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
-<!--<link rel="stylesheet" href="{{asset('assets/css/jquery.dataTables.css')}}">-->
-<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<!--<link href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">-->
 <link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-<style>
 @stop
-</style>
 
 {{-- Title --}}
 @section('title')
 {{ Lang::get('site.title') }}
-@stop
-
-{{-- Result --}}
-@section('result')
-@foreach ($posts as $post)
-<div class="row">
-  <div class="col-md-8">
-    <!-- Post Title -->
-    <div class="row">
-      <div class="col-md-8">
-        <h4><strong><a href="{{{ $post->url() }}}">{{ String::title($post->title()) }}</a></strong></h4>
-      </div>
-    </div>
-    <!-- ./ post title -->
-
-    <!-- Post Content -->
-    <div class="row">
-      <div class="col-md-2">
-        <a href="{{{ $post->url() }}}" class="thumbnail"><img src="http://placehold.it/260x180" alt="">{{ String::title($post->title()) }}</a>
-      </div>
-      <div class="col-md-6">
-        <p>
-          {{ String::tidy(Str::limit($post->content(), 200)) }}
-        </p>
-        <p><a class="btn btn-mini btn-default" href="{{{ $post->url() }}}">Read more</a></p>
-      </div>
-    </div>
-    <!-- ./ post content -->
-
-    <!-- Post Footer -->
-    <div class="row">
-      <div class="col-md-8">
-        <p></p>
-        <p>
-          <span class="glyphicon glyphicon-user"></span> by <span class="muted">{{{ $post->author->username }}}</span>
-          | <span class="glyphicon glyphicon-calendar"></span> <!--Sept 16th, 2012-->{{{ $post->date() }}}
-          | <span class="glyphicon glyphicon-comment"></span> <a href="{{{ $post->url() }}}#comments">{{$post->comments()->count()}} {{ \Illuminate\Support\Pluralizer::plural('Comment', $post->comments()->count()) }}</a>
-        </p>
-      </div>
-    </div>
-    <!-- ./ post footer -->
-  </div>
-</div>
-
-<hr />
-@endforeach
-
-{{ $posts->links() }}
-
 @stop
 
 {{-- Content --}}
@@ -104,8 +47,8 @@
 ]) }}
 </div>
 
-<div id="results" class="well">
-<table id="oTable" class="table table-stripped table-hover">
+<div id="results" class="well" style="background: #FFF">
+<table id="oTable" class="table table-striped table-hover table-bordered">
 <thead>
 <tr>
 <th>{{ lang::get('filters.title') }}</th>
@@ -140,9 +83,10 @@
   <!-- Select2 script -->
   <script src="{{ asset('select2/select2.min.js') }}"></script>
   <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-<!--  <script src="//datatables.net/download/build/nightly/jquery.dataTables.js"></script>-->
-  <script src="{{ asset('assets/js/jquery.dataTables.js') }}"></script>
+<!--  <script src="{{ asset('assets/js/jquery.dataTables.js') }}"></script>-->
+  <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
   <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/sorting/numeric-comma.js"></script>
 <!--  <script src="{{asset('assets/js/datatables-bootstrap.js')}}"></script> -->
 <!--  <script src="{{asset('assets/js/datatables.fnReloadAjax.js')}}"></script> -->
 
@@ -192,31 +136,51 @@
           { "data": "state" },
           { "data": "date" }
         ],
+        "columnDefs": [
+          { "type": "numeric-comma", targets: 3 }
+        ],
+        "language": {
+          "url": "{{ Lang::get('filters.dataTable') }}"
+        },
+        "initComplete" : function () {
+          $('#oTable_paginate')
+            .removeClass('dataTables_paginate')
+            .css( {
+              'float': 'right'
+            } )
+            .find('ul')
+              .css( {
+                'margin': '8px 0px 0px 0px'
+              } );
+          $('.dataTables_scrollBody thead tr').addClass('hidden');
+        },
+        "drawCallback": function () {
+          $('.dataTables_scrollBody thead tr').addClass('hidden')
+        }
       });
 
       // apply the filter to dataTable
       gTable.table.columns().eq( 0 ).each( function ( colIdx ) {
         $( 'input', gTable.table.column( colIdx ).footer() ).on( 'keyup change', function () {
-          gTable.table
-            .column( colIdx )
-            .search( this.value )
-            .draw();
+          if (gTable.table.column(colIdx).footer().childNodes[0] == this) {
+            gTable.table
+              .column( colIdx )
+              .search( this.value )
+              .draw();
+          }
         } );
       });
 
-//      $(".dataTables_scroll").css({ overflow: "auto" });
-
-      $('#oTable tbody').on('click', 'tr', function() {
-        window.location.href = gTable.table.row( this ).data().url;
+      // when a row is clik, open the affair in new tab
+      $('#oTable tbody').on('click', 'tr', function(e) {
+        window.open(gTable.table.row( this ).data().url, gTable.table.row(this).data().title);
       });
-
     });
 
     function datepickerToggle(e) {
       var r_to = e.parentNode.childNodes[2];
       var r_d2 = e.parentNode.childNodes[3];
 
-      console.log(e.style['background-color']);
       if (! e.style['background-color']) {
         e.style['background-color'] = '#3e3';
         r_to.className = r_to.className.replace(/hide/, '');
@@ -339,14 +303,10 @@
       }
       fillWithChilds(r_json, lastSelect);
 
-//      r_json['affair_id'] = $('#affair_id')[0].value;
-//      r_json['importance'] = $('#r_importance')[0].value;
-//      r_json['lang'] = $('#r_lang')[0].value;
-//      r_json['state'] = $('#r_state')[0].value;
+      // search the filter to send to server
       r_json['date'] = $('#r_date')[0].value;
       if (! $('#r_date_2')[0].className.match('hide'))
         r_json['date_2'] = $('#r_date_2')[0].value;
-//      r_json['title'] = $('#r_title')[0].value;
       r_json['content'] = $('#r_content')[0].value;
 
       // add the token or the server hung up

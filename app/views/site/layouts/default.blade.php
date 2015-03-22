@@ -4,29 +4,39 @@
     <!-- Basic Page Needs
     ================================================== -->
     <meta charset="utf-8" />
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>
       @section('title')
       Laravel 4 Sample Site
       @show
     </title>
     @section('meta_keywords')
-    <meta name="keywords" content="your, awesome, keywords, here" />
+    <meta name="keywords" content="rcp" />
     @show
     @section('meta_author')
     <meta name="author" content="Jon Doe" />
     @show
+    <!-- Google will often use this as its description of your page/sitei -->
     @section('meta_description')
-    <meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
+    <meta name="description" content="Rcp" />
     @show
+
+    <!-- Speaking of Google, don't forget to set your site up: http://google.com/webmasters -->
+    <meta name="google-site-verification" content="">
+
+    <!-- Dublin Core Metadata : http://dublincore.org/ -->
+    <meta name="DC.title" content="Project Name">
+    <meta name="DC.subject" content="@yield('description')">
+    <meta name="DC.creator" content="@yield('author')">
+
     <!-- Mobile Specific Metas
     ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS
     ================================================== -->
-        <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-theme.min.css')}}">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <style>
         body {
           padding: 60px 0;
@@ -36,9 +46,9 @@
           max-height: 200px;
           overflow-y: auto;
         }
+    </style>
     @section('styles')
     @show
-    </style>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -71,19 +81,46 @@
           </div>
           <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-              <li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}">Home</a></li>
+              <li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}"><span class="glyphicon glyphicon-home"></span> {{ Lang::get('general.home') }}</a></li>
+              @if (Auth::check())
+                @if (Auth::user()->hasRole('admin'))
+                  <li {{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}"><span class="glyphicon glyphicon-lock"></span> {{ Lang::get('general.admin_panel') }}</a></li>
+                  <li{{ (Request::is('admin/blogs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/blogs') }}}"><span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair') }}</a></li>
+                  <li class="dropdown{{{ (Request::is('admin/categories*') ? ' active' : '') }}}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/categories') }}}">
+                      <span class="glyphicon glyphicon-th-list"></span> {{ Lang::get('general.categories') }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li{{ (Request::is('admin/categories/tree') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/categories/tree') }}}">{{ Lang::get('general.categories_tree') }}</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown{{ (Request::is('admin/users*', 'admin/roles*') ? ' active' : '') }}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/users') }}}">
+                      <span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.users') }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li{{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}"><span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.users') }} </a></li>
+                      <li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}"><span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.roles') }} </a></li>
+                    </ul>
+                  </li>
+                @endif
+              @endif
             </ul>
 
             <ul class="nav navbar-nav pull-right">
               @if (Auth::check())
-                @if (Auth::user()->hasRole('admin'))
-                   <li><a href="{{{ URL::to('admin') }}}">{{ Lang::get('general.home') }}</a></li>
-                @endif
-                <li><a href="{{{ URL::to('user') }}}">{{ Lang::get('general.logged_in') }} {{{ Auth::user()->username }}}</a></li>
-                <li><a href="{{{ URL::to('user/logout') }}}">{{ Lang::get('general.logout') }}</a></li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="glyphicon glyphicon-user"></span> {{{ Auth::user()->username }}}	<span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{{{ URL::to('user/settings') }}}"><span class="glyphicon glyphicon-wrench"></span>{{ Lang::get('general.settings') }}</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{{ URL::to('user/logout') }}}"><span class="glyphicon glyphicon-share"></span>{{ Lang::get('general.logout') }}</a></li>
+                  </ul>
+                </li>
               @else
                 <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">{{ Lang::get('general.login') }}</a></li>
-                <li {{ (Request::is('user/create') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/create') }}}">{{{ Lang::get('site.sign_up') }}}</a></li>
               @endif
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ App::getLocale() }}<span class="caret"></span></a>
@@ -120,14 +157,16 @@
 
   <div id="footer">
     <div class="container">
+    @section('footer')
     <!--          <p class="muted credit">Laravel 4 Starter Site on <a href="https://github.com/andrew13/Laravel-4-Bootstrap-Starter-Site">Github</a>.</p>-->
+    @show
     </div>
   </div>
 
     <!-- Javascripts
     ================================================== -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
   @yield('scripts')
   </body>

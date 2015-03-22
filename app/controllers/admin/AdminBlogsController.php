@@ -291,10 +291,11 @@ class AdminBlogsController extends AdminController {
    */
   public function getData()
   {
-    $posts = Post::select(array('posts.id', 'posts.slug', 'posts.affair_id', 'posts.importance', 'posts.id as comments', 'posts.created_at'));
+    $posts = Post::select(array('posts.id', 'posts.slug', 'posts.affair_id', 'posts.importance', 'posts.lang', 'posts.state'));
     return Datatables::of($posts)
 
-      ->edit_column('comments', '{{ DB::table(\'comments\')->where(\'post_id\', \'=\', $id)->count() }}')
+      ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
+      ->edit_column('state', '{{ Lang::get(\'states.\' . $state) }}')
 
       ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
       <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
@@ -304,5 +305,4 @@ class AdminBlogsController extends AdminController {
 
       ->make();
   }
-
 }
