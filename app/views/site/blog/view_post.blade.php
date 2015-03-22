@@ -40,7 +40,7 @@
         <th>{{ Lang::get('filters.affair_id') }}</th>
         <th>{{ Lang::get('filters.lang') }}</th>
         <th>{{ Lang::get('filters.state') }}</th>
-        <th>{{Lang::get('filters.date') }}</th>
+        <th>{{ Lang::get('filters.date') }}</th>
       </tr>
       <tr>
         <td>{{ $post->importance }}</td>
@@ -58,18 +58,46 @@
         <th>{{ Lang::get('filters.categories') }}</th>
       </tr>
       @foreach ($post->posts_cats()->get() as $cat)
-      <tr><td>{{ $cat->getParentName() }}</td></tr>
+        <tr><td>{{ $cat->getParentName() }}</td></tr>
       @endforeach
     </table>
   </div>
 </p>
 <div class="well">
-<p>{{ $post->content() }}</p>
+  <div class="pull-right">
+    <label for="langSelect">{{ Lang::get('filters.lang') }}</label>
+    {{ Form::selectStateOrLang("langSelect", "lang", ['noall' => true, 'avail' => $post->availableLang()]) }}
+  </div>
+  @foreach ($post->content() as $text)
+    @if ($text->lang == $post->availableLang()['default'])
+      <div id="{{ $text->lang }}" >
+    @else
+      <div id="{{ $text->lang }}" style="display: none">
+    @endif
+      <p>{{ nl2br($text->content) }}</p>
+    </div>
+  @endforeach
 </div>
 <hr />
 @stop
 
 {{-- Scripts --}}
 @section('scripts')
-
+<script>
+  $( document ).ready(function() {
+    var langSelect = $('#langSelect')
+      .on('change', function() {
+        $('.well div').each( function(id) {
+          if (id > 0) {
+            if (this.id == langSelect.val()) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          }
+        });
+      });
+    langSelect.val('{{ $post->availableLang()["default"] }}');
+  });
+</script>
 @stop

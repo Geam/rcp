@@ -17,10 +17,10 @@ class Category extends Eloquent {
 
   public function cats_text()
   {
-    $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', App::getLocale());
+    $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', App::getLocale())->first();
     if (!$temp)
-      $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', 'en');
-    return $temp->first();
+      $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', 'en')->first();
+    return $temp;
   }
 
   public function getChildsId()

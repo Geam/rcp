@@ -38,20 +38,32 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
     'name="' .
     $name .
     '" ';
-  foreach ($options as $key => $value)
-  {
-    $ret .= $key . '="' . $value . '" ';
+  if (isset($options['attr'])) {
+    foreach ($options['attr'] as $key => $value)
+    {
+      $ret .= $key . '="' . $value . '" ';
+    }
   }
-  $ret .= '><option value="00">' . Lang::get($display . 's.all') . '</option>';
+  $ret .= '>';
+  if (! isset($options['noall']))
+    $ret .= '<option value="00">' . Lang::get($display . 's.all') . '</option>';
+  else
+    unset($options['noall']);
   $all = Config::get('constants.' . $display . 's');
   foreach ($all as $key => $value)
   {
-    $all[$key] = Lang::get($display . 's.' . $key);
+    if (isset($options['avail']['langs'][$key]))
+      $all[$key] = Lang::get($display . 's.' . $key);
+    else
+      unset($all[$key]);
   }
   asort($all);
   foreach ($all as $key => $value)
   {
-    $ret .= '<option value="' . $key . '">' . $value . '</option>';
+    $ret .= '<option value="' . $key;
+    if (isset($options['avail']['default']) && $key == $options['avail']['default'])
+      $ret .= '" selected="selected';
+    $ret .='">' . $value . '</option>';
   }
   $ret .= "</select>";
   return $ret;

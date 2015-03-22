@@ -62,9 +62,27 @@ class Post extends Eloquent {
    */
   public function content()
   {
-    if ($temp = $this->getPosts_text())
-      return nl2br($temp->content);
-    return "No content attach to post";
+    if ($all = $this->posts_texts())
+      return $all;
+    return Lang::get('message.no_text');
+  }
+
+  /**
+   * Return all the lang available for this post
+   *
+   * @return array
+   */
+  public function availableLang()
+  {
+    $avail = array(
+      'default' => $this->lang,
+      'langs'   => array()
+    );
+    foreach ($this->posts_texts() as $text)
+      $avail['langs'][$text->lang] = $text->lang;
+    if (isset($avail['langs'][App::getLocale()]))
+      $avail['default'] = App::getLocale();
+    return $avail;
   }
 
   /**

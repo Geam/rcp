@@ -87,12 +87,7 @@ class BlogController extends BaseController {
    */
   public function postSearch()
   {
-//    return Response::json(Input::all());
-//    dd(Input::all());
-
     $input = Input::all();
-
-//    dd(Input::all());
 
     // Rules for validator
     $rules = array(
