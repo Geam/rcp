@@ -151,7 +151,7 @@ $(document).ready(function() {
     plugins: [
       "contextmenu", // context menu
       "dnd", // drag 'n drop
-      "search", // search in the tree (nedd additional code)
+      "search", // search in the tree (need additional code)
       "wholerow" // click everywhere on the row to select
     ],
     contextmenu: {
@@ -205,7 +205,9 @@ $(document).ready(function() {
   })
   .on("delete_node.jstree", function (e, data) {
     console.log(data);
-    // in case the node is delete just after creation
+    // in case the node is delete just after creation cause the serveur
+    // because the server can't be reach or it can't add the categorie
+    // just remove the localy add node
     if (data.node.id.substring(0,3) == "j1_")
       return ;
     $.ajax({
@@ -263,6 +265,12 @@ $(document).ready(function() {
 
   function customMenu(node) {
     var items = {
+      addItem: {
+        label: "{{ Lang::get('admin/categories/buttons.create') }}",
+        action: function () {
+          $('#tree').jstree(true).create_node(node);
+        },
+      },
       renameItem: {
         label: "{{ Lang::get('admin/categories/buttons.rename') }}",
         action: function () {

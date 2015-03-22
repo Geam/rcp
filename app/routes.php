@@ -97,6 +97,8 @@ Route::group(array('before' => 'detectLang'), function()
     return json_encode(Category::getTree(), JSON_PRETTY_PRINT);
   });
 
+  Route::get('cattree', 'BlogController@getCattree');
+
   # SQL debug
   Route::get('sql', function()
   {

@@ -70,6 +70,21 @@ class BlogController extends BaseController {
     return View::make('site/blog/view_post', compact('post'));
   }
 
+  /**
+   * Return the category tree for the main page
+   *
+   * @return json
+   */
+  public function getCattree()
+  {
+    return Response::json(Category::jsTree(App::getLocale()));
+  }
+
+  /**
+   * Manage the filter for the main page
+   *
+   * @return json
+   */
   public function postSearch()
   {
 //    return Response::json(Input::all());
@@ -81,7 +96,7 @@ class BlogController extends BaseController {
 
     // Rules for validator
     $rules = array(
-      'category'    => 'Regex:/^[0-9]{1,4}(,[0-9]{1,4})*$/',
+      'category'    => 'array',
       'importance'  => 'min:0|max:3',
       'affair_id'   => 'min:2',
       'lang'        => 'size:2',
@@ -107,8 +122,8 @@ class BlogController extends BaseController {
       join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct();
 
     // search the post that match categories
-    if (Input::has('category') && $input['category'] != '0')
-      $posts = $posts->whereIn('cat_id', explode(',', $input['category']));
+    if (Input::has('category') && count($input['category']) > 0)
+      $posts = $posts->whereIn('cat_id', $input['category']);
 
     // add filter by affair_id
     if (Input::has('affair_id'))

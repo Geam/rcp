@@ -6,7 +6,7 @@ Form::macro('selectFilter', function($name, $categories, $default)
   $ret = '<div>' .
     '<select id="' .  $name .
     '" class="form-control" name="' .  $name .
-    '" onChange="updateFilter(this);requestData(this)">';
+    '" onChange="updateFilter(this);requestData()">';
 
   # append default entry
   $ret .= '<option value="0" selected="selected">' . $default . '</option>';
@@ -60,20 +60,38 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
 Form::macro('inputDate', function($name, $range)
 {
   $ret = '<div class="input-group">' .
-    '<span class="input-group-addon">dd/mm/yyyy</span>' .
+    '<span class="input-group-addon">' .
+    Lang::get('filters.date_format') .
+    '</span>' .
     '<input type="text" class="form-control" id="' .
     $name . '" name="' .
-    $name . '" onchange="requestData(this)">';
-  if ($range)
+    $name . '"';
+  if (!$range)
   {
-    $ret .= '<span class="input-group-addon hide">' .
+    $ret = 'onchange="requestData()">';
+  }
+  else
+  {
+      $ret .= '><span class="input-group-addon">' .
       Lang::get('filters.to') . '</span>' .
-      '<input type="text" class="form-control hide" id="' .
+      '<input type="text" class="form-control" id="' .
       $name . '_2" name="' .
-      $name . '_2">' .
-      '<span class="input-group-addon" onclick="datepickerToggle(this)">' .
-      Lang::get('filters.range') . '</span>';
+      $name . '_2" onchange="requestData()">';
   }
   $ret .= '</div>';
+  return $ret;
+});
+
+Form::macro('jsTreeSearch', function($name)
+{
+  $ret = '<div class="col-md-2 col-sm-4 col-xs-4 pull-right">' .
+    '<input type="text" value="" class="form-control" id="' .
+    $name .
+    '_q" placeholder="' .
+    Lang::get('filters.search') .
+    '" /></div>' .
+    '<div id="' .
+    $name .
+    '"></div>';
   return $ret;
 });

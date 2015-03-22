@@ -11,14 +11,13 @@ return array(
   'lang'        => "Lang",
   'state'       => "State",
   'date'        => "Date (dd/mm/yyyy)",
+  'date_format' => "dd/mm/yyyy",
   'reset'       => "Reset",
   'title'       => "Case title",
   'content'     => "Content",
-
   'cat_select'  => "Select a category",
   'to'          => "to",
-  'range'       => "Range",
-
+  'range'       => "Date range",
   'search'      => "Search",
 
   // search the good link in this page http://www.datatables.net/plug-ins/i18n/
