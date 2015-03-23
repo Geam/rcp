@@ -28,6 +28,16 @@
 <meta name="author" content="{{{ $post->author->username }}}" />
 @stop
 
+{{-- Styles --}}
+@section('styles')
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<style>
+.jstree-default .jstree-disabled.jstree-clicked {
+  background: none repeat scroll 0% 0% #BEEBFF;
+}
+</style>
+@stop
+
 {{-- Content --}}
 @section('content')
 <h3>Affair {{ $post->title() }}</h3>
@@ -44,7 +54,7 @@
       </tr>
       <tr>
         <td>{{ $post->importance }}</td>
-        <td>{{ ucfirst($post->nature) }}</td>
+        <td>{{ Lang::get('filters.natures.' . $post->nature) }}</td>
         <td>{{ $post->affair_id }}</td>
         <td>{{ Lang::get('langs.' . $post->lang) }}</td>
         <td>{{ Lang::get('states.' . $post->state) }}</td>
@@ -52,6 +62,7 @@
       </tr>
     </table>
   </div>
+  <div id="tree"></div>
   <div class="table-responsive">
     <table class="table table-bordered">
       <tr>
@@ -68,7 +79,7 @@
     <label for="langSelect">{{ Lang::get('filters.lang') }}</label>
     {{ Form::selectStateOrLang("langSelect", "lang", ['noall' => true, 'avail' => $post->availableLang()]) }}
   </div>
-  @foreach ($post->content() as $text)
+  @foreach ($post->content(null) as $text)
     @if ($text->lang == $post->availableLang()['default'])
       <div id="{{ $text->lang }}" >
     @else
@@ -83,6 +94,7 @@
 
 {{-- Scripts --}}
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
 <script>
   $( document ).ready(function() {
     var langSelect = $('#langSelect')
@@ -98,6 +110,40 @@
         });
       });
     langSelect.val('{{ $post->availableLang()["default"] }}');
+
+    $('#tree').jstree({
+      core: {
+        animation: 0,
+        theme: { stripes: true },
+        data: {
+          url: "{{ URL::to('cattree') }}",
+          datatype: "json"
+        },
+      },
+      types: {
+        disabled: {
+          "check_node": false,
+          "uncheck_node": false
+        },
+        "default": {
+          "check_node": false,
+          "uncheck_node": false
+        }
+      },
+      plugins: [
+        "checkbox",
+      ],
+    })
+    .bind('loaded.jstree', function (e, data) {
+      var ref = $(this).jstree(true);
+      @foreach ($post->categories()->get() as $cat)
+       ref.check_node("{{ $cat->id }}");
+      @endforeach
+      for ( key in ref._model.data) {
+        ref.disable_node(key);
+      }
+      ref.hide_checkboxes();
+    });
   });
 </script>
 @stop

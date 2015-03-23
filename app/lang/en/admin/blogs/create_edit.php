@@ -3,6 +3,7 @@
 return array(
 
   'general'           => 'General',
+  'categories'        => 'Categories',
   'meta'              => 'Meta Title',
 
   'title'             => 'Affair Title',

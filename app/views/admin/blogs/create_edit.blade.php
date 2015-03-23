@@ -1,16 +1,26 @@
 @extends('admin.layouts.modal')
 
+{{-- Style --}}
+@section('styles')
+@if (isset($post))
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+@endif
+@stop
+
 {{-- Content --}}
 @section('content')
 	<!-- Tabs -->
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#tab-general" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.general') }}</a></li>
+      @if (isset($post))
+      <li><a href="#tab-tree" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.categories') }}</a></li>
+      @endif
 			<li><a href="#tab-meta-data" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.meta') }}</a></li>
 		</ul>
 	<!-- ./ tabs -->
 
 	{{-- Edit Blog Form --}}
-	<form class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/blogs/' . $post->id . '/edit') }}@endif" autocomplete="off">
+	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/blogs/' . $post->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -30,15 +40,27 @@
 				</div>
 				<!-- ./ post title -->
 
-        <!-- Post importance -->
 				<div class="form-group {{{ $errors->has('importance') ? 'error' : '' }}}">
-          <div class="col-md-12">
+          <!-- Post importance -->
+          <div class="col-md-6">
             <label class="control-label" for="importance">{{ Lang::get('admin/blogs/create_edit.importance') }}</label>
 						<input class="form-control" type="number" name="importance" id="importance" value="{{{ Input::old('importance', isset($post) ? $post->importance : null) }}}" min=0 max=3 />
 						{{ $errors->first('importance', '<span class="help-block">:message</span>') }}
 					</div>
+          <!-- ./ post importance -->
+          <!-- post nature -->
+          <div class="col-md-6">
+            <label class="control-label" for="nature">{{ Lang::get('admin/blogs/create_edit.nature') }}</label>
+            {{ Form::nature('nature', [
+              'attr' => [
+                'class' => 'form-control'
+              ],
+              'default' => isset($post) ? $post->nature : null
+            ]) }}
+						{{ $errors->first('nature', '<span class="help-block">:message</span>') }}
+					</div>
+          <!-- ./ post nature -->
 				</div>
-        <!-- ./ post importance -->
 
         <!-- Post slug -->
 				<div class="form-group {{{ $errors->has('slug') ? 'error' : '' }}}">
@@ -50,16 +72,6 @@
 				</div>
         <!-- ./ post slug -->
 
-        <!-- Post nature -->
-				<div class="form-group {{{ $errors->has('nature') ? 'error' : '' }}}">
-          <div class="col-md-12">
-            <label class="control-label" for="nature">{{ Lang::get('admin/blogs/create_edit.nature') }}</label>
-						<input class="form-control" type="text" name="nature" id="nature" value="{{{ Input::old('nature', isset($post) ? $post->nature : null) }}}" />
-						{{ $errors->first('nature', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-        <!-- ./ post nature -->
-
         <!-- Post affair_id -->
 				<div class="form-group {{{ $errors->has('affair_id') ? 'error' : '' }}}">
           <div class="col-md-12">
@@ -70,37 +82,50 @@
 				</div>
         <!-- ./ post affair_id -->
 
-        <!-- Post post_lang -->
 				<div class="form-group {{{ $errors->has('post_lang') ? 'error' : '' }}}">
-          <div class="col-md-12">
+          <!-- Post post_lang -->
+          <div class="col-md-6">
             <label class="control-label" for="post_lang">{{ Lang::get('admin/blogs/create_edit.post_lang') }}</label>
-						<input class="form-control" type="text" name="post_lang" id="post_lang" value="{{{ Input::old('post_lang', isset($post) ? $post->lang : null) }}}" />
+            {{ Form::selectStateOrLang('post_lang', 'lang', [
+              'attr' => ['class' => 'form-control'],
+              'noall' => 'noall',
+              'avail' => ['default' => isset($post) ? $post->lang : null]
+              ]) }}
 						{{ $errors->first('post_lang', '<span class="help-block">:message</span>') }}
 					</div>
-				</div>
-        <!-- ./ post post_lang -->
-
-        <!-- Post state -->
-				<div class="form-group {{{ $errors->has('state') ? 'error' : '' }}}">
-          <div class="col-md-12">
+          <!-- ./ post post_lang -->
+          <!-- Post state -->
+          <div class="col-md-6">
             <label class="control-label" for="state">{{ Lang::get('admin/blogs/create_edit.state') }}</label>
-						<input class="form-control" type="text" name="state" id="state" value="{{{ Input::old('title', isset($post) ? $post->state : null) }}}" />
+            {{ Form::selectStateOrLang('state', 'state', [
+              'attr' => ['class' => 'form-control'],
+              'noall' => 'noall',
+              'avail' => ['default' => isset($post) ? $post->state : null]
+              ]) }}
 						{{ $errors->first('state', '<span class="help-block">:message</span>') }}
 					</div>
-        </div>
-        <!-- ./ post state -->
+          <!-- ./ post state -->
+				</div>
 
 				<!-- Content -->
 				<div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
                         <label class="control-label" for="content">{{ Lang::get('admin/blogs/create_edit.content') }}</label>
-						<textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content() : null) }}}</textarea>
+						<textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
 						{{ $errors->first('content', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
 				<!-- ./ content -->
 			</div>
 			<!-- ./ general tab -->
+
+      @if (isset($post))
+      <!-- Categories tab -->
+      <div class="tab-pane" id="tab-tree">
+        <div id="tree"></div>
+      </div>
+      <!-- ./ categories tab -->
+      @endif
 
 			<!-- Meta Data tab -->
 			<div class="tab-pane" id="tab-meta-data">
@@ -148,4 +173,61 @@
 		</div>
 		<!-- ./ form actions -->
 	</form>
+@stop
+
+{{-- Scripts --}}
+@section('scripts')
+@if (isset($post))
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#tree').jstree({
+      core: {
+        animation: 0,
+        check_callback: true,
+        theme: { stripes: true },
+        data: {
+          url: "{{ URL::to('cattree/') }}",
+          dataType: "json"
+        },
+      },
+      plugins: [
+        "checkbox", // allow multi selecting
+        "search", // search in the tree (need additional code)
+        "wholerow",
+      ]
+    })
+    .bind('loaded.jstree', function (e, data) {
+      var ref = $(this).jstree(true);
+      @foreach ($post->categories()->get() as $cat)
+        ref.check_node("{{ $cat->id }}");
+      @endforeach
+        console.log(ref.get_selected());
+    });
+
+    $('#form').submit( function (e) {
+      e.preventDefault();
+      var form = this;
+      $.ajax({
+        url: "{{ URL::to('admin/blogs/' . $post->id . '/category') }}",
+        method: "POST",
+        data: {
+          _token: $('input[name=_token]')[0].value,
+          _id: $('#affair_id')[0].value,
+          _cat: $('#tree').jstree(true).get_selected()
+        }
+      })
+        .done( function (ret) {
+          if (ret.success)
+            form.submit();
+          else
+            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+        })
+        .fail( function (ret) {
+            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+        });
+    });
+  });
+</script>
+@endif
 @stop

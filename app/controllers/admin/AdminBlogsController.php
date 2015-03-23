@@ -66,7 +66,7 @@ class AdminBlogsController extends AdminController {
       'nature'      =>  array('required', 'Regex:/^judgement$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
-      'state'       =>  'required|min:3'
+      'state'       =>  'required|min:2,3'
     );
 
     // Validate the inputs
@@ -165,7 +165,7 @@ class AdminBlogsController extends AdminController {
       'nature'      =>  array('required', 'Regex:/^judgement$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
-      'state'       =>  'required|min:3'
+      'state'       =>  'required|min:2,3'
     );
 
     // Validate the inputs
@@ -215,6 +215,23 @@ class AdminBlogsController extends AdminController {
 
     // Form validation failed
     return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->withErrors($validator);
+  }
+
+  public function postCategory($post)
+  {
+    $rules = array(
+      '_id'   => "required|string",
+      '_cat'  => "array"
+    );
+
+    $validator = Validator::make($input = Input::all(), $rules);
+
+    if ($validator->passes())
+    {
+      $post->categories()->sync($input['_cat']);
+      return Response::json(array('success' => true));
+    }
+    return Response::json(array('success' => false));
   }
 
   /**

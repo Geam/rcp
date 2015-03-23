@@ -55,15 +55,28 @@ class Post extends Eloquent {
   }
 
   /**
-   * Returns a formatted post content entry,
+   * If an lang is pass, returns a formatted post content entry,
    * this ensures that line breaks are returned.
+   * Else, it will return an array with all available text
    *
-   * @return string
+   * @return string or array
    */
-  public function content()
+  public function content($lang)
   {
-    if ($all = $this->posts_texts())
-      return $all;
+    $all = $this->posts_texts();
+    if ($all)
+    {
+      if (!$lang)
+        return $all;
+      else
+      {
+        foreach ($all as $text)
+        {
+          if ($text->lang == $lang)
+            return nl2br($text->content);
+        }
+      }
+    }
     return Lang::get('message.no_text');
   }
 
@@ -76,11 +89,11 @@ class Post extends Eloquent {
   {
     $avail = array(
       'default' => $this->lang,
-      'langs'   => array()
+      'data'   => array()
     );
     foreach ($this->posts_texts() as $text)
-      $avail['langs'][$text->lang] = $text->lang;
-    if (isset($avail['langs'][App::getLocale()]))
+      $avail['data'][$text->lang] = $text->lang;
+    if (isset($avail['data'][App::getLocale()]))
       $avail['default'] = App::getLocale();
     return $avail;
   }

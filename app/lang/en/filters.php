@@ -20,6 +20,11 @@ return array(
   'range'       => "Date range",
   'search'      => "Search",
 
+  'natures'     => array(
+    'judgement' => 'Judgement',
+    'decision'  => 'Decison',
+  ),
+
   // search the good link in this page http://www.datatables.net/plug-ins/i18n/
   'dataTable'   => "//cdn.datatables.net/plug-ins/f2c75b7247b/i18n/English.json",
 );

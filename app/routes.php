@@ -26,6 +26,7 @@ Route::model('category', 'Category');
  */
 Route::pattern('category', '[0-9]+');
 Route::pattern('post', '[0-9]+');
+Route::pattern('postid', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
@@ -63,6 +64,7 @@ Route::group(array('before' => 'detectLang'), function()
       Route::post('{post}/content', 'AdminBlogsController@postContent');
       Route::get('{post}/delete', 'AdminBlogsController@getDelete');
       Route::post('{post}/delete', 'AdminBlogsController@postDelete');
+      Route::post('{post}/category', 'AdminBlogsController@postCategory');
       Route::controller('/', 'AdminBlogsController');
     });
 
@@ -92,10 +94,7 @@ Route::group(array('before' => 'detectLang'), function()
     Route::controller('/', 'AdminDashboardController');
   });
 
-  Route::get('categories', function()
-  {
-    return json_encode(Category::getTree(), JSON_PRETTY_PRINT);
-  });
+  Route::get('cattree/{postid}', 'BlogController@getCattreeid');
 
   Route::get('cattree', 'BlogController@getCattree');
 

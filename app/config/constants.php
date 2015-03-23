@@ -94,4 +94,8 @@ return array(
     'uk' => 'uk',
   ),
 
+  'natures' => array(
+    'judgement' => 'judgement',
+    'decision' => 'decision'
+  ),
 );

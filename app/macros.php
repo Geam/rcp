@@ -32,12 +32,7 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
 {
   if ($display != 'lang' && $display != 'state')
     return Null;
-  $ret = '<select id="' .
-    $name .
-    '" ' .
-    'name="' .
-    $name .
-    '" ';
+  $ret = '<select id="' . $name . '" name="' . $name . '" ';
   if (isset($options['attr'])) {
     foreach ($options['attr'] as $key => $value)
     {
@@ -52,10 +47,15 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
   $all = Config::get('constants.' . $display . 's');
   foreach ($all as $key => $value)
   {
-    if (isset($options['avail']['langs'][$key]))
-      $all[$key] = Lang::get($display . 's.' . $key);
+    if (isset($options['avail']['data']))
+    {
+      if (isset($options['avail']['data'][$key]))
+        $all[$key] = Lang::get($display . 's.' . $key);
+      else
+        unset($all[$key]);
+    }
     else
-      unset($all[$key]);
+      $all[$key] = Lang::get($display . 's.' . $key);
   }
   asort($all);
   foreach ($all as $key => $value)
@@ -63,7 +63,30 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
     $ret .= '<option value="' . $key;
     if (isset($options['avail']['default']) && $key == $options['avail']['default'])
       $ret .= '" selected="selected';
-    $ret .='">' . $value . '</option>';
+    $ret .= '">' . $value . '</option>';
+  }
+  $ret .= "</select>";
+  return $ret;
+});
+
+Form::macro('nature', function($name, array $options)
+{
+  $ret = '<select id="' . $name . '" name="' . $name . '" ';
+  if (isset($options['attr']))
+  {
+    foreach ($options['attr'] as $key => $value)
+    {
+      $ret .= $key . '="' . $value . '" ';
+    }
+  }
+  $ret .= '>';
+  $all = Config::get('constants.natures');
+  foreach ($all as $key => $value)
+  {
+    $ret .= '<option value="' . $key;
+    if (isset($options['default']) && $key == $options['default'])
+      $ret .= '" selected="selected';
+    $ret .= '">' . Lang::get('filters.natures.' . $value) . '</option>';
   }
   $ret .= "</select>";
   return $ret;
