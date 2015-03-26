@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="{{ App::getLocale() }}">
 
 <head>
 
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 
 	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

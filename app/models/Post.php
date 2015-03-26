@@ -11,6 +11,12 @@ class Post extends Eloquent {
   public $posts_text;
 
   /**
+   * Store last lang research
+   *
+   */
+  public $text = Null;
+
+  /**
    * Deletes a blog post
    *
    * @return bool
@@ -70,14 +76,32 @@ class Post extends Eloquent {
         return $all;
       else
       {
-        foreach ($all as $text)
-        {
-          if ($text->lang == $lang)
-            return nl2br($text->content);
-        }
+        if (! $this->text)
+          $this->search($lang);
+        if ($this->text)
+          return nl2br($this->text['result']->content);
+        return "";
       }
     }
-    return Lang::get('message.no_text');
+    return Lang::get('messages.no_text');
+  }
+
+  /**
+   * Return the title
+   *
+   * @return string
+   */
+  public function title($lang)
+  {
+    if ($this->posts_texts())
+    {
+      if (! $this->text)
+        $this->search($lang);
+      if ($this->text)
+        return $this->text['result']->title;
+      return "";
+    }
+    return Lang::get('messages.no_text');
   }
 
   /**
@@ -96,18 +120,6 @@ class Post extends Eloquent {
     if (isset($avail['data'][App::getLocale()]))
       $avail['default'] = App::getLocale();
     return $avail;
-  }
-
-  /**
-   * Return the title
-   *
-   * @return string
-   */
-  public function title()
-  {
-    if ($temp = $this->getPosts_text())
-      return $temp->title;
-    return "No title attach to post";
   }
 
   /**
@@ -130,6 +142,32 @@ class Post extends Eloquent {
     if (! $this->posts_texts)
       $this->posts_texts = $this->hasMany('Posts_text', 'post_id')->get();
     return $this->posts_texts;
+  }
+
+  /**
+   * Search for the text in a lang
+   *
+   * @return nothing
+   */
+  private function search($lang)
+  {
+    $all = $this->posts_texts();
+    if ($all)
+    {
+      foreach ($all as $text)
+      {
+        if ($text->lang == $lang)
+        {
+          $this->text = array('search' => $lang, 'result' => $text);
+          return ;
+        }
+        if ($text->lang == "en")
+          $temp = $text;
+      }
+      $this->text = array('search' => $lang, 'result' => $text);
+    }
+    else
+      $this->text = Null;
   }
 
   /**

@@ -2,7 +2,7 @@
 
 {{-- Web site Title --}}
 @section('title')
-{{{ String::title($post->title()) }}} ::
+{{{ String::title($post->title(App::getLocale())) }}} ::
 @parent
 @stop
 
@@ -40,7 +40,7 @@
 
 {{-- Content --}}
 @section('content')
-<h3>Affair {{ $post->title() }}</h3>
+<h3>Affair {{ $post->title(App::getLocale()) }}</h3>
 <p>
   <div class="table-responsive">
     <table class="table table-bordered">

@@ -17,7 +17,6 @@
 
 <link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
-<!--<link href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">-->
 <link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
 @stop
@@ -45,6 +44,10 @@
     'title' => Lang::get('filters.content'),
     'content' => Form::text('r_content', null, ['class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content'])
   ],
+  [
+    'title' => Lang::get('filters.only_my_lang'),
+    'content' => Form::only_my_lang('only_my_lang', Lang::get('filters.oml_extend'), 'value')
+  ]
 ]) }}
 </div>
 
@@ -215,6 +218,7 @@
       $('#r_date')[0].value = '';
       $('#r_date_2')[0].value = '';
       $('#r_content')[0].value = '';
+      $('#only_my_lang').prop( "checked", false );
       if (! $( '#alerts' )[0].className.match('hide')) {
         $( '#alerts' )[0].className += 'hide';
         $( '#alerts' ).empty();
@@ -244,6 +248,7 @@
       if (! $('#r_date_2')[0].className.match('hide'))
         r_json['date_2'] = $('#r_date_2')[0].value;
       r_json['content'] = $('#r_content')[0].value;
+      r_json['oml'] = $('#only_my_lang').is(':checked');
 
       // add the token or the server hung up
       r_json['_token'] = $('input[name=_token]')[0].value;
@@ -251,6 +256,8 @@
       // return rquest object
       return r_json;
     }
+
+    $('#only_my_lang').on('change', requestData);
 
     function requestData() {
 

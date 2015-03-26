@@ -11,6 +11,7 @@ return array(
   'slug'              => 'Affair Slug (url)',
   'nature'            => 'Affair Nature',
   'affair_id'         => 'Application Number',
+  'post_date'         => 'Affair Date',
   'post_lang'         => 'Affair Language',
   'state'             => 'Affair State',
   'content'           => 'Content',

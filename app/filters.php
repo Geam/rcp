@@ -75,7 +75,8 @@ Route::filter('guest', function()
 Entrust::routeNeedsRole( 'admin', array('admin'), Redirect::to('/') );
 
 // Check for permissions on admin actions
-Entrust::routeNeedsPermission( 'admin/blogs*', 'manage_affairs', Redirect::to('/admin') );
+Entrust::routeNeedsPermission( 'admin/affairs/manage*', 'manage_affairs', Redirect::to('/admin') );
+Entrust::routeNeedsPermission( 'admin/affairs/tranlate*', 'affairs_translation', Redirect::to('/admin') );
 Entrust::routeNeedsPermission( 'admin/categories/manage*', 'manage_categories', Redirect::to('/admin') );
 Entrust::routeNeedsPermission( 'admin/categories/translation*', 'categories_translation', Redirect::to('/admin') );
 Entrust::routeNeedsPermission( 'admin/users*', 'manage_users', Redirect::to('/admin') );

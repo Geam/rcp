@@ -64,15 +64,24 @@ Route::group(array('before' => 'detectLang'), function()
     # Blog Management
     Route::group(array('prefix' => 'affairs'), function()
     {
-      Route::get('{post}/show', 'AdminBlogsController@getShow');
-      Route::get('{post}/edit', 'AdminBlogsController@getEdit');
-      Route::post('{post}/edit', 'AdminBlogsController@postEdit');
-      Route::get('{post}/content', 'AdminBlogsController@getContent');
-      Route::post('{post}/content', 'AdminBlogsController@postContent');
-      Route::get('{post}/delete', 'AdminBlogsController@getDelete');
-      Route::post('{post}/delete', 'AdminBlogsController@postDelete');
-      Route::post('{post}/category', 'AdminBlogsController@postCategory');
-      Route::controller('/', 'AdminBlogsController');
+      Route::group(array('prefix' => 'manage'), function()
+      {
+        Route::get('{post}/show', 'AdminBlogsController@getShow');
+        Route::get('{post}/edit', 'AdminBlogsController@getEdit');
+        Route::post('{post}/edit', 'AdminBlogsController@postEdit');
+        Route::get('{post}/content', 'AdminBlogsController@getContent');
+        Route::post('{post}/content', 'AdminBlogsController@postContent');
+        Route::get('{post}/delete', 'AdminBlogsController@getDelete');
+        Route::post('{post}/delete', 'AdminBlogsController@postDelete');
+        Route::post('{post}/category', 'AdminBlogsController@postCategory');
+        Route::controller('/', 'AdminBlogsController');
+      });
+      Route::group(array('prefix' => 'translate'), function()
+      {
+        Route::get('{post}/edit/{lang}', 'AdminAffairsTranslationController@getEdit');
+        Route::post('{post}/edit/{lang}', 'AdminAffairsTranslationController@postEdit');
+        Route::controller('/', 'AdminAffairsTranslationController');
+      });
     });
 
     # User Management

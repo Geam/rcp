@@ -98,6 +98,7 @@ class BlogController extends BaseController {
       'state'       => 'size:2',
       'date'        => 'date',
       'date_2'      => 'date',
+      'oml'         => 'in:true,false'
     );
 
     $validator = Validator::make($input, $rules);
@@ -145,6 +146,10 @@ class BlogController extends BaseController {
       }
     }
 
+    // if 'only my lang'
+    if (Input::has('oml') && $input['oml'] == "true")
+      $posts = $posts->where('posts_texts.lang', App::getLocale());
+
     // add title filter
     if (Input::has('title'))
       $posts = $posts->where('title', 'like', '%'.$input['title'].'%');
@@ -160,15 +165,18 @@ class BlogController extends BaseController {
     foreach ($posts as $post)
     {
       if (! isset($ret[$post->id]))
-        $ret[$post->id] = [];
-      if ($post->lang == $post->pt_lang) {
-          $ret[$post->id]['affair_id']  = $post->affair_id;
-          $ret[$post->id]['importance'] = $post->importance;
-          $ret[$post->id]['lang']       = Lang::get('langs.' . $post->lang);
-          $ret[$post->id]['state']      = Lang::get('states.' . $post->state);
-          $ret[$post->id]['url']        = $post->url();
-          $ret[$post->id]['nature']     = $post->nature;
-          $ret[$post->id]['date']       = date('d/m/Y', strtotime($post->p_date));
+        $ret[$post->id] = array(
+          'affair_id'   => $post->affair_id,
+          'importance'  => $post->importance,
+          'lang'        => Lang::get('langs.' . $post->lang),
+          'state'       => Lang::get('states.' . $post->state),
+          'url'         => $post->url(),
+          'nature'      => $post->nature,
+          'date'        => date('d/m/Y', strtotime($post->p_date)),
+          'title'       => $post->title,
+          'content'     => $post->content
+        );
+      if ($post->pt_lang == App::getLocale()) {
           $ret[$post->id]['title']      = $post->title;
           $ret[$post->id]['content']    = $post->content;
       } else {
@@ -181,7 +189,7 @@ class BlogController extends BaseController {
       }
     }
 //    $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
-    $res = array('success' => 'True', 'data' => array_values($ret));
+    $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
     return Response::json($res);
   }
 }

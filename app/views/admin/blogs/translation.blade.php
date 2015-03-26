@@ -8,13 +8,16 @@
 {{-- Content --}}
 @section('content')
   <div class="page-header">
-    <h3>
-      {{{ $title }}}
+    <span class="h3">{{{ $title }}}</span>
 
-      <div class="pull-right">
-        <a href="{{{ URL::to('admin/affairs/manage/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
-      </div>
-    </h3>
+    <div class="pull-right form-inline">
+      <label class="control-label" for="edit_lang">{{ Lang::get('admin/blogs/translation.select_lang') }}</label>
+      {{ Form::selectStateOrLang('edit_lang', 'lang', [
+        'attr'  => ['class' => 'form-control', 'autocomplete' => 'off'],
+        'noall' => 'noall',
+        'avail' => ['default' => App::getLocale() ]
+        ]) }}
+    </div>
   </div>
 
   <table id="oTable" class="table table-striped table-hover">
@@ -67,7 +70,16 @@ $(document).ready(function() {
         "url": "{{ $url }}",
       },
       "drawCallback": function ( oSettings ) {
-        $(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+        $('a.btn-default').click(function(event) {
+          event.preventDefault();
+          console.log(this);
+        });
+        $(".iframe").colorbox({
+          iframe:true,
+          width:"80%",
+          height:"80%",
+          href: function () { return $(this).attr('href') + "/" + $('#edit_lang').val(); }
+        });
       }
   });
 

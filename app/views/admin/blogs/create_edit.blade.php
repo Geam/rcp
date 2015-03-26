@@ -4,6 +4,7 @@
 @section('styles')
 @if (isset($post))
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
 @endif
 @stop
 
@@ -20,7 +21,7 @@
 	<!-- ./ tabs -->
 
 	{{-- Edit Blog Form --}}
-	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/affairs/' . $post->id . '/edit') }}@endif" autocomplete="off">
+	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -34,7 +35,7 @@
 				<div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
           <div class="col-md-12">
             {{ Form::label('title', Lang::get('admin/blogs/create_edit.title'), array('class' => 'control-label')) }}
-            {{ Form::text('title', Input::old('title', isset($post) ? $post->title() : null), array('class' => 'form-control')) }}
+            {{ Form::text('title', Input::old('title', isset($post) ? $post->title('en') : null), array('class' => 'form-control')) }}
 						{{ $errors->first('title', '<span class="help-block">:message</span>') }}
 					</div>
 				</div>
@@ -72,15 +73,22 @@
 				</div>
         <!-- ./ post slug -->
 
-        <!-- Post affair_id -->
 				<div class="form-group {{{ $errors->has('affair_id') ? 'error' : '' }}}">
-          <div class="col-md-12">
+          <!-- Post affair_id -->
+          <div class="col-md-6">
             <label class="control-label" for="affair_id">{{ Lang::get('admin/blogs/create_edit.affair_id') }}</label>
 						<input class="form-control" type="text" name="affair_id" id="affair_id" value="{{{ Input::old('affair_id', isset($post) ? $post->affair_id : null) }}}" />
 						{{ $errors->first('affair_id', '<span class="help-block">:message</span>') }}
 					</div>
+          <!-- ./ post affair_id -->
+          <!-- Post date -->
+          <div class="col-md-6">
+            <label class="control-label" for="p_date">{{ Lang::get('admin/blogs/create_edit.post_date') }}</label>
+            <input id="p_date" name="p_date" type="text" value="{{{ Input::old('p_date', isset($post) ? date('d/m/Y', strtotime($post->p_date)) : null) }}}" class="form-control">
+            {{ $errors->first('p_date', '<span class="help-block">:message</span>') }}
+          </div>
+          <!-- ./ post date -->
 				</div>
-        <!-- ./ post affair_id -->
 
 				<div class="form-group {{{ $errors->has('post_lang') ? 'error' : '' }}}">
           <!-- Post post_lang -->
@@ -110,7 +118,7 @@
 				<!-- Content -->
 				<div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
 					<div class="col-md-12">
-                        <label class="control-label" for="content">{{ Lang::get('admin/blogs/create_edit.content') }}</label>
+            <label class="control-label" for="content">{{ Lang::get('admin/blogs/create_edit.content') }}</label>
 						<textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
 						{{ $errors->first('content', '<span class="help-block">:message</span>') }}
 					</div>
@@ -179,6 +187,7 @@
 @section('scripts')
 @if (isset($post))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
   $(document).ready(function() {
     $('#tree').jstree({
@@ -209,7 +218,7 @@
       e.preventDefault();
       var form = this;
       $.ajax({
-        url: "{{ URL::to('admin/affairs/' . $post->id . '/category') }}",
+        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/category') }}",
         method: "POST",
         data: {
           _token: $('input[name=_token]')[0].value,
@@ -226,6 +235,13 @@
         .fail( function (ret) {
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         });
+    });
+
+    $('#p_date').datepicker({
+      startView: 1,
+      orientation: "top auto",
+      language: "{{ App::getLocale() }}",
+      autoclose: true
     });
   });
 </script>

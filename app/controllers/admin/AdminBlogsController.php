@@ -2,7 +2,6 @@
 
 class AdminBlogsController extends AdminController {
 
-
   /**
    * Post Model
    * @var Post
@@ -29,11 +28,11 @@ class AdminBlogsController extends AdminController {
     // Title
     $title = Lang::get('admin/blogs/title.blog_management');
 
-    // Grab all the blog posts
-    $posts = $this->post;
+    // url for dataTable ajax
+    $url = URL::to('admin/affairs/manage/data');
 
     // Show the page
-    return View::make('admin/blogs/index', compact('posts', 'title'));
+    return View::make('admin/blogs/index', compact('title', 'url'));
   }
 
   /**
@@ -66,7 +65,8 @@ class AdminBlogsController extends AdminController {
       'nature'      =>  array('required', 'Regex:/^judgement$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
-      'state'       =>  'required|min:2,3'
+      'state'       =>  'required|min:2,3',
+      'p_date'      =>  'required|date'
     );
 
     // Validate the inputs
@@ -85,6 +85,7 @@ class AdminBlogsController extends AdminController {
       $this->post->affair_id        = $input['affair_id'];
       $this->post->lang             = $input['post_lang'];
       $this->post->state            = $input['state'];
+      $this->post->p_date           = date('Y-m-d', strtotime($input['p_date']));
       $this->post->meta_title       = $input['meta-title'];
       $this->post->meta_description = $input['meta-description'];
       $this->post->meta_keywords    = $input['meta-keywords'];
@@ -94,7 +95,7 @@ class AdminBlogsController extends AdminController {
       if($this->post->save())
       {
         // Get Posts_text in english if already exist
-        $posts_text = $this->post->hasMany('Posts_text')->where('lang', '=', $this->post->lang)->first();
+        $posts_text = $this->post->hasMany('Posts_text')->where('lang', '=', "en")->first();
 
         // If it doesn't exist, create a new one
         if (! $posts_text)
@@ -104,22 +105,22 @@ class AdminBlogsController extends AdminController {
         $posts_text->title    = $input['title'];
         $posts_text->content  = $input['content'];
         $posts_text->post_id  = $this->post->id;
-        $posts_text->lang     = $this->post->lang;
+        $posts_text->lang     = "en";
 
         // Was the posts_text updated ?
         if ($posts_text->save())
         {
           // Redirect to the new blog post page
-          return Redirect::to('admin/affairs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+          return Redirect::to('admin/affairs/manage/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
         }
       }
 
       // Redirect to the blogs post management page
-      return Redirect::to('admin/affairs/' . $this->post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+      return Redirect::to('admin/affairs/manage/' . $this->post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
     }
 
     // Form validation failed
-    return Redirect::to('admin/affairs/create')->withInput()->withErrors($validator);
+    return Redirect::to('admin/affairs/manage/create')->withInput()->withErrors($validator);
   }
 
   /**
@@ -165,7 +166,8 @@ class AdminBlogsController extends AdminController {
       'nature'      =>  array('required', 'Regex:/^judgement$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
-      'state'       =>  'required|min:2,3'
+      'state'       =>  'required|min:2,3',
+      'p_date'      =>  'required|date'
     );
 
     // Validate the inputs
@@ -181,6 +183,7 @@ class AdminBlogsController extends AdminController {
       $post->affair_id        = $input['affair_id'];
       $post->lang             = $input['post_lang'];
       $post->state            = $input['state'];
+      $post->p_date           = date('Y-m-d', strtotime($input['p_date']));
       $post->meta_title       = $input['meta-title'];
       $post->meta_description = $input['meta-description'];
       $post->meta_keywords    = $input['meta-keywords'];
@@ -189,7 +192,7 @@ class AdminBlogsController extends AdminController {
       if($post->save())
       {
         // Get Posts_text in english if already exist
-        $posts_text = $post->hasMany('Posts_text')->where('lang', '=', $post->lang)->first();
+        $posts_text = $post->hasMany('Posts_text')->where('lang', '=', "en")->first();
 
         // If it doesn't exist, create a new one
         if (! $posts_text)
@@ -199,22 +202,22 @@ class AdminBlogsController extends AdminController {
         $posts_text->title    = $input['title'];
         $posts_text->content  = $input['content'];
         $posts_text->post_id  = $post->id;
-        $posts_text->lang     = $post->lang;
+        $posts_text->lang     = "en";
 
         // Was the posts_text updated ?
         if ($posts_text->save())
         {
           // Redirect to the new blog post page
-          return Redirect::to('admin/affairs/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+          return Redirect::to('admin/affairs/manage/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
         }
       }
 
       // Redirect to the blogs post management page
-      return Redirect::to('admin/affairs/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+      return Redirect::to('admin/affairs/manage/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
     }
 
     // Form validation failed
-    return Redirect::to('admin/affairs/' . $post->id . '/edit')->withInput()->withErrors($validator);
+    return Redirect::to('admin/affairs/manage/' . $post->id . '/edit')->withInput()->withErrors($validator);
   }
 
   public function postCategory($post)
@@ -294,11 +297,11 @@ class AdminBlogsController extends AdminController {
       if(empty($post))
       {
         // Redirect to the blog posts management page
-        return Redirect::to('admin/affairs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
+        return Redirect::to('admin/affairs/manage')->with('success', Lang::get('admin/blogs/messages.delete.success'));
       }
     }
     // There was a problem deleting the blog post
-    return Redirect::to('admin/affairs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
+    return Redirect::to('admin/affairs/manage')->with('error', Lang::get('admin/blogs/messages.delete.error'));
   }
 
   /**
@@ -314,8 +317,8 @@ class AdminBlogsController extends AdminController {
       ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
       ->edit_column('state', '{{ Lang::get(\'states.\' . $state) }}')
 
-      ->add_column('actions', '<a href="{{{ URL::to(\'admin/affairs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
-      <a href="{{{ URL::to(\'admin/affairs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
+      ->add_column('actions', '<a href="{{{ URL::to(\'admin/affairs/manage/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
+      <a href="{{{ URL::to(\'admin/affairs/manage/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
       ')
 
       ->remove_column('id')
