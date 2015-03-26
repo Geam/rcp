@@ -10,8 +10,8 @@ return array(
   'importance'        => 'Affair Importance',
   'slug'              => 'Affair Slug (url)',
   'nature'            => 'Affair Nature',
-  'affair_id'         => 'Affair Id',
-  'post_lang'         => 'Affair Lang',
+  'affair_id'         => 'Application Number',
+  'post_lang'         => 'Affair Language',
   'state'             => 'Affair State',
   'content'           => 'Content',
 

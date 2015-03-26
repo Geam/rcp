@@ -85,21 +85,34 @@
               @if (Auth::check())
                 @if (Auth::user()->hasRole('admin'))
                   <li {{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}"><span class="glyphicon glyphicon-lock"></span> {{ Lang::get('general.admin_panel') }}</a></li>
-                  <li{{ (Request::is('admin/blogs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/blogs') }}}"><span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair') }}</a></li>
+                @endif
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager'))
+                  <li{{ (Request::is('admin/affairs*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/affairs') }}}"><span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair') }}</a></li>
+                @endif
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('categories manager') || Auth::user()->hasRole('categories translator'))
                   <li class="dropdown{{{ (Request::is('admin/categories*') ? ' active' : '') }}}">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/categories') }}}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/categories/manage') }}}">
                       <span class="glyphicon glyphicon-th-list"></span> {{ Lang::get('general.categories') }}<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <li{{ (Request::is('admin/categories/tree') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/categories/tree') }}}">{{ Lang::get('general.categories_tree') }}</a></li>
+                      @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('categories manager'))
+                      <li{{ (Request::is('admin/categories/manage/tree') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/categories/manage/tree') }}}">{{ Lang::get('general.categories_tree') }}</a></li>
+                      @endif
+                      @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('categories manager') || Auth::user()->hasRole('categories translator'))
+                      <li{{ (Request::is('admin/categories/translation') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/categories/translation') }}}">{{ Lang::get('general.categories_translation') }}</a></li>
+                      @endif
                     </ul>
                   </li>
+                @endif
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('users manager'))
                   <li class="dropdown{{ (Request::is('admin/users*', 'admin/roles*') ? ' active' : '') }}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/users') }}}">
                       <span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.users') }}<span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
+                      @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('users manager'))
                       <li{{ (Request::is('admin/users*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}"><span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.users') }} </a></li>
+                      @endif
                       <li{{ (Request::is('admin/roles*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}"><span class="glyphicon glyphicon-user"></span> {{ Lang::get('general.roles') }} </a></li>
                     </ul>
                   </li>

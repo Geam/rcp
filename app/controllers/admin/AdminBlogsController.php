@@ -110,16 +110,16 @@ class AdminBlogsController extends AdminController {
         if ($posts_text->save())
         {
           // Redirect to the new blog post page
-          return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+          return Redirect::to('admin/affairs/' . $this->post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
         }
       }
 
       // Redirect to the blogs post management page
-      return Redirect::to('admin/blogs/' . $this->post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+      return Redirect::to('admin/affairs/' . $this->post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
     }
 
     // Form validation failed
-    return Redirect::to('admin/blogs/create')->withInput()->withErrors($validator);
+    return Redirect::to('admin/affairs/create')->withInput()->withErrors($validator);
   }
 
   /**
@@ -205,16 +205,16 @@ class AdminBlogsController extends AdminController {
         if ($posts_text->save())
         {
           // Redirect to the new blog post page
-          return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
+          return Redirect::to('admin/affairs/' . $post->id . '/edit')->with('success', Lang::get('admin/blogs/messages.update.success'));
         }
       }
 
       // Redirect to the blogs post management page
-      return Redirect::to('admin/blogs/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
+      return Redirect::to('admin/affairs/' . $post->id . '/edit')->with('error', Lang::get('admin/blogs/messages.update.error'));
     }
 
     // Form validation failed
-    return Redirect::to('admin/blogs/' . $post->id . '/edit')->withInput()->withErrors($validator);
+    return Redirect::to('admin/affairs/' . $post->id . '/edit')->withInput()->withErrors($validator);
   }
 
   public function postCategory($post)
@@ -294,11 +294,11 @@ class AdminBlogsController extends AdminController {
       if(empty($post))
       {
         // Redirect to the blog posts management page
-        return Redirect::to('admin/blogs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
+        return Redirect::to('admin/affairs')->with('success', Lang::get('admin/blogs/messages.delete.success'));
       }
     }
     // There was a problem deleting the blog post
-    return Redirect::to('admin/blogs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
+    return Redirect::to('admin/affairs')->with('error', Lang::get('admin/blogs/messages.delete.error'));
   }
 
   /**
@@ -314,8 +314,8 @@ class AdminBlogsController extends AdminController {
       ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
       ->edit_column('state', '{{ Lang::get(\'states.\' . $state) }}')
 
-      ->add_column('actions', '<a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
-      <a href="{{{ URL::to(\'admin/blogs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
+      ->add_column('actions', '<a href="{{{ URL::to(\'admin/affairs/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
+      <a href="{{{ URL::to(\'admin/affairs/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
       ')
 
       ->remove_column('id')

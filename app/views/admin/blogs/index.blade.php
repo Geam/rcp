@@ -12,7 +12,7 @@
       {{{ $title }}}
 
       <div class="pull-right">
-        <a href="{{{ URL::to('admin/blogs/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+        <a href="{{{ URL::to('admin/affairs/create') }}}" class="btn btn-small btn-info iframe"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
       </div>
     </h3>
   </div>
@@ -64,7 +64,7 @@ $(document).ready(function() {
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url": "{{ URL::to('admin/blogs/data') }}",
+        "url": "{{ URL::to('admin/affairs/data') }}",
       },
       "drawCallback": function ( oSettings ) {
         $(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});

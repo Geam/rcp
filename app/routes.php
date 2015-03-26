@@ -30,6 +30,7 @@ Route::pattern('postid', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
+Route::pattern('lang', '[a-z]{2,3}');
 
 # Apply the detectLang filter to all page but admin
 Route::group(array('before' => 'detectLang'), function()
@@ -46,16 +47,22 @@ Route::group(array('before' => 'detectLang'), function()
     {
       Route::group(array('prefix' => 'manage'), function()
       {
-        Route::post('{category}/update', 'AdminCategoriesController@postUpdate');
-        Route::post('{category}/delete', 'AdminCategoriesController@postDelete');
-        Route::post('addchild', 'AdminCategoriesController@postAddchild');
-        Route::post('rename', 'AdminCategoriesController@postRename');
+        Route::get('tree', 'AdminCategoriesController@tree');
+        Route::post('{category}/update', 'AdminCategoriesController@update');
+        Route::post('{category}/delete', 'AdminCategoriesController@delete');
+        Route::post('addchild', 'AdminCategoriesController@addchild');
+        Route::post('rename', 'AdminCategoriesController@rename');
+      });
+      Route::group(array('prefix' => 'translation'), function()
+      {
+        Route::get('data/{lang}', 'AdminCategoriesTranslationController@getData');
+        Route::controller('/', 'AdminCategoriesTranslationController');
       });
       Route::controller('/', 'AdminCategoriesController');
     });
 
     # Blog Management
-    Route::group(array('prefix' => 'blogs'), function()
+    Route::group(array('prefix' => 'affairs'), function()
     {
       Route::get('{post}/show', 'AdminBlogsController@getShow');
       Route::get('{post}/edit', 'AdminBlogsController@getEdit');

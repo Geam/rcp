@@ -20,7 +20,7 @@
 	<!-- ./ tabs -->
 
 	{{-- Edit Blog Form --}}
-	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/blogs/' . $post->id . '/edit') }}@endif" autocomplete="off">
+	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/affairs/' . $post->id . '/edit') }}@endif" autocomplete="off">
 		<!-- CSRF Token -->
 		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 		<!-- ./ csrf token -->
@@ -209,7 +209,7 @@
       e.preventDefault();
       var form = this;
       $.ajax({
-        url: "{{ URL::to('admin/blogs/' . $post->id . '/category') }}",
+        url: "{{ URL::to('admin/affairs/' . $post->id . '/category') }}",
         method: "POST",
         data: {
           _token: $('input[name=_token]')[0].value,

@@ -5,7 +5,7 @@
 {{{ $title }}} :: @parent
 @stop
 
-{{-- Style --}}
+{{-- Styles --}}
 @section('styles')
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">

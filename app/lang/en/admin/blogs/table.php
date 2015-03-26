@@ -3,9 +3,9 @@
 return array(
 
 	'title'       => 'Affair Title',
-  'affair_id'   => 'Affair id',
+  'affair_id'   => 'Appl. Numb.',
   'importance'  => 'Importance',
-	'lang'        => 'Lang',
+	'lang'        => 'Language',
 	'state'       => 'State',
 	'post_id'     => 'Post Id',
 

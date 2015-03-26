@@ -38,23 +38,12 @@ class AdminCategoriesController extends AdminController
    *
    * @return View
    */
-  public function getTree()
+  public function tree()
   {
     // Title
     $title = Lang::get('admin/categories/title.categories_tree_management');
 
     return View::make('admin/categories/tree', compact('title'));
-  }
-
-  /**
-   * Return the categories tree for the main page.
-   * Will be remove when the jstree will be used on the main page
-   *
-   * @return json
-   */
-  public function getData()
-  {
-    return Response::json(Category::getTree());
   }
 
   /**
@@ -73,7 +62,7 @@ class AdminCategoriesController extends AdminController
    *
    * @return json
    */
-  public function postUpdate($category)
+  public function update($category)
   {
     // Declare the rules for the validator
     $rules = array(
@@ -107,15 +96,8 @@ class AdminCategoriesController extends AdminController
    *
    * @return json
    */
-  public function postAddchild()
+  public function addchild()
   {
-    // mock for test
-//    return Response::json(array(
-//      'node' => 51,
-//      'success' => True,
-//      'errors'  => array('Toto', 'Tata')
-//    ));
-
     // Declare the rules for the validator
     $rules = array(
       '_parent' => 'required|numeric'
@@ -142,27 +124,35 @@ class AdminCategoriesController extends AdminController
     return Response::json($ret);
   }
 
-  public function postRename()
+  /**
+   * Rename a category in a given lang
+   *
+   * @return json
+   */
+  public function rename()
   {
     // Declare rules for validator
     $rules = array(
       '_id'   => 'required|numeric',
       '_long'  => 'required|string',
       '_short' => 'required|string',
+      '_lang' => 'string',
     );
 
     $ret = $this->basicValidator(Input::all(), $rules);
 
     if ($ret['success'])
     {
+      if (!isset($ret['input']['_lang']))
+        $ret['input']['_lang'] = "en";
       $cat_text = Cats_text::where('cat_id', $ret['input']['_id'])
-        ->where('lang', 'en')
+        ->where('lang', $ret['input']['_lang'])
         ->first();
       if (!$cat_text)
       {
         $cat_text = new Cats_text;
         $cat_text->cat_id = $ret['input']['_id'];
-        $cat_text->lang = 'en';
+        $cat_text->lang = $ret['input']['_lang'];
       }
       $cat_text->short_name = $ret['input']['_short'];
       $cat_text->long_name = $ret['input']['_long'];
@@ -177,7 +167,7 @@ class AdminCategoriesController extends AdminController
    *
    * @return json
    */
-  public function postDelete($category)
+  public function delete($category)
   {
     $rules = array(
     );
