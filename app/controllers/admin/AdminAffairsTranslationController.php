@@ -98,7 +98,9 @@ class AdminAffairsTranslationController extends AdminController {
    */
   public function getData()
   {
-    $posts = Post::select(array('posts.id', 'posts.slug', 'posts.affair_id', 'posts.importance', 'posts.lang', 'posts.state'));
+    $posts = Post::join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')
+      ->select('posts.id', 'posts_texts.title', 'posts.affair_id', 'posts.importance', 'posts.lang', 'posts.state')
+      ->where('posts_texts.lang', '=', 'en');
     return Datatables::of($posts)
 
       ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
