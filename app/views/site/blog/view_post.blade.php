@@ -63,16 +63,6 @@
     </table>
   </div>
   <div id="tree"></div>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <tr>
-        <th>{{ Lang::get('filters.categories') }}</th>
-      </tr>
-      @foreach ($post->posts_cats()->get() as $cat)
-        <tr><td>{{ $cat->getParentName() }}</td></tr>
-      @endforeach
-    </table>
-  </div>
 </p>
 <div class="well">
   <div class="pull-right">

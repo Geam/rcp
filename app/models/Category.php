@@ -15,9 +15,9 @@ class Category extends Eloquent {
     return $this->hasMany('Posts_cat', 'cat_id');
   }
 
-  public function cats_text()
+  public function cats_text($lang)
   {
-    $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', App::getLocale())->first();
+    $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', $lang)->first();
     if (! $temp)
       $temp = $this->hasMany('Cats_text', 'cat_id')->where('lang', '=', 'en')->first();
     return $temp;
@@ -42,32 +42,6 @@ class Category extends Eloquent {
       return $tree[$id]['short_name'];
   }
 
-  static public function getTree()
-  {
-    $tree = array();
-    $tree[0] = array(
-      'childs' => array()
-    );
-
-    $all = Category::all();
-    foreach ($all as $cat)
-    {
-      $temp = $cat->cats_text();
-      $tree[$cat->id] = array(
-        'id'          =>  $cat->id,
-        'parent_id'   =>  $cat->parent_id,
-        'short_name'  =>  $temp->short_name,
-        'long_name'   =>  $temp->long_name,
-      );
-      if (! isset($tree[$cat->id]['childs']))
-        $tree[$cat->id]['childs'] = array();
-      if (! isset($tree[$cat->parent_id]))
-        $tree[$cat->parent_id] = array('childs' => array());
-      $tree[$cat->parent_id]['childs'][] = $cat->id;
-    }
-    return $tree;
-  }
-
   static public function jsTree($lang)
   {
     $all = Category::select(
@@ -75,7 +49,7 @@ class Category extends Eloquent {
       'categories.parent_id as parent'
     )->get();
     for ($i = 0; $i < count($all); $i++) {
-      $temp = $all[$i]->cats_text();
+      $temp = $all[$i]->cats_text($lang);
       $all[$i]['text'] = $temp->short_name;
       $all[$i]['long'] = $temp->long_name;
       if ($all[$i]['parent'] == '0')

@@ -37,9 +37,6 @@ class BlogController extends BaseController {
     // Get all the blog posts
     $posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
 
-    // Get the category tree
-    $tree = Category::getTree();
-
     // Show the page
     return View::make('site/blog/index', compact('posts', 'posts_texts', 'tree'));
   }

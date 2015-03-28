@@ -103,7 +103,6 @@
   <script type="text/javascript">
 
     // var for categories filters
-    var catTree = {{ json_encode($tree) }};
     var gTable = {};
 
     // select to transform in select2
