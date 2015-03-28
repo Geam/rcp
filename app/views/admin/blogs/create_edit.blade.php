@@ -4,8 +4,8 @@
 @section('styles')
 @if (isset($post))
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
-<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
 @endif
+<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
 @stop
 
 {{-- Content --}}
@@ -187,9 +187,11 @@
 @section('scripts')
 @if (isset($post))
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+@endif
 <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
   $(document).ready(function() {
+    @if (isset($post))
     $('#tree').jstree({
       core: {
         animation: 0,
@@ -236,6 +238,7 @@
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         });
     });
+    @endif
 
     $('#p_date').datepicker({
       startView: 1,
@@ -246,5 +249,4 @@
     });
   });
 </script>
-@endif
 @stop
