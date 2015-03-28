@@ -241,7 +241,8 @@
       startView: 1,
       orientation: "top auto",
       language: "{{ App::getLocale() }}",
-      autoclose: true
+      autoclose: true,
+      format: "dd-mm-yyyy",
     });
   });
 </script>
