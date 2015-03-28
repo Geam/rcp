@@ -86,7 +86,7 @@
                 @if (Auth::user()->hasRole('admin'))
                   <li {{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}"><span class="glyphicon glyphicon-lock"></span> {{ Lang::get('general.admin_panel') }}</a></li>
                 @endif
-                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager') || Auth::user()->hasRole('affairs translator'))
                   <li class="dropdown{{{ (Request::is('admin/affairs*') ? ' active' : '') }}}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/categories/translate') }}}">
                       <span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair') }}<span class="caret"></span>
