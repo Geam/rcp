@@ -169,7 +169,7 @@ class BlogController extends BaseController {
           'state'       => Lang::get('states.' . $post->state),
           'url'         => $post->url(),
           'nature'      => $post->nature,
-          'date'        => date('d/m/Y', strtotime($post->p_date)),
+          'date'        => date('d-m-Y', strtotime($post->p_date)),
           'title'       => $post->title,
           'content'     => $post->content
         );
