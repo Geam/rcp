@@ -84,7 +84,7 @@
           <!-- Post date -->
           <div class="col-md-6">
             <label class="control-label" for="p_date">{{ Lang::get('admin/blogs/create_edit.post_date') }}</label>
-            <input id="p_date" name="p_date" type="text" value="{{{ Input::old('p_date', isset($post) ? date('d/m/Y', strtotime($post->p_date)) : null) }}}" class="form-control">
+            <input id="p_date" name="p_date" type="text" value="{{{ Input::old('p_date', isset($post) ? date('d-m-Y', strtotime($post->p_date)) : null) }}}" class="form-control">
             {{ $errors->first('p_date', '<span class="help-block">:message</span>') }}
           </div>
           <!-- ./ post date -->

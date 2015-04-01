@@ -135,7 +135,7 @@ Form::macro('only_my_lang', function($name, $label, $value)
 {
   $ret = '<div class="col-md-12 form-group form-inline">' .
     '<label class="control-label" for="' . $name . '">' . $label . '</label>' .
-    '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '">' .
+    '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '" class="form-control">' .
     '</div>';
   return $ret;
 });

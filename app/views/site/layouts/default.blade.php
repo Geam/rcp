@@ -95,7 +95,7 @@
                       @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager'))
                         <li{{ (Request::is('admin/affairs/manage*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/affairs/manage') }}}"><span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair_management') }}</a></li>
                       @endif
-                      @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs translator'))
+                      @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager') || Auth::user()->hasRole('affairs translator'))
                         <li{{ (Request::is('admin/affairs/translate*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/affairs/translate') }}}"><span class="glyphicon glyphicon-file"></span> {{ Lang::get('general.affair_translation') }}</a></li>
                       @endif
                     </ul>
