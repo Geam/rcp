@@ -128,7 +128,7 @@ class BlogController extends BaseController {
 
     // add lang filter
     if (Input::has('lang') && $input['lang'] != '00')
-      $posts = $posts->where('lang', $input['lang']);
+      $posts = $posts->where('posts.lang', $input['lang']);
 
     // add state filter
     if (Input::has('state') && $input['state'] != '00')

@@ -100,14 +100,10 @@ Form::macro('inputDate', function($name, $range)
     '</span>' .
     '<input type="text" class="form-control" id="' .
     $name . '" name="' .
-    $name . '"';
-  if (!$range)
+    $name . '"onchange="requestData()">';
+  if ($range)
   {
-    $ret = 'onchange="requestData()">';
-  }
-  else
-  {
-      $ret .= '><span class="input-group-addon">' .
+      $ret .= '<span class="input-group-addon">' .
       Lang::get('filters.to') . '</span>' .
       '<input type="text" class="form-control" id="' .
       $name . '_2" name="' .
@@ -134,8 +130,16 @@ Form::macro('jsTreeSearch', function($name)
 Form::macro('only_my_lang', function($name, $label, $value)
 {
   $ret = '<div class="col-md-12 form-group form-inline">' .
-    '<label class="control-label" for="' . $name . '">' . $label . '</label>' .
-    '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '" class="form-control">' .
+    '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '" class="form-control" onchange="requestData()">' .
+    ' <label class="control-label" for="' . $name . '">' . $label . '</label>' .
     '</div>';
   return $ret;
+});
+
+Form::macro('tabs_upper_part', function($name, $class)
+{
+	$ret = '<li role="presentation" class="' . $class . '">' .
+		'<a href="#tab_' . $name . '" role="tab" data-toggle="tab">' . Lang::get('filters.' . $name) . '</a>' .
+		'</li>';
+	return $ret;
 });

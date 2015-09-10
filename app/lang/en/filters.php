@@ -20,7 +20,8 @@ return array(
   'range'         => "Date range",
   'search'        => "Search",
   'only_my_lang'  => "Only my lang",
-  'oml_extend'    => "Show only the resultat in current lang",
+  'oml_extend'    => "Show only the resultat available in my lang",
+	'adv_search'		=> "Advance search",
 
   'natures'       => array(
     'judgement'   => 'Judgement',
