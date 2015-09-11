@@ -136,7 +136,7 @@
               @if (Auth::check())
                 <li class="dropdown">
                   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="glyphicon glyphicon-user"></span> {{{ Auth::user()->username }}}	<span class="caret"></span>
+                    <span class="glyphicon glyphicon-user"></span> {{{ Auth::user()->username }}} <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
                     <li><a href="{{{ URL::to('user/settings') }}}"><span class="glyphicon glyphicon-wrench"></span>{{ Lang::get('general.settings') }}</a></li>
@@ -150,8 +150,8 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Lang::get('general.site_lang') . ' : ' . App::getLocale() }}<span class="caret"></span></a>
                 <ul class="dropdown-menu scrollable-dropdown" role="menu">
-                  @foreach( Config::get('constants.langs') as $key => $value )
-                    <li>{{ link_to_route('language.select', $key, [$key]) }}</li>
+                  @foreach( Config::get('app.available_language') as $value )
+                    <li>{{ link_to_route('language.select', $value, [$value]) }}</li>
                   @endforeach
                 </ul>
               </li>
