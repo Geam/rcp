@@ -2,8 +2,8 @@
 
 return array(
 
-	'edit'    => 'Edit',
+  'edit'    => 'Edit',
   'content' => 'Content',
-	'delete'  => 'Delete',
+  'delete'  => 'Delete',
   'search'  => 'Search',
 );

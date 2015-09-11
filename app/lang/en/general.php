@@ -2,8 +2,8 @@
 
 return array(
 
-	'yes' => 'Yes',
-	'no'  => 'No',
+  'yes' => 'Yes',
+  'no'  => 'No',
   'must_login' => 'Must be logged in.',
 
   // navbar
@@ -13,13 +13,14 @@ return array(
   'logout'                  => 'Logout',
   'login'                   => 'Login',
   'settings'                => 'Settings',
-  'affair'                  => 'Affairs',
-  'affair_management'       => 'Affairs management',
-  'affair_translation'      => 'Affairs translation',
-  'categories'              => 'Categories',
-  'categories_tree'         => 'Categories tree',
-  'categories_translation'  => 'Categories translation',
+  'affair'                  => 'Cases',
+  'affair_management'       => 'Cases management',
+  'affair_translation'      => 'Cases translation',
+  'categories'              => 'Keywords',
+  'categories_tree'         => 'Keywords tree',
+  'categories_translation'  => 'Keywords translation',
   'users'                   => 'Users',
   'roles'                   => 'Roles',
+  'site_lang'               => 'Site display lang',
 
 );

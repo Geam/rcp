@@ -148,7 +148,7 @@
                 <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">{{ Lang::get('general.login') }}</a></li>
               @endif
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ App::getLocale() }}<span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Lang::get('general.site_lang') . ' : ' . App::getLocale() }}<span class="caret"></span></a>
                 <ul class="dropdown-menu scrollable-dropdown" role="menu">
                   @foreach( Config::get('constants.langs') as $key => $value )
                     <li>{{ link_to_route('language.select', $key, [$key]) }}</li>

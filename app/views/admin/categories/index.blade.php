@@ -12,17 +12,17 @@
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
-			<div class="pull-right">
+  <div class="page-header">
+    <h3>
+      {{{ $title }}}
+      <div class="pull-right">
         <div class="input-groupe form-inline">
           <span class="input-grpup-addon">{{ Lang::get('filters.search') }}</span>
           <input id="tree_q" class="form-control">
         </div>
-			</div>
-		</h3>
-	</div>
+      </div>
+    </h3>
+  </div>
   <div id="alert" class="alert alert-warning hide" role="alert">
     <span class="pull-right">x</span>
     <ul></ul>

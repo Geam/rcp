@@ -13,11 +13,11 @@
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
-		</h3>
-	</div>
+  <div class="page-header">
+    <h3>
+      {{{ $title }}}
+    </h3>
+  </div>
   <div id="alert" class="alert alert-warning hide" role="alert">
     <span class="pull-right">x</span>
     <ul></ul>

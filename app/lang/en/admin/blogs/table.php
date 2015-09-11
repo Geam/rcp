@@ -2,11 +2,11 @@
 
 return array(
 
-	'title'       => 'Affair Title',
+  'title'       => 'Case Title',
   'affair_id'   => 'Appl. Numb.',
   'importance'  => 'Importance',
-	'lang'        => 'Language',
-	'state'       => 'State',
-	'post_id'     => 'Post Id',
+  'lang'        => 'Language',
+  'state'       => 'State',
+  'post_id'     => 'Post Id',
 
 );

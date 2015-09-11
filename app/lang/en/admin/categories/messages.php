@@ -5,7 +5,7 @@ return array(
     'unknown' => "An error has occur, please retry later",
   ),
   'success' => array(
-    'addChild'  => "Category add successfully",
+    'addChild'  => "Keyword add successfully",
     'update'    => "Update succressful",
   ),
   'tooltip'       => "Please provided a tooltip",

@@ -1,7 +1,7 @@
 <?php
 
 return array(
-  'all' =>  'All',
+  'all' =>  'Tous',
   'al'  =>  'Albanie',
   'ad'  =>  'Andorre',
   'am'  =>  'Arménie',

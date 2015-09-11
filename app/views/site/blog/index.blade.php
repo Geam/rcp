@@ -32,106 +32,106 @@
 <div class="jumbotron">
 {{ Form::token() }}
 
-	<ul class="nav nav-tabs" role="tablist">
-		{{ Form::tabs_upper_part('adv_search', 'active'); }}
-		{{ Form::tabs_upper_part('category', ''); }}
-	</ul>
-	<div class="tab-content">
-		<div class="tab-pane active form-horizontal" id="tab_adv_search">
-			<!-- Post Title -->
-			<div class="form-group">
+  <ul class="nav nav-tabs" role="tablist">
+    {{ Form::tabs_upper_part('adv_search', 'active'); }}
+    {{ Form::tabs_upper_part('categories', ''); }}
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active form-horizontal" id="tab_adv_search">
+      <!-- Post Title -->
+      <div class="form-group">
         <div class="col-md-12">
           {{ Form::label('r_title', Lang::get('filters.title'), [ 'class' => 'control-label' ]) }}
           {{ Form::text('r_title', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)' ]) }}
-				</div>
-			</div>
-			<!-- ./ post title -->
+        </div>
+      </div>
+      <!-- ./ post title -->
 
-			<div class="form-group">
+      <div class="form-group">
         <!-- Post importance -->
         <div class="col-md-6">
-					{{ Form::label('r_importance', Lang::get('filters.importance'), [ 'class' => "control-label" ]) }}
-					{{ Form::number('r_importance', null, [ 'class' => "form-control", 'id' => "r_importance", 'min' => 0, 'max' => 3, 'onchange' => 'requestData()' ]) }}
-				</div>
+          {{ Form::label('r_importance', Lang::get('filters.importance'), [ 'class' => "control-label" ]) }}
+          {{ Form::select('r_importance', [ 0 => 'CR', 1 => 1, 2 => 2, 3 => 3 ], 0, [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]) }}
+        </div>
         <!-- ./ post importance -->
         <!-- post nature -->
         <div class="col-md-6">
-					{{ Form::label('r_nature', Lang::get('filters.nature'), [ 'class' => "control-label" ]) }}
+          {{ Form::label('r_nature', Lang::get('filters.nature'), [ 'class' => "control-label" ]) }}
           {{ Form::nature('r_nature', [
             'attr' => [
-							'class' => 'form-control',
-							'onchange' => 'requestData()'
+              'class' => 'form-control',
+              'onchange' => 'requestData()'
             ],
             'default' => null
-          ]) }}
-				</div>
+          ], true) }}
+        </div>
         <!-- ./ post nature -->
-			</div>
+      </div>
 
-			<div class="form-group">
+      <div class="form-group">
         <!-- Post affair_id -->
         <div class="col-md-6">
-					{{ Form::label('r_affair_id', Lang::get('filters.affair_id'), [ 'class' => 'control-label' ]) }}
-					{{ Form::text('r_affair_id', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => "r_affair_id" ]) }}
-				</div>
+          {{ Form::label('r_affair_id', Lang::get('filters.affair_id'), [ 'class' => 'control-label' ]) }}
+          {{ Form::text('r_affair_id', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => "r_affair_id" ]) }}
+        </div>
         <!-- ./ post affair_id -->
         <!-- Post date -->
         <div class="col-md-6">
-					{{ Form::label('r_date', Lang::get('filters.date'), [ 'class' => 'control-label' ]) }}
-					{{ Form::inputDate('r_date', True) }}
+          {{ Form::label('r_date', Lang::get('filters.date'), [ 'class' => 'control-label' ]) }}
+          {{ Form::inputDate('r_date', True) }}
         </div>
         <!-- ./ post date -->
-			</div>
+      </div>
 
-			<div class="form-group">
+      <div class="form-group">
         <!-- Post post_lang -->
         <div class="col-md-6">
-					{{ Form::label('r_lang', Lang::get('filters.lang'), [ 'class' => 'control-label' ]) }}
+          {{ Form::label('r_lang', Lang::get('filters.lang'), [ 'class' => 'control-label' ]) }}
           {{ Form::selectStateOrLang('r_lang', 'lang', [
-						'attr' => [
-							'class' => 'form-control',
-							'onchange' => 'requestData()'
-						],
+            'attr' => [
+              'class' => 'form-control',
+              'onchange' => 'requestData()'
+            ],
             'avail' => null
             ]) }}
-				</div>
+        </div>
         <!-- ./ post post_lang -->
         <!-- Post state -->
         <div class="col-md-6">
-					{{ Form::label('r_state', Lang::get('filters.state'), [ 'class' => "control-label" ]) }}
+          {{ Form::label('r_state', Lang::get('filters.state'), [ 'class' => "control-label" ]) }}
           {{ Form::selectStateOrLang('r_state', 'state', [
-						'attr' => [
-							'class' => 'form-control',
-							'onchange' => 'requestData()'
-						],
+            'attr' => [
+              'class' => 'form-control',
+              'onchange' => 'requestData()'
+            ],
             'avail' => null
             ]) }}
-				</div>
+        </div>
         <!-- ./ post state -->
-			</div>
+      </div>
 
-			<div class="form-group">
-				<div class="col-md-12">
-					{{ Form::label('r_oml', Lang::get('filters.only_my_lang'), [ 'class' => "control-label" ]) }}
-					{{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), 'value') }}
-				</div>
-			</div>
+      <div class="form-group">
+        <div class="col-md-12">
+          {{ Form::label('r_oml', Lang::get('filters.only_my_lang'), [ 'class' => "control-label" ]) }}
+          {{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), 'value') }}
+        </div>
+      </div>
 
-			<!-- Post Content -->
-			<div class="form-group">
+      <!-- Post Content -->
+      <div class="form-group">
         <div class="col-md-12">
           {{ Form::label('r_content', Lang::get('filters.content'), [ 'class' => 'control-label' ]) }}
-					{{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
-				</div>
-			</div>
-			<!-- ./ post title -->
+          {{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
+        </div>
+      </div>
+      <!-- ./ post title -->
 
-		</div>
+    </div>
 
-		<div class="tab-pane" id="tab_category">
-		{{ Form::jsTreeSearch('tree') }}
-		</div>
-	</div>
+    <div class="tab-pane" id="tab_categories">
+    {{ Form::jsTreeSearch('tree') }}
+    </div>
+  </div>
 </div>
 
 <div id="results" class="well" style="background: #FFF">
@@ -185,39 +185,39 @@
   <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
   <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/sorting/numeric-comma.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
-  <script type="text/javascript">
+<script type="text/javascript">
 
-    // var for categories filters
-    var gTable = {};
+// var for categories filters
+var gTable = {};
 
-    // select to transform in select2
-    $( document ).ready(function() {
-      // add the select
-      //$('#r_lang').select2({ width: '100%' });
-      //$('#r_state').select2({ width: '100%' });
+// select to transform in select2
+$( document ).ready(function() {
+  // add the select
+  //$('#r_lang').select2({ width: '100%' });
+  //$('#r_state').select2({ width: '100%' });
 
-      // add the reset
-      $('.nav-tabs').append('<li class="navbar-right" id="reset" onclick="reset()"><a>{{ Lang::get('filters.reset') }}</a></li>');
+  // add the reset
+  $('.nav-tabs').append('<li class="navbar-right" id="reset" onclick="reset()"><a>{{ Lang::get('filters.reset') }}</a></li>');
 
-      // initiate datepicker
-      $('input[id^="r_date"]').datepicker({
-        startView: 1,
-        orientation: "top auto",
-        language: "{{ App::getLocale() }}",
-        autoclose: true,
-        format: "dd-mm-yyyy",
+  // initiate datepicker
+  $('input[id^="r_date"]').datepicker({
+  startView: 1,
+    orientation: "top auto",
+    language: "{{ App::getLocale() }}",
+    autoclose: true,
+    format: "dd-mm-yyyy",
       });
 
       // init dataTable
       gTable.table = $('#oTable').DataTable( {
-        "scrollX": true,
+      "scrollX": true,
         "bSortCellsTop": true,
         "ajax": {
-          "url": "search",
+        "url": "search",
           "type": "POST",
           "data": function () { return buildAjaxObj(); }
         },
-        "columns": [
+          "columns": [
           { "data": "title" },
           { "data": "affair_id" },
           { "data": "importance" },
@@ -230,37 +230,37 @@
           { "type": "numeric-comma", targets: 3 }
         ],
         "language": {
-          "url": "{{ Lang::get('filters.dataTable') }}"
+        "url": "{{ Lang::get('filters.dataTable') }}"
         },
         "initComplete" : function () {
           // needed to avoid ugly paginate
           $('#oTable_paginate')
             .removeClass('dataTables_paginate')
             .css( {
-              'float': 'right'
+            'float': 'right'
             } )
             .find('ul')
-              .css( {
-                'margin': '8px 0px 0px 0px'
+            .css( {
+            'margin': '8px 0px 0px 0px'
               } );
           // hide the duplicate sort icon
           $('.dataTables_scrollBody thead tr').addClass('hidden');
         },
-        "drawCallback": function () {
-          // hide the duplicate sort icon
-          $('.dataTables_scrollBody thead tr').addClass('hidden')
+          "drawCallback": function () {
+            // hide the duplicate sort icon
+            $('.dataTables_scrollBody thead tr').addClass('hidden')
         }
       });
 
       // apply the filter to dataTable
-//      $('thead th input').each( function (id) {
-//        $(this).on('keyup change', function () {
-//          gTable.table
-//            .column( id )
-//            .search( this.value )
-//            .draw();
-//        });
-//      });
+      //      $('thead th input').each( function (id) {
+      //        $(this).on('keyup change', function () {
+      //          gTable.table
+      //            .column( id )
+      //            .search( this.value )
+      //            .draw();
+      //        });
+      //      });
 
       // when a row is clik, open the affair in new tab
       $('#oTable tbody').on('click', 'tr', function(e) {
@@ -269,13 +269,13 @@
 
       // init the categorie tree
       $('#tree').jstree({
-        core: {
-          animation: 0,
-          check_callback: true,
-          theme: { stripes: true },
-          data: {
-            url: "{{ URL::to('cattree') }}",
-            dataType: "json"
+      core: {
+      animation: 0,
+        check_callback: true,
+        theme: { stripes: true },
+        data: {
+        url: "{{ URL::to('cattree') }}",
+          dataType: "json"
           },
         },
         plugins: [
@@ -284,8 +284,8 @@
           "wholerow", // click everywhere on the row to select
         ]
       })
-        .bind("changed.jstree", function (e, data) {
-          requestData();
+      .bind("changed.jstree", function (e, data) {
+        requestData();
         });
 
       // highlight tree node based on search
@@ -319,8 +319,8 @@
 
     function checkEnter(elem,e) {
       var code = e.keyCode || e.which;
-       if(code == 13) { //Enter keycode
-         requestData();
+      if(code == 13) { //Enter keycode
+        requestData();
         }
     }
 
@@ -328,11 +328,11 @@
       // create object for request
       var r_json = {};
 
-			// get the fields
-			r_json['title'] = $('#r_title')[0].varue;
-			r_json['importance'] = $('#r_importance')[0].varue;
-			r_json['nature'] = $('#r_nature')[0].varue;
-			r_json['affair_id'] = $('#r_affair_id')[0].varue;
+      // get the fields
+      r_json['title'] = $('#r_title')[0].value;
+      r_json['importance'] = $('#r_importance')[0].value;
+      r_json['nature'] = $('#r_nature')[0].value;
+      r_json['affair_id'] = $('#r_affair_id')[0].value;
       r_json['date'] = $('#r_date')[0].value;
       r_json['date_2'] = $('#r_date_2')[0].value;
       r_json['lang'] = $('#r_lang')[0].value;

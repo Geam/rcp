@@ -4,8 +4,8 @@ Form::macro('selectFilter', function($name, $categories, $default)
 {
   # initialisation of select
   $ret = '<div>' .
-    '<select id="' .  $name .
-    '" class="form-control" name="' .  $name .
+    '<select id="' . $name .
+    '" class="form-control" name="' . $name .
     '" onChange="updateFilter(this);requestData()">';
 
   # append default entry
@@ -69,7 +69,7 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
   return $ret;
 });
 
-Form::macro('nature', function($name, array $options)
+Form::macro('nature', function($name, array $options, $all_option)
 {
   $ret = '<select id="' . $name . '" name="' . $name . '" ';
   if (isset($options['attr']))
@@ -80,6 +80,8 @@ Form::macro('nature', function($name, array $options)
     }
   }
   $ret .= '>';
+  if ($all_option)
+    $ret .= '<option value="all">' . Lang::get('filters.all') . '</option>';
   $all = Config::get('constants.natures');
   foreach ($all as $key => $value)
   {
@@ -103,7 +105,7 @@ Form::macro('inputDate', function($name, $range)
     $name . '"onchange="requestData()">';
   if ($range)
   {
-      $ret .= '<span class="input-group-addon">' .
+    $ret .= '<span class="input-group-addon">' .
       Lang::get('filters.to') . '</span>' .
       '<input type="text" class="form-control" id="' .
       $name . '_2" name="' .
@@ -138,8 +140,8 @@ Form::macro('only_my_lang', function($name, $label, $value)
 
 Form::macro('tabs_upper_part', function($name, $class)
 {
-	$ret = '<li role="presentation" class="' . $class . '">' .
-		'<a href="#tab_' . $name . '" role="tab" data-toggle="tab">' . Lang::get('filters.' . $name) . '</a>' .
-		'</li>';
-	return $ret;
+  $ret = '<li role="presentation" class="' . $class . '">' .
+    '<a href="#tab_' . $name . '" role="tab" data-toggle="tab">' . Lang::get('filters.' . $name) . '</a>' .
+    '</li>';
+  return $ret;
 });

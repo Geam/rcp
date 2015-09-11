@@ -38,14 +38,14 @@
 var oTable;
 $(document).ready(function() {
   oTable = $('#roles').DataTable( {
-    "dom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+  "dom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
     "language": {
-      "url": "{{ Lang::get('filters.dataTable') }}"
+    "url": "{{ Lang::get('filters.dataTable') }}"
     },
     "processing": true,
     "serverSide": true,
     "ajax": {
-      "url": "{{ URL::to('admin/roles/data') }}",
+    "url": "{{ URL::to('admin/roles/data') }}",
     },
     "drawCallback": function ( oSettings ) {
       $(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});

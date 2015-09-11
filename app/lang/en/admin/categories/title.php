@@ -2,8 +2,8 @@
 
 return array(
 
-  'categories_management'       => 'Categories Management',
-  'categories_tree_management'  => 'Categories Tree Management',
-  'categories_translation'      => 'Categories Translation',
+  'categories_management'       => 'Keywords Management',
+  'categories_tree_management'  => 'Keywords Tree Management',
+  'categories_translation'      => 'Keywords Translation',
 
 );

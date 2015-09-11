@@ -60,14 +60,14 @@ $(document).ready(function() {
 
   // init the dataTable
   oTable = $('#oTable').DataTable( {
-    "dom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
-      "language": {
-        "url": "{{ Lang::get('filters.dataTable') }}"
+  "dom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+    "language": {
+    "url": "{{ Lang::get('filters.dataTable') }}"
       },
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url": "{{ $url }}",
+      "url": "{{ $url }}",
       },
       "drawCallback": function ( oSettings ) {
         $('a.btn-default').click(function(event) {
@@ -75,7 +75,7 @@ $(document).ready(function() {
           console.log(this);
         });
         $(".iframe").colorbox({
-          iframe:true,
+        iframe:true,
           width:"80%",
           height:"80%",
           href: function () { return $(this).attr('href') + "/" + $('#edit_lang').val(); }

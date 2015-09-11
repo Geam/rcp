@@ -10,44 +10,49 @@
 
 {{-- Content --}}
 @section('content')
-	<!-- Tabs -->
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab-general" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.general') }}</a></li>
+  <!-- Tabs -->
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab-general" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.general') }}</a></li>
       @if (isset($post))
       <li><a href="#tab-tree" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.categories') }}</a></li>
       @endif
-			<li><a href="#tab-meta-data" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.meta') }}</a></li>
-		</ul>
-	<!-- ./ tabs -->
+      <li><a href="#tab-meta-data" data-toggle="tab">{{ Lang::get('admin/blogs/create_edit.meta') }}</a></li>
+    </ul>
+  <!-- ./ tabs -->
 
-	{{-- Edit Blog Form --}}
-	<form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}@endif" autocomplete="off">
-		<!-- CSRF Token -->
-		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-		<!-- ./ csrf token -->
+  {{-- Edit Blog Form --}}
+  <form id="form" class="form-horizontal" method="post" action="@if (isset($post)){{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}@endif" autocomplete="off">
+    <!-- CSRF Token -->
+    <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+    <!-- ./ csrf token -->
 
-		<!-- Tabs Content -->
-		<div class="tab-content">
-			<!-- General tab -->
-			<div class="tab-pane active" id="tab-general">
+    <!-- Tabs Content -->
+    <div class="tab-content">
+      <!-- General tab -->
+      <div class="tab-pane active" id="tab-general">
 
-				<!-- Post Title -->
-				<div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
+        <!-- Post Title -->
+        <div class="form-group {{{ $errors->has('title') ? 'error' : '' }}}">
           <div class="col-md-12">
             {{ Form::label('title', Lang::get('admin/blogs/create_edit.title'), array('class' => 'control-label')) }}
             {{ Form::text('title', Input::old('title', isset($post) ? $post->title('en') : null), array('class' => 'form-control')) }}
-						{{ $errors->first('title', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-				<!-- ./ post title -->
+            {{ $errors->first('title', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
+        <!-- ./ post title -->
 
-				<div class="form-group {{{ $errors->has('importance') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('importance') ? 'error' : '' }}}">
           <!-- Post importance -->
           <div class="col-md-6">
             <label class="control-label" for="importance">{{ Lang::get('admin/blogs/create_edit.importance') }}</label>
-						<input class="form-control" type="number" name="importance" id="importance" value="{{{ Input::old('importance', isset($post) ? $post->importance : null) }}}" min=0 max=3 />
-						{{ $errors->first('importance', '<span class="help-block">:message</span>') }}
-					</div>
+          {{ Form::select(
+            'importance',
+            [ 0 => 'CR', 1 => 1, 2 => 2, 3 => 3 ],
+            Input::old('importance', isset($post) ? $post->importance : null),
+            [ 'class' => "form-control", 'id' => "importance", 'onchange' => 'requestData()'
+          ]) }}
+            {{ $errors->first('importance', '<span class="help-block">:message</span>') }}
+          </div>
           <!-- ./ post importance -->
           <!-- post nature -->
           <div class="col-md-6">
@@ -57,29 +62,29 @@
                 'class' => 'form-control'
               ],
               'default' => isset($post) ? $post->nature : null
-            ]) }}
-						{{ $errors->first('nature', '<span class="help-block">:message</span>') }}
-					</div>
+            ], false) }}
+            {{ $errors->first('nature', '<span class="help-block">:message</span>') }}
+          </div>
           <!-- ./ post nature -->
-				</div>
+        </div>
 
         <!-- Post slug -->
-				<div class="form-group {{{ $errors->has('slug') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('slug') ? 'error' : '' }}}">
           <div class="col-md-12">
             <label class="control-label" for="slug">{{ Lang::get('admin/blogs/create_edit.slug') }}</label>
-						<input class="form-control" type="text" name="slug" id="slug" value="{{{ Input::old('slug', isset($post) ? $post->slug : null) }}}"/>
-						{{ $errors->first('slug', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
+            <input class="form-control" type="text" name="slug" id="slug" value="{{{ Input::old('slug', isset($post) ? $post->slug : null) }}}"/>
+            {{ $errors->first('slug', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
         <!-- ./ post slug -->
 
-				<div class="form-group {{{ $errors->has('affair_id') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('affair_id') ? 'error' : '' }}}">
           <!-- Post affair_id -->
           <div class="col-md-6">
             <label class="control-label" for="affair_id">{{ Lang::get('admin/blogs/create_edit.affair_id') }}</label>
-						<input class="form-control" type="text" name="affair_id" id="affair_id" value="{{{ Input::old('affair_id', isset($post) ? $post->affair_id : null) }}}" />
-						{{ $errors->first('affair_id', '<span class="help-block">:message</span>') }}
-					</div>
+            <input class="form-control" type="text" name="affair_id" id="affair_id" value="{{{ Input::old('affair_id', isset($post) ? $post->affair_id : null) }}}" />
+            {{ $errors->first('affair_id', '<span class="help-block">:message</span>') }}
+          </div>
           <!-- ./ post affair_id -->
           <!-- Post date -->
           <div class="col-md-6">
@@ -88,9 +93,9 @@
             {{ $errors->first('p_date', '<span class="help-block">:message</span>') }}
           </div>
           <!-- ./ post date -->
-				</div>
+        </div>
 
-				<div class="form-group {{{ $errors->has('post_lang') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('post_lang') ? 'error' : '' }}}">
           <!-- Post post_lang -->
           <div class="col-md-6">
             <label class="control-label" for="post_lang">{{ Lang::get('admin/blogs/create_edit.post_lang') }}</label>
@@ -99,8 +104,8 @@
               'noall' => 'noall',
               'avail' => ['default' => isset($post) ? $post->lang : null]
               ]) }}
-						{{ $errors->first('post_lang', '<span class="help-block">:message</span>') }}
-					</div>
+            {{ $errors->first('post_lang', '<span class="help-block">:message</span>') }}
+          </div>
           <!-- ./ post post_lang -->
           <!-- Post state -->
           <div class="col-md-6">
@@ -110,22 +115,22 @@
               'noall' => 'noall',
               'avail' => ['default' => isset($post) ? $post->state : null]
               ]) }}
-						{{ $errors->first('state', '<span class="help-block">:message</span>') }}
-					</div>
+            {{ $errors->first('state', '<span class="help-block">:message</span>') }}
+          </div>
           <!-- ./ post state -->
-				</div>
+        </div>
 
-				<!-- Content -->
-				<div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
-					<div class="col-md-12">
+        <!-- Content -->
+        <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
+          <div class="col-md-12">
             <label class="control-label" for="content">{{ Lang::get('admin/blogs/create_edit.content') }}</label>
-						<textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
-						{{ $errors->first('content', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-				<!-- ./ content -->
-			</div>
-			<!-- ./ general tab -->
+            <textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
+            {{ $errors->first('content', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
+        <!-- ./ content -->
+      </div>
+      <!-- ./ general tab -->
 
       @if (isset($post))
       <!-- Categories tab -->
@@ -135,52 +140,52 @@
       <!-- ./ categories tab -->
       @endif
 
-			<!-- Meta Data tab -->
-			<div class="tab-pane" id="tab-meta-data">
-				<!-- Meta Title -->
-				<div class="form-group {{{ $errors->has('meta-title') ? 'error' : '' }}}">
-					<div class="col-md-12">
+      <!-- Meta Data tab -->
+      <div class="tab-pane" id="tab-meta-data">
+        <!-- Meta Title -->
+        <div class="form-group {{{ $errors->has('meta-title') ? 'error' : '' }}}">
+          <div class="col-md-12">
             <label class="control-label" for="meta-title">{{ Lang::get('admin/blogs/create_edit.meta_title') }}</label>
-						<input class="form-control" type="text" name="meta-title" id="meta-title" value="{{{ Input::old('meta-title', isset($post) ? $post->meta_title : null) }}}" />
-						{{ $errors->first('meta-title', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-				<!-- ./ meta title -->
+            <input class="form-control" type="text" name="meta-title" id="meta-title" value="{{{ Input::old('meta-title', isset($post) ? $post->meta_title : null) }}}" />
+            {{ $errors->first('meta-title', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
+        <!-- ./ meta title -->
 
-				<!-- Meta Description -->
-				<div class="form-group {{{ $errors->has('meta-description') ? 'error' : '' }}}">
-					<div class="col-md-12 controls">
+        <!-- Meta Description -->
+        <div class="form-group {{{ $errors->has('meta-description') ? 'error' : '' }}}">
+          <div class="col-md-12 controls">
             <label class="control-label" for="meta-description">{{ Lang::get('admin/blogs/create_edit.meta_description') }}</label>
-						<input class="form-control" type="text" name="meta-description" id="meta-description" value="{{{ Input::old('meta-description', isset($post) ? $post->meta_description : null) }}}" />
-						{{ $errors->first('meta-description', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-				<!-- ./ meta description -->
+            <input class="form-control" type="text" name="meta-description" id="meta-description" value="{{{ Input::old('meta-description', isset($post) ? $post->meta_description : null) }}}" />
+            {{ $errors->first('meta-description', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
+        <!-- ./ meta description -->
 
-				<!-- Meta Keywords -->
-				<div class="form-group {{{ $errors->has('meta-keywords') ? 'error' : '' }}}">
-					<div class="col-md-12">
+        <!-- Meta Keywords -->
+        <div class="form-group {{{ $errors->has('meta-keywords') ? 'error' : '' }}}">
+          <div class="col-md-12">
             <label class="control-label" for="meta-keywords">{{ Lang::get('admin/blogs/create_edit.meta_keywords') }}</label>
-						<input class="form-control" type="text" name="meta-keywords" id="meta-keywords" value="{{{ Input::old('meta-keywords', isset($post) ? $post->meta_keywords : null) }}}" />
-						{{ $errors->first('meta-keywords', '<span class="help-block">:message</span>') }}
-					</div>
-				</div>
-				<!-- ./ meta keywords -->
-			</div>
-			<!-- ./ meta data tab -->
-		</div>
-		<!-- ./ tabs content -->
+            <input class="form-control" type="text" name="meta-keywords" id="meta-keywords" value="{{{ Input::old('meta-keywords', isset($post) ? $post->meta_keywords : null) }}}" />
+            {{ $errors->first('meta-keywords', '<span class="help-block">:message</span>') }}
+          </div>
+        </div>
+        <!-- ./ meta keywords -->
+      </div>
+      <!-- ./ meta data tab -->
+    </div>
+    <!-- ./ tabs content -->
 
-		<!-- Form Actions -->
-		<div class="form-group">
-			<div class="col-md-12">
-				<element class="btn-cancel close_popup">{{ Lang::get('admin/blogs/create_edit.cancel') }}</element>
-				<button type="reset" class="btn btn-default">{{ Lang::get('admin/blogs/create_edit.reset') }}</button>
-				<button type="submit" class="btn btn-success">{{ Lang::get('admin/blogs/create_edit.submit') }}</button>
-			</div>
-		</div>
-		<!-- ./ form actions -->
-	</form>
+    <!-- Form Actions -->
+    <div class="form-group">
+      <div class="col-md-12">
+        <element class="btn-cancel close_popup">{{ Lang::get('admin/blogs/create_edit.cancel') }}</element>
+        <button type="reset" class="btn btn-default">{{ Lang::get('admin/blogs/create_edit.reset') }}</button>
+        <button type="submit" class="btn btn-success">{{ Lang::get('admin/blogs/create_edit.submit') }}</button>
+      </div>
+    </div>
+    <!-- ./ form actions -->
+  </form>
 @stop
 
 {{-- Scripts --}}
@@ -190,16 +195,16 @@
 @endif
 <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
-  $(document).ready(function() {
-    @if (isset($post))
+$(document).ready(function() {
+  @if (isset($post))
     $('#tree').jstree({
-      core: {
-        animation: 0,
-        check_callback: true,
-        theme: { stripes: true },
-        data: {
-          url: "{{ URL::to('cattree/') }}",
-          dataType: "json"
+    core: {
+    animation: 0,
+      check_callback: true,
+      theme: { stripes: true },
+      data: {
+      url: "{{ URL::to('cattree/') }}",
+        dataType: "json"
         },
       },
       plugins: [
@@ -220,10 +225,10 @@
       e.preventDefault();
       var form = this;
       $.ajax({
-        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/category') }}",
+      url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/category') }}",
         method: "POST",
         data: {
-          _token: $('input[name=_token]')[0].value,
+        _token: $('input[name=_token]')[0].value,
           _id: $('#affair_id')[0].value,
           _cat: $('#tree').jstree(true).get_selected()
         }
@@ -234,18 +239,18 @@
           else
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         })
-        .fail( function (ret) {
+          .fail( function (ret) {
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         });
     });
     @endif
 
-    $('#p_date').datepicker({
+      $('#p_date').datepicker({
       startView: 1,
-      orientation: "top auto",
-      language: "{{ App::getLocale() }}",
-      autoclose: true,
-      format: "dd-mm-yyyy",
+        orientation: "top auto",
+        language: "{{ App::getLocale() }}",
+        autoclose: true,
+        format: "dd-mm-yyyy",
     });
   });
 </script>

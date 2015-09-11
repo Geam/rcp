@@ -95,7 +95,8 @@ class BlogController extends BaseController {
       'state'       => 'size:2',
       'date'        => 'date',
       'date_2'      => 'date',
-      'oml'         => 'in:true,false'
+      'oml'         => 'in:true,false',
+      'nature'      => 'in:all,judgement,decision'
     );
 
     $validator = Validator::make($input, $rules);
@@ -134,6 +135,10 @@ class BlogController extends BaseController {
     if (Input::has('state') && $input['state'] != '00')
       $posts = $posts->where('state', $input['state']);
 
+    // add nature filter
+    if (Input::has('nature') && $input['nature'] != 'all')
+      $posts = $posts->where('nature', $input['nature']);
+
     // add date filter
     if (Input::has('date')) {
       if (Input::has('date_2')) {
@@ -164,7 +169,7 @@ class BlogController extends BaseController {
       if (! isset($ret[$post->id]))
         $ret[$post->id] = array(
           'affair_id'   => $post->affair_id,
-          'importance'  => $post->importance,
+          'importance'  => ($post->importance == 0) ? 'CR' : $post->importance,
           'lang'        => Lang::get('langs.' . $post->lang),
           'state'       => Lang::get('states.' . $post->state),
           'url'         => $post->url(),

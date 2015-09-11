@@ -2,7 +2,7 @@
 
 return array(
 
-  'all' => 'All',
+  'all' => 'Toutes',
   'az' => 'Azeri',
   'bg' => 'Bulgare',
   'bs' => 'Bosnien',

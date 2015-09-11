@@ -90,7 +90,7 @@ class AdminRolesController extends AdminController {
         // Check if the form validates with success
         if ($validator->passes())
         {
-  	    // Get the inputs, with some exceptions
+        // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
             $this->role->name = $inputs['name'];
