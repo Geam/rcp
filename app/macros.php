@@ -145,3 +145,17 @@ Form::macro('tabs_upper_part', function($name, $class)
     '</li>';
   return $ret;
 });
+
+Form::macro('label_tooltip', function($for, $text, $tooltip, $options)
+{
+  $ret = '<label';
+  foreach ($options as $key => $value)
+  {
+    $ret .= ' ' . $key . '="' . $value . '"';
+  }
+  $ret .= ' for="' . $for . '">' . $text .
+    '<a href="#" class="myTooltip"> (?)<span>' .
+    '<img class="callout" src="assets/img/tooltip/callout.gif" />' .
+    $tooltip . '</span></a></label>';
+  return $ret;
+});

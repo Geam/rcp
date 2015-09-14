@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
 <link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<link rel="stylesheet" href="{{ asset('assets/css/tooltip.css') }}">
 @stop
 
 {{-- Title --}}
@@ -41,8 +42,8 @@
       <!-- Post Title -->
       <div class="form-group">
         <div class="col-md-12">
-          {{ Form::label('r_title', Lang::get('filters.title'), [ 'class' => 'control-label' ]) }}
-          {{ Form::text('r_title', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)' ]) }}
+          {{ Form::label_tooltip('r_title', Lang::get('filters.title'), Lang::get('tooltips.main_title'), [ 'class' => 'control-label' ]) }}
+          {{ Form::text('r_title', null, [ 'class' => 'form-control', 'id' => "r_title", 'onkeyup' => 'checkEnter(this, event)' ]) }}
         </div>
       </div>
       <!-- ./ post title -->
@@ -50,13 +51,13 @@
       <div class="form-group">
         <!-- Post importance -->
         <div class="col-md-6">
-          {{ Form::label('r_importance', Lang::get('filters.importance'), [ 'class' => "control-label" ]) }}
+          {{ Form::label_tooltip('r_importance', Lang::get('filters.importance'), Lang::get('tooltips.main_importance'), [ 'class' => "control-label" ]) }}
           {{ Form::select('r_importance', [ 0 => 'CR', 1 => 1, 2 => 2, 3 => 3 ], 0, [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]) }}
         </div>
         <!-- ./ post importance -->
         <!-- post nature -->
         <div class="col-md-6">
-          {{ Form::label('r_nature', Lang::get('filters.nature'), [ 'class' => "control-label" ]) }}
+          {{ Form::label_tooltip('r_nature', Lang::get('filters.nature'), Lang::get('tooltips.main_nature'), [ 'class' => "control-label" ]) }}
           {{ Form::nature('r_nature', [
             'attr' => [
               'class' => 'form-control',
@@ -71,13 +72,13 @@
       <div class="form-group">
         <!-- Post affair_id -->
         <div class="col-md-6">
-          {{ Form::label('r_affair_id', Lang::get('filters.affair_id'), [ 'class' => 'control-label' ]) }}
+          {{ Form::label_tooltip('r_affair_id', Lang::get('filters.affair_id'), Lang::get('tooltips.main_affair_id'), [ 'class' => 'control-label' ]) }}
           {{ Form::text('r_affair_id', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => "r_affair_id" ]) }}
         </div>
         <!-- ./ post affair_id -->
         <!-- Post date -->
         <div class="col-md-6">
-          {{ Form::label('r_date', Lang::get('filters.date'), [ 'class' => 'control-label' ]) }}
+          {{ Form::label_tooltip('r_date', Lang::get('filters.date'), Lang::get('tooltips.main_date'), [ 'class' => 'control-label' ]) }}
           {{ Form::inputDate('r_date', True) }}
         </div>
         <!-- ./ post date -->
@@ -86,7 +87,7 @@
       <div class="form-group">
         <!-- Post post_lang -->
         <div class="col-md-6">
-          {{ Form::label('r_lang', Lang::get('filters.lang'), [ 'class' => 'control-label' ]) }}
+          {{ Form::label_tooltip('r_lang', Lang::get('filters.lang'), Lang::get('tooltips.main_lang'), [ 'class' => 'control-label' ]) }}
           {{ Form::selectStateOrLang('r_lang', 'lang', [
             'attr' => [
               'class' => 'form-control',
@@ -98,7 +99,7 @@
         <!-- ./ post post_lang -->
         <!-- Post state -->
         <div class="col-md-6">
-          {{ Form::label('r_state', Lang::get('filters.state'), [ 'class' => "control-label" ]) }}
+          {{ Form::label_tooltip('r_state', Lang::get('filters.state'), Lang::get('tooltips.main_state'),  [ 'class' => "control-label" ]) }}
           {{ Form::selectStateOrLang('r_state', 'state', [
             'attr' => [
               'class' => 'form-control',
@@ -112,7 +113,7 @@
 
       <div class="form-group">
         <div class="col-md-12">
-          {{ Form::label('r_oml', Lang::get('filters.only_my_lang'), [ 'class' => "control-label" ]) }}
+          {{ Form::label_tooltip('r_oml', Lang::get('filters.only_my_lang'), Lang::get('tooltips.main_oml'),  [ 'class' => "control-label" ]) }}
           {{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), 'value') }}
         </div>
       </div>
@@ -120,7 +121,7 @@
       <!-- Post Content -->
       <div class="form-group">
         <div class="col-md-12">
-          {{ Form::label('r_content', Lang::get('filters.content'), [ 'class' => 'control-label' ]) }}
+          {{ Form::label_tooltip('r_content', Lang::get('filters.content'), Lang::get('tooltips.main_content'),  [ 'class' => 'control-label' ]) }}
           {{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
         </div>
       </div>

@@ -1,0 +1,46 @@
+a.myTooltip {
+    outline:none;
+}
+
+a.myTooltip strong {
+    line-height:30px;
+}
+
+a.myTooltip:hover {
+    text-decoration:none;
+}
+
+a.myTooltip span {
+    z-index:10;
+    display:none;
+    padding:14px 20px 14px 11px;
+    margin-top:-10px;
+    margin-left:28px;
+    width:300px;
+    line-height:16px;
+    font-weight:100;
+    text-align:left;
+}
+
+a.myTooltip:hover span{
+    display:inline;
+    position:absolute;
+    color:#111;
+    border:1px solid #DCA;
+    background:#fffAF0;
+}
+
+.callout {
+    z-index:20;
+    position:absolute;
+    top:10px;
+    border:0;
+    left:-12px;
+}
+
+/*CSS3 extras*/
+a.myTooltip span
+{
+    border-radius:4px;
+    box-shadow: 5px 5px 8px #CCC;
+}
