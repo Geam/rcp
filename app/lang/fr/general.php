@@ -16,10 +16,11 @@ return array(
   'affair'                  => "Affaires",
   'affair_management'       => "Gestion des Affaires",
   'affair_translation'      => "Traduction des Affaires",
-  'categories'              => "Categories",
+  'categories'              => "Catégories",
   'categories_tree'         => "Arborescence des catégories",
   'categories_translation'  => "Traduction des catégories",
   'users'                   => "Utilisateurs",
   'roles'                   => "Roles",
+  'site_lang'               => "Langue d'affichage du site",
 
 );

@@ -32,9 +32,9 @@
   <!-- Form Actions -->
   <div class="form-group">
     <div class="col-md-12">
-      <element class="btn-cancel close_popup">{{ Lang::get('admin/blogs/create_edit.cancel') }}</element>
-      <button type="reset" class="btn btn-default">{{ Lang::get('admin/blogs/create_edit.reset') }}</button>
-      <button type="submit" class="btn btn-success">{{ Lang::get('admin/blogs/create_edit.submit') }}</button>
+      <element class="btn btn-default close_popup">{{ Lang::get('button.cancel') }}</element>
+      <button type="reset" class="btn btn-default">{{ Lang::get('button.reset') }}</button>
+      <button type="submit" class="btn btn-success">{{ Lang::get('button.update') }}</button>
     </div>
   </div>
   <!-- ./ form actions -->

@@ -8,12 +8,12 @@ return array(
 
   'title'             => "Titre de l'Affaire",
   'importance'        => "Importance de l'Affaire",
-  'slug'              => "URL de l'Affair",
+  'slug'              => "URL de l'Affaire",
   'nature'            => "Nature de l'Affaire",
   'affair_id'         => "Numéro d'Application",
   'post_date'         => "Date de l'Affaire",
-  'post_lang'         => "Langue de l'Affair",
-  'state'             => "État de l'Affair",
+  'post_lang'         => "Langue de l'Affaire",
+  'state'             => "État de l'Affaire",
   'content'           => "Contenu",
 
   'meta_title'        => 'Meta Titre',

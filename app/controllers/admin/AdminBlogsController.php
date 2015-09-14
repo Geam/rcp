@@ -266,8 +266,13 @@ class AdminBlogsController extends AdminController {
     // Title
     $title = Lang::get('admin/blogs/title.blog_delete');
 
+    $posts_text = $post->hasMany('Posts_text')->where('lang', '=', App::getLocale())->first();
+    if (!$posts_text)
+      $posts_text = $post->hasMany('Posts_text')->where('lang', '=', 'en')->first();
+
+
     // Show the page
-    return View::make('admin/blogs/delete', compact('post', 'title'));
+    return View::make('admin/blogs/delete', compact('post', 'title', 'posts_text'));
   }
 
   /**
