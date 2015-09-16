@@ -47,7 +47,7 @@
             <label class="control-label" for="importance">{{ Lang::get('admin/blogs/create_edit.importance') }}</label>
           {{ Form::select(
             'importance',
-            [ 0 => 'CR', 1 => 1, 2 => 2, 3 => 3 ],
+            [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR' ],
             Input::old('importance', isset($post) ? $post->importance : null),
             [ 'class' => "form-control", 'id' => "importance", 'onchange' => 'requestData()'
           ]) }}

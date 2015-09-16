@@ -3,8 +3,9 @@
 return array(
 
   // tooltips for the main page
-  'main_title'        => "Case title",
-  'main_importance'   => "Case Importance",
+  'main_title'        => "Filter the result by typing the title of the case you're searching or part of it.
+Press enter to start research",
+  'main_importance'   => "Filter the result by selecting the importance of the case you are searching",
   'main_nature'       => "Case nature",
   'main_affair_id'    => "Case application number",
   'main_date'         => "Case date",

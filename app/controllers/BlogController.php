@@ -89,7 +89,7 @@ class BlogController extends BaseController {
     // Rules for validator
     $rules = array(
       'category'    => 'array',
-      'importance'  => 'min:0|max:3',
+      'importance'  => 'min:0|max:4',
       'affair_id'   => 'min:2',
       'lang'        => 'size:2',
       'state'       => 'size:2',
@@ -169,7 +169,7 @@ class BlogController extends BaseController {
       if (! isset($ret[$post->id]))
         $ret[$post->id] = array(
           'affair_id'   => $post->affair_id,
-          'importance'  => ($post->importance == 0) ? 'CR' : $post->importance,
+          'importance'  => ($post->importance == 4) ? 'CR' : $post->importance,
           'lang'        => Lang::get('langs.' . $post->lang),
           'state'       => Lang::get('states.' . $post->state),
           'url'         => $post->url(),

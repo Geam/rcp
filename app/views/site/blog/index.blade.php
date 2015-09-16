@@ -52,7 +52,12 @@
         <!-- Post importance -->
         <div class="col-md-6">
           {{ Form::label_tooltip('r_importance', Lang::get('filters.importance'), Lang::get('tooltips.main_importance'), [ 'class' => "control-label" ]) }}
-          {{ Form::select('r_importance', [ 0 => 'CR', 1 => 1, 2 => 2, 3 => 3 ], 0, [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]) }}
+          {{ Form::select(
+            'r_importance',
+            [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR'],
+            0,
+            [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]
+          ) }}
         </div>
         <!-- ./ post importance -->
         <!-- post nature -->

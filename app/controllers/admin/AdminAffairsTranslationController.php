@@ -105,7 +105,7 @@ class AdminAffairsTranslationController extends AdminController {
 
       ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
       ->edit_column('state', '{{ Lang::get(\'states.\' . $state) }}')
-      ->edit_column('importance', '{{ ($importance) ? $importance : "CR" }}')
+      ->edit_column('importance', '{{ ($importance == 4) ? "CR" : $importance }}')
 
       ->add_column('actions', '<a href="{{{ URL::to(\'admin/affairs/translate/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
       ')
