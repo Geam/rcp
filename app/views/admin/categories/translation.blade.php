@@ -7,8 +7,8 @@
 
 {{-- Styles --}}
 @section('styles')
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/jquery/js/jquery-ui.css') }}">
 @stop
 
 {{-- Content --}}
@@ -46,8 +46,8 @@
 
 {{-- Scripts --}}
 @section('scripts')
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script src="{{ asset('assets/jquery/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('assets/jstree/js/jstree.min.js') }}"></script>
 
 <script>
 

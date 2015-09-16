@@ -34,20 +34,24 @@
   <!-- This is the traditional favicon.
    - size: 16x16 or 32x32
    - transparency is OK
-   - see wikipedia for info on browser support: http://mky.be/favicon/ -->
+   - see wikipedia for info on browser support -->
+  <!--
   <link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.png') }}}">
+  -->
 
   <!-- iOS favicons. -->
+  <!--
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{{ asset('assets/ico/apple-touch-icon-144-precomposed.png') }}}">
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{{ asset('assets/ico/apple-touch-icon-114-precomposed.png') }}}">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{{ asset('assets/ico/apple-touch-icon-72-precomposed.png') }}}">
   <link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
+  -->
 
   <!-- CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{asset('assets/css/wysihtml5/prettify.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/css/wysihtml5/bootstrap-wysihtml5.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/css/colorbox.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/wysihtml5/css/prettify.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/wysihtml5/css/bootstrap-wysihtml5.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/colorbox/css/colorbox.css') }}">
 
   <style>
   .tab-pane {
@@ -110,14 +114,14 @@ _gaq.push(['_trackPageview']);
   <!-- ./ container -->
 
   <!-- Javascripts -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  <script src="{{asset('assets/js/wysihtml5/wysihtml5-0.3.0.js')}}"></script>
-  <script src="{{asset('assets/js/wysihtml5/bootstrap-wysihtml5.js')}}"></script>
-  <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-  <script src="{{asset('assets/js/jquery.colorbox.js')}}"></script>
-  <script src="{{asset('assets/js/prettify.js')}}"></script>
+  <script src="{{ asset('assets/jquery/js/jquery.min.js') }}"></script>
+  <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/wysihtml5/js/wysihtml5-0.3.0.js') }}"></script>
+  <script src="{{ asset('assets/wysihtml5/js/bootstrap-wysihtml5.js') }}"></script>
+  <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/datatables/js/dataTables.bootstrap.js') }}"></script>
+  <script src="{{ asset('assets/colorbox/js/jquery.colorbox.js') }}"></script>
+  <script src="{{ asset('assets/colorbox/js/prettify.js') }}"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){

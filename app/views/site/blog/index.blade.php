@@ -15,11 +15,11 @@
 
 </style>
 
-<link rel="stylesheet" href="{{ asset('select2/select2.min.css') }}">
-<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
-<link href="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
-<link rel="stylesheet" href="{{ asset('assets/css/tooltip.css') }}">
+<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/select2/select2.min.css') }}"> -->
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/datepicker/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/datatables/css/dataTables.bootstrap.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/tooltip/css/tooltip.css') }}">
 @stop
 
 {{-- Title --}}
@@ -185,12 +185,12 @@
 @section('scripts')
 
   <!-- Select2 script -->
-  <script src="{{ asset('select2/select2.min.js') }}"></script>
-  <script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-  <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/sorting/numeric-comma.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+  <!-- <script src="{{ asset('assets/select2/select2.min.js') }}"></script> -->
+  <script src="{{ asset('assets/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/datatables/js/dataTables.bootstrap.js') }}"></script>
+<!--  <script src="//cdn.datatables.net/plug-ins/f2c75b7247b/sorting/numeric-comma.js"></script> -->
+  <script src="{{ asset('assets/jstree/js/jstree.min.js') }}"></script>
 <script type="text/javascript">
 
 // var for categories filters

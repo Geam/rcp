@@ -3,9 +3,9 @@
 {{-- Style --}}
 @section('styles')
 @if (isset($post))
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
 @endif
-<link rel="stylesheet" href="{{ asset('datepicker/css/bootstrap-datepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/datepicker/css/bootstrap-datepicker.min.css') }}">
 @stop
 
 {{-- Content --}}
@@ -191,9 +191,9 @@
 {{-- Scripts --}}
 @section('scripts')
 @if (isset($post))
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script src="{{ asset('assets/jstree/js/jstree.min.js') }}"></script>
 @endif
-<script src="{{ asset('datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
 $(document).ready(function() {
   @if (isset($post))

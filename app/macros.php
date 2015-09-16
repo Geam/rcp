@@ -155,7 +155,7 @@ Form::macro('label_tooltip', function($for, $text, $tooltip, $options)
   }
   $ret .= ' for="' . $for . '">' . $text .
     '<a href="#" class="myTooltip"> (?)<span>' .
-    '<img class="callout" src="assets/img/tooltip/callout.gif" />' .
+    '<img class="callout" src="assets/tooltip/img/callout.gif" />' .
     $tooltip . '</span></a></label>';
   return $ret;
 });

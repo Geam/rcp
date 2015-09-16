@@ -7,7 +7,7 @@
 
 {{-- Style --}}
 @section('styles')
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
 @stop
 
 {{-- Content --}}
@@ -34,7 +34,7 @@
 
 {{-- Scripts --}}
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script src="{{ asset('assets/jstree/js/jstree.min.js') }}"></script>
 <script>
 
 $(document).ready(function() {

@@ -30,7 +30,7 @@
 
 {{-- Styles --}}
 @section('styles')
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
 <style>
 .jstree-default .jstree-disabled.jstree-clicked {
   background: none repeat scroll 0% 0% #BEEBFF;
@@ -85,7 +85,7 @@
 
 {{-- Scripts --}}
 @section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/jstree.min.js"></script>
+<script src="asset('assets/jstree/js/jstree.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
   var langSelect = $('#langSelect')

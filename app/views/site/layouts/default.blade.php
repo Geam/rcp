@@ -36,7 +36,7 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{{ asset('assets/bootstrap/css/bootstrap.min.css') }}}">
     <style>
         body {
           padding: 60px 0;
@@ -57,11 +57,13 @@
 
     <!-- Favicons
     ================================================== -->
+    <!---
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{{ asset('assets/ico/apple-touch-icon-144-precomposed.png') }}}">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{{ asset('assets/ico/apple-touch-icon-114-precomposed.png') }}}">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{{ asset('assets/ico/apple-touch-icon-72-precomposed.png') }}}">
     <link rel="apple-touch-icon-precomposed" href="{{{ asset('assets/ico/apple-touch-icon-57-precomposed.png') }}}">
     <link rel="shortcut icon" href="{{{ asset('assets/ico/favicon.png') }}}">
+    -->
 
   </head>
 
@@ -190,8 +192,8 @@
 
     <!-- Javascripts
     ================================================== -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="{{{ asset('assets/jquery/js/jquery.min.js') }}}"></script>
+  <script src="{{{ asset('assets/bootstrap/js/bootstrap.min.js') }}}"></script>
 
   @yield('scripts')
   </body>
