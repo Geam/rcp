@@ -1,41 +1,4 @@
-#Laravel 4 Bootstrap Starter Site [![ProjectStatus](http://stillmaintained.com/andrewelkins/Laravel-4-Bootstrap-Starter-Site.png)](http://stillmaintained.com/andrewelkins/Laravel-4-Bootstrap-Starter-Site)
-[![Build Status](https://api.travis-ci.org/andrewelkins/Laravel-4-Bootstrap-Starter-Site.png)](https://travis-ci.org/andrewelkins/Laravel-4-Bootstrap-Starter-Site)
-
-Laravel 4 Bootstrap Starter Site is a sample application for beginning development with Laravel 4.
-
-## Features
-
-* Bootstrap 3.x
-* Custom Error Pages
-	* 403 for forbidden page accesses
-	* 404 for not found pages
-	* 500 for internal server errors
-* Confide for Authentication and Authorization
-* Back-end
-	* User and Role management
-	* Manage blog posts and comments
-	* WYSIWYG editor for post creation and editing.
-    * DataTables dynamic table sorting and filtering.
-    * Colorbox Lightbox jQuery modal popup.
-* Front-end
-	* User login, registration, forgot password
-	* User account area
-	* Simple Blog functionality
-* Packages included:
-	* [Confide](https://github.com/zizaco/confide)
-	* [Entrust](https://github.com/zizaco/entrust)
-	* [Ardent](https://github.com/laravelbook/ardent)
-	* [Generators](https://github.com/JeffreyWay/Laravel-4-Generators/blob/master/readme.md)
-
-## Issues
-See [github issue list](https://github.com/andrewelkins/Laravel-4-Bootstrap-Starter-Site/issues) for current list.
-
-## Recommendations
-I recommend that you use Grunt to compile and minify your assets. See this [article](http://blog.elenakolevska.com/using-grunt-with-laravel-and-bootstrap) for details.
-
-Also I recommend using [Former](http://anahkiasen.github.io/former/) for your forms. It's an excellent library.
-
------
+#Rcp site
 
 ##Requirements
 
@@ -47,12 +10,12 @@ Also I recommend using [Former](http://anahkiasen.github.io/former/) for your fo
 #### Option 1: Git Clone
 
 ```bash
-$ git clone git://github.com/andrewelkins/Laravel-4-Bootstrap-Starter-Site.git laravel
+$ git clone git://github.com/geam/rcp.git laravel
 ```
 
 #### Option 2: Download the repository
 
-    https://github.com/andrewelkins/Laravel-4-Bootstrap-Starter-Site/archive/master.zip
+    https://github.com/geam/rcp/archive/master.zip
 
 ### Step 2: Use Composer to install dependencies
 #### Option 1: Composer is not installed globally
@@ -272,9 +235,3 @@ $ composer install --dev --prefer-source --no-interaction
 ## License
 
 This is free software distributed under the terms of the MIT license
-
-## Additional information
-
-Inspired by and based on [laravel4-starter-kit](https://github.com/brunogaspar/laravel4-starter-kit)
-
-Any questions, feel free to [contact me](http://twitter.com/andrewelkins).
