@@ -31,6 +31,7 @@ then
         sudo mysql_secure_installation
     fi
 
+    # install php
     php --version 2>&1 > /dev/null
     if [[ "$?" == 127 ]]; then
         sudo apt-get install php5-fpm
@@ -77,4 +78,8 @@ then
     # change right
     chmod -R 775 'app/storage'
 
+    # move the site to nginx dir
+    sudo mv ../database /usr/share/nginx/www/
+    cd /usr/share/nginx/www
+    sudo chown -R www-data:www-data database
 fi

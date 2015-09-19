@@ -11,23 +11,23 @@
 #### Option 1: Git Clone
 
 ```bash
-$ git clone git://github.com/geam/rcp.git /usr/share/nginx/www/database
+$ git clone git://github.com/geam/rcp.git $HOME/database
 ```
 
 #### Option 2: Download the repository
 ```bash
-    cd /usr/share/nginx/www
-    sudo wget https://github.com/geam/rcp/archive/master.zip
-    sudo unzip master.zip
-    sudo mv rcp-master database
-    sudo chown -R www-data:www-data database
+    cd
+    wget https://github.com/geam/rcp/archive/master.zip
+    unzip master.zip
+    mv rcp-master database
+    chown -R www-data:www-data database
 ```
 
 ### Step 2: Install script or manual
 
 #### Install script
 ```bash
-    cd /usr/share/nginx/www/database
+    cd $HOME/database
     ./install/rpi_install.sh
 ```
 
