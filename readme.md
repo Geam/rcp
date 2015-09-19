@@ -6,19 +6,34 @@
 	MCrypt PHP Extension
 
 ##How to install
+
 ### Step 1: Get the code
 #### Option 1: Git Clone
 
 ```bash
-$ git clone git://github.com/geam/rcp.git laravel
+$ git clone git://github.com/geam/rcp.git /usr/share/nginx/www/database
 ```
 
 #### Option 2: Download the repository
+```bash
+    cd /usr/share/nginx/www
+    sudo wget https://github.com/geam/rcp/archive/master.zip
+    sudo unzip master.zip
+    sudo mv rcp-master database
+    sudo chown -R www-data:www-data database
+```
 
-    https://github.com/geam/rcp/archive/master.zip
+### Step 2: Install script or manual
 
-### Step 2: Use Composer to install dependencies
-#### Option 1: Composer is not installed globally
+#### Install script
+```bash
+    cd /usr/share/nginx/www/database
+    ./install/rpi_install.sh
+```
+
+#### Manual
+##### Manual step 1: Use Composer to install dependencies
+###### Option 1: Composer is not installed globally
 
 ```bash
 $ cd laravel
@@ -26,7 +41,7 @@ $ curl -s http://getcomposer.org/installer | php
 $ php composer.phar install --dev
 ```
 
-#### Option 2: Composer is installed globally
+###### Option 2: Composer is installed globally
 
 ```bash
 $ cd laravel
@@ -45,7 +60,7 @@ This will skip the development packages and ensure the version of the packages i
 
 NEVER run `php composer.phar update` on your production server.
 
-### Step 3: Configure Environments
+##### Manual step 3: Configure Environments
 
 Open ***bootstrap/start.php*** and edit the following lines to match your settings. You want to be using your machine name in Windows and your hostname in OS X and Linux (type `hostname` in terminal). Using the machine name will allow the `php artisan` command to use the right configuration files as well.
 
@@ -85,16 +100,16 @@ return array(
 );
 ```
 
-### Step 4: Configure Database
+##### Manual step 4: Configure Database
 
 Now that you have the environment configured, you need to create a database configuration for it. Copy the file ***app/config/database.php*** in ***app/config/local*** and edit it to match your local database settings. You can remove all the parts that you have not changed as this configuration file will be loaded over the initial one.
 
-### Step 5: Configure Mailer
+##### Manual step 5: Configure Mailer
 
 In the same fashion, copy the ***app/config/mail.php*** configuration file in ***app/config/local/mail.php***. Now set the `address` and `name` from the `from` array in ***config/mail.php***. Those will be used to send account confirmation and password reset emails to the users.
 If you don't set that registration will fail because it cannot send the confirmation email.
 
-### Step 6: Populate Database
+##### Manual step 6: Populate Database
 Run these commands to create and populate Users table:
 
 ```bash
@@ -102,7 +117,7 @@ $ php artisan migrate
 $ php artisan db:seed
 ```
 
-### Step 7: Set Encryption Key
+##### Manual step 7: Set Encryption Key
 ***In app/config/app.php***
 
 ```
@@ -130,7 +145,7 @@ $ php artisan key:generate --env=local
 
 The `--env` option allows defining which environment you would like to apply the key generation. In our case, artisan generates your key in ***app/config/local/app.php*** and leaves ***'YourSecretKey!!!'*** in ***app/config/app.php***. Now it can be generated again when you move the project to another environment.
 
-### Step 8: Make sure app/storage is writable by your web server.
+##### Manual step 8: Make sure app/storage is writable by your web server.
 
 If permissions are set correctly:
 
@@ -144,18 +159,12 @@ Should work, if not try
 $ chmod -R 777 app/storage
 ```
 
-### Step 9: Start Page (Three options for proceeding)
+##### Manual step 9: Start Page (Three options for proceeding)
 
-### User login with commenting permission
-Navigate to your Laravel 4 website and login at /user/login:
-
-    username : user
-    password : user
-
-## Create a new user
+###### Create a new user
 Create a new user at /user/create
 
-### Admin login
+###### Admin login
 Navigate to /admin
 
     username: admin

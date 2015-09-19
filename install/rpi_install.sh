@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ls | grep rpi_install.sh 2>&1 > /dev/null
+if [[ "$?" == 0 ]]; then
+    cd ..
+fi
+
 if [[ -z "$1" ]]
 then
 
@@ -9,6 +14,30 @@ then
 
 elif [[ "$1" == "first" ]]
 then
+
+    # install nginx
+    if [[ -z "`ls /etc/nginx 2> /dev/null`" ]]; then
+        sudo apt-get install nginx
+        sudo service nginx start
+        sudo cp install/ressources/database /etc/nginx/sites-available
+        sudo ln -s /etc/nginx/sites-available /etc/nginx/sites-enabled
+    fi
+
+    # install mysql
+    mysql --version 2>&1 > /dev/null
+    if [[ "$?" == 127 ]]; then
+        sudo apt-get install mysql-server php5-mysql
+        sudo mysql_install_db
+        sudo mysql_secure_installation
+    fi
+
+    php --version 2>&1 > /dev/null
+    if [[ "$?" == 127 ]]; then
+        sudo apt-get install php5-fpm
+        sudo sed -i.back "s/cgi\.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
+        sudo sed -i.back "s:listen = .*:listen = /var/run/php5-fpm.sock:" /etc/php/fpm/pool.d/www.conf
+        sudo service php5-fpm restart
+    fi
 
     # get composer
     if [[ -n `composer --version 2> /dev/null` ]];
