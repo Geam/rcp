@@ -20,7 +20,6 @@ $ git clone git://github.com/geam/rcp.git $HOME/database
     wget https://github.com/geam/rcp/archive/master.zip
     unzip master.zip
     mv rcp-master database
-    chown -R www-data:www-data database
 ```
 
 ### Step 2: Install script or manual
