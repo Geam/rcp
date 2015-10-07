@@ -8,7 +8,7 @@
 {{-- Styles --}}
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/jstree/css/style.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/jquery/js/jquery-ui.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/jquery/css/jquery-ui.css') }}">
 @stop
 
 {{-- Content --}}

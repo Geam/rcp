@@ -34,44 +34,41 @@
 {{ Form::token() }}
 
   <ul class="nav nav-tabs" role="tablist">
-    {{ Form::tabs_upper_part('adv_search', 'active'); }}
-    {{ Form::tabs_upper_part('categories', ''); }}
+    {{ Form::tabs_upper_part('adv_search', 'active', ''); }}
+    {{ Form::tabs_upper_part('categories', '', Lang::get('tooltips.main_keywords')); }}
   </ul>
   <div class="tab-content">
     <div class="tab-pane active form-horizontal" id="tab_adv_search">
-      <!-- Post Title -->
+
       <div class="form-group">
+        <!-- Post Content -->
         <div class="col-md-12">
+          {{ Form::label_tooltip('r_content', Lang::get('filters.content'), Lang::get('tooltips.main_content'),  [ 'class' => 'control-label' ]) }}
+          {{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
+        </div>
+        <!-- ./ post content -->
+      </div>
+
+      <div class="form-group">
+        <!-- Post Title -->
+        <div class="col-md-6">
           {{ Form::label_tooltip('r_title', Lang::get('filters.title'), Lang::get('tooltips.main_title'), [ 'class' => 'control-label' ]) }}
           {{ Form::text('r_title', null, [ 'class' => 'form-control', 'id' => "r_title", 'onkeyup' => 'checkEnter(this, event)' ]) }}
         </div>
-      </div>
-      <!-- ./ post title -->
+        <!-- ./ post title -->
 
-      <div class="form-group">
-        <!-- Post importance -->
+        <!-- Post state -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_importance', Lang::get('filters.importance'), Lang::get('tooltips.main_importance'), [ 'class' => "control-label" ]) }}
-          {{ Form::select(
-            'r_importance',
-            [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR'],
-            0,
-            [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]
-          ) }}
-        </div>
-        <!-- ./ post importance -->
-        <!-- post nature -->
-        <div class="col-md-6">
-          {{ Form::label_tooltip('r_nature', Lang::get('filters.nature'), Lang::get('tooltips.main_nature'), [ 'class' => "control-label" ]) }}
-          {{ Form::nature('r_nature', [
+          {{ Form::label_tooltip('r_state', Lang::get('filters.state'), Lang::get('tooltips.main_state'),  [ 'class' => "control-label" ]) }}
+          {{ Form::selectStateOrLang('r_state', 'state', [
             'attr' => [
               'class' => 'form-control',
               'onchange' => 'requestData()'
             ],
-            'default' => null
-          ], true) }}
+            'avail' => null
+            ]) }}
         </div>
-        <!-- ./ post nature -->
+        <!-- ./ post state -->
       </div>
 
       <div class="form-group">
@@ -81,6 +78,7 @@
           {{ Form::text('r_affair_id', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => "r_affair_id" ]) }}
         </div>
         <!-- ./ post affair_id -->
+
         <!-- Post date -->
         <div class="col-md-6">
           {{ Form::label_tooltip('r_date', Lang::get('filters.date'), Lang::get('tooltips.main_date'), [ 'class' => 'control-label' ]) }}
@@ -102,35 +100,40 @@
             ]) }}
         </div>
         <!-- ./ post post_lang -->
-        <!-- Post state -->
+
+        <!-- post nature -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_state', Lang::get('filters.state'), Lang::get('tooltips.main_state'),  [ 'class' => "control-label" ]) }}
-          {{ Form::selectStateOrLang('r_state', 'state', [
+          {{ Form::label_tooltip('r_nature', Lang::get('filters.nature'), Lang::get('tooltips.main_nature'), [ 'class' => "control-label" ]) }}
+          {{ Form::nature('r_nature', [
             'attr' => [
               'class' => 'form-control',
               'onchange' => 'requestData()'
             ],
-            'avail' => null
-            ]) }}
+            'default' => null
+          ], true) }}
         </div>
-        <!-- ./ post state -->
+        <!-- ./ post nature -->
+      </div>
+
+      <div class="form-group">
+        <!-- Post importance -->
+        <div class="col-md-12">
+          {{ Form::label_tooltip('r_importance', Lang::get('filters.importance'), Lang::get('tooltips.main_importance'), [ 'class' => "control-label" ]) }}
+          {{ Form::select(
+            'r_importance',
+            [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR'],
+            0,
+            [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData()' ]
+          ) }}
+        </div>
+        <!-- ./ post importance -->
       </div>
 
       <div class="form-group">
         <div class="col-md-12">
-          {{ Form::label_tooltip('r_oml', Lang::get('filters.only_my_lang'), Lang::get('tooltips.main_oml'),  [ 'class' => "control-label" ]) }}
-          {{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), 'value') }}
+          {{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), Lang::get('tooltips.main_oml'), 'value') }}
         </div>
       </div>
-
-      <!-- Post Content -->
-      <div class="form-group">
-        <div class="col-md-12">
-          {{ Form::label_tooltip('r_content', Lang::get('filters.content'), Lang::get('tooltips.main_content'),  [ 'class' => 'control-label' ]) }}
-          {{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
-        </div>
-      </div>
-      <!-- ./ post title -->
 
     </div>
 
@@ -292,6 +295,9 @@ $( document ).ready(function() {
       })
       .bind("changed.jstree", function (e, data) {
         requestData();
+        })
+      .bind("hover_node.jstree", function (e, data) {
+        console.log(data.node.original.long);
         });
 
       // highlight tree node based on search

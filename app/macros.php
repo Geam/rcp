@@ -129,20 +129,31 @@ Form::macro('jsTreeSearch', function($name)
   return $ret;
 });
 
-Form::macro('only_my_lang', function($name, $label, $value)
+Form::macro('only_my_lang', function($name, $label, $tooltip, $value)
 {
   $ret = '<div class="col-md-12 form-group form-inline">' .
     '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '" class="form-control" onchange="requestData()">' .
-    ' <label class="control-label" for="' . $name . '">' . $label . '</label>' .
+    ' <label class="control-label" for="' . $name . '">' . $label;
+  if ($tooltip) {
+    $ret .= '<span href="#" class="myTooltip"> (?)<span>' .
+    '<img class="callout" src="assets/tooltip/img/callout.gif" />' .
+    $tooltip . '</span></span>';
+  }
+  $ret .= '</label>' .
     '</div>';
   return $ret;
 });
 
-Form::macro('tabs_upper_part', function($name, $class)
+Form::macro('tabs_upper_part', function($name, $class, $tooltip)
 {
   $ret = '<li role="presentation" class="' . $class . '">' .
-    '<a href="#tab_' . $name . '" role="tab" data-toggle="tab">' . Lang::get('filters.' . $name) . '</a>' .
-    '</li>';
+    '<a href="#tab_' . $name . '" role="tab" data-toggle="tab">' . Lang::get('filters.' . $name);
+  if ($tooltip) {
+    $ret .= '<span href="#" class="myTooltip"> (?)<span>' .
+    '<img class="callout" src="assets/tooltip/img/callout.gif" />' .
+    $tooltip . '</span></span>';
+  }
+  $ret .= '</a></li>';
   return $ret;
 });
 
@@ -154,8 +165,8 @@ Form::macro('label_tooltip', function($for, $text, $tooltip, $options)
     $ret .= ' ' . $key . '="' . $value . '"';
   }
   $ret .= ' for="' . $for . '">' . $text .
-    '<a href="#" class="myTooltip"> (?)<span>' .
+    '<span href="#" class="myTooltip"> (?)<span>' .
     '<img class="callout" src="assets/tooltip/img/callout.gif" />' .
-    $tooltip . '</span></a></label>';
+    $tooltip . '</span></span></label>';
   return $ret;
 });

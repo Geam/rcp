@@ -1,16 +1,17 @@
-a.myTooltip {
+span.myTooltip {
     outline:none;
+    color: #337AB7;
 }
 
-a.myTooltip strong {
+span.myTooltip strong {
     line-height:30px;
 }
 
-a.myTooltip:hover {
+span.myTooltip:hover {
     text-decoration:none;
 }
 
-a.myTooltip span {
+span.myTooltip span {
     z-index:10;
     display:none;
     padding:14px 20px 14px 11px;
@@ -22,7 +23,7 @@ a.myTooltip span {
     text-align:left;
 }
 
-a.myTooltip:hover span{
+span.myTooltip:hover span{
     display:inline;
     position:absolute;
     color:#111;
@@ -39,7 +40,7 @@ a.myTooltip:hover span{
 }
 
 /*CSS3 extras*/
-a.myTooltip span
+span.myTooltip span
 {
     border-radius:4px;
     box-shadow: 5px 5px 8px #CCC;

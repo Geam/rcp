@@ -21,6 +21,6 @@ return array(
   'categories_translation'  => 'Keywords translation',
   'users'                   => 'Users',
   'roles'                   => 'Roles',
-  'site_lang'               => 'Site display lang',
+  'site_lang'               => 'Choose the website language',
 
 );
