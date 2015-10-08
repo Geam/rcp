@@ -201,10 +201,6 @@ var gTable = {};
 
 // select to transform in select2
 $( document ).ready(function() {
-  // add the select
-  //$('#r_lang').select2({ width: '100%' });
-  //$('#r_state').select2({ width: '100%' });
-
   // add the reset
   $('.nav-tabs').append('<li class="navbar-right" id="reset" onclick="reset()"><a>{{ Lang::get('filters.reset') }}</a></li>');
 

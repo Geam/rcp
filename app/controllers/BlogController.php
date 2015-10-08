@@ -110,10 +110,17 @@ class BlogController extends BaseController {
     }
 
     // Initialise request
+//    $posts = $this->post->
+//      select('posts.*','posts_texts.title','posts_texts.content','posts_texts.lang AS pt_lang')->
+//      join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')->
+//      join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct();
     $posts = $this->post->
-      select('posts.*','posts_texts.title','posts_texts.content','posts_texts.lang AS pt_lang')->
+      select(array(
+        'posts.*',
+        DB::raw('group_concat(distinct `posts_texts`.`title` separator \'|\') as `title`, group_concat(distinct `posts_texts`.`lang`) as `pt_lang`')
+      ))->
       join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')->
-      join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct();
+      join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct()->groupBy('posts.id');
 
     // search the post that match categories
     if (Input::has('category') && count($input['category']) > 0)
@@ -157,40 +164,43 @@ class BlogController extends BaseController {
       $posts = $posts->where('title', 'like', '%'.$input['title'].'%');
 
     // add content filter
-    if (Input::has('content'))
-      $posts = $posts->where('content', 'like', '%'.$input['content'].'%');
+    if (Input::has('content')) {
+      foreach (explode('+', $input['content']) as $split_first) {
+        $posts = $posts->where(function($query) use ($split_first) {
+          foreach (explode('|', $split_first) as $key => $split_second) {
+            if ($key == 0)
+              $query = $query->where('content', 'like', '%' . $split_second . '%');
+            else
+              $query = $query->orWhere('content', 'like', '%' . $split_second . '%');
+          }
+        });
+        //$posts = $posts->where('content', 'like', '%' . $and_split . '%');
+      }
+      //$posts = $posts->where('content', 'like', '%'.$input['content'].'%');
+    }
 
     // Launch the request
     $posts = $posts->get();
 
+    // test
+    //$res = array('success' => 'True', 'data' => array_values($posts->toArray()), 'sql' => DB::getQueryLog());
+    //return Response::json($res);
+
     $ret = array();
     foreach ($posts as $post)
     {
-      if (! isset($ret[$post->id]))
-        $ret[$post->id] = array(
-          'affair_id'   => $post->affair_id,
-          'importance'  => ($post->importance == 4) ? 'CR' : $post->importance,
-          'lang'        => Lang::get('langs.' . $post->lang),
-          'state'       => Lang::get('states.' . $post->state),
-          'url'         => $post->url(),
-          'nature'      => $post->nature,
-          'date'        => date('d-m-Y', strtotime($post->p_date)),
-          'title'       => $post->title,
-          'content'     => $post->content
-        );
-      if ($post->pt_lang == App::getLocale()) {
-          $ret[$post->id]['title']      = $post->title;
-          $ret[$post->id]['content']    = $post->content;
-      } else {
-        if (!isset($ret[$post->id]['alt']))
-          $ret[$post->id]['alt'] = [];
-        $ret[$post->id]['alt'][$post->pt_lang] = [
-          'title' => $post->title,
-          'content' => $post->content
-        ];
-      }
+      $ret[$post->id] = array(
+        'affair_id'   => $post->affair_id,
+        'importance'  => ($post->importance == 4) ? 'CR' : $post->importance,
+        'lang'        => Lang::get('langs.' . $post->lang),
+        'state'       => Lang::get('states.' . $post->state),
+        'url'         => $post->url(),
+        'nature'      => $post->nature,
+        'date'        => date('d/m/Y', strtotime($post->p_date)),
+        'title'       => $post->title,
+      );
     }
-//    $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
+//    $res = array('success' => 'True', 'data' => array_values($ret));
     $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
     return Response::json($res);
   }
