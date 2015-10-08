@@ -15,6 +15,7 @@ return array(
   'hide_cat'      => "Masquer les catégories",
   'importance'    => "Importance",
   'lang'          => "Langue de l'affaire",
+  'lang_avail'    => "Langue disponible",
   'nature'        => "Catégorie",
   'oml_extend'    => "N'afficher que les documents dans ma langue",
   'only_my_lang'  => "Uniquement dans ma langue",

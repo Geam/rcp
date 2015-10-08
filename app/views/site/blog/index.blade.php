@@ -154,18 +154,8 @@
 <th>{{ lang::get('filters.lang') }}</th>
 <th>{{ lang::get('filters.state') }}</th>
 <th>{{ lang::get('filters.date') }}</th>
+<th>{{ lang::get('filters.lang_avail') }}</th>
 </tr>
-<!--
-<tr>
-<th><input type="text" placeholder="{{ lang::get('filters.title') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.affair_id') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.importance') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.nature') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.lang') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.state') }}"></th>
-<th><input type="text" placeholder="{{ lang::get('filters.date') }}"></th>
-</tr>
--->
 </thead>
 <tfoot>
 <tr>
@@ -176,6 +166,7 @@
 <th>{{ lang::get('filters.lang') }}</th>
 <th>{{ lang::get('filters.state') }}</th>
 <th>{{ lang::get('filters.date') }}</th>
+<th>{{ lang::get('filters.lang_avail') }}</th>
 </tr>
 </tfoot>
 <tbody id="table-content">
@@ -229,7 +220,8 @@ $( document ).ready(function() {
           { "data": "nature" },
           { "data": "lang" },
           { "data": "state" },
-          { "data": "date" }
+          { "data": "date" },
+          { "data": "lang_avail" }
         ],
         "columnDefs": [
           { "type": "numeric-comma", targets: 3 }

@@ -15,6 +15,7 @@ return array(
   'hide_cat'      => "Hide keywords",
   'importance'    => "Importance",
   'lang'          => "Case language",
+  'lang_avail'    => "Lang available",
   'nature'        => "Nature",
   'oml_extend'    => "Show only the documents available in my language",
   'only_my_lang'  => "Only my lang",

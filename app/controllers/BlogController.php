@@ -110,14 +110,10 @@ class BlogController extends BaseController {
     }
 
     // Initialise request
-//    $posts = $this->post->
-//      select('posts.*','posts_texts.title','posts_texts.content','posts_texts.lang AS pt_lang')->
-//      join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')->
-//      join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct();
     $posts = $this->post->
       select(array(
         'posts.*',
-        DB::raw('group_concat(distinct `posts_texts`.`title` separator \'|\') as `title`, group_concat(distinct `posts_texts`.`lang`) as `pt_lang`')
+        DB::raw('group_concat(distinct `posts_texts`.`lang`, `posts_texts`.`title` separator \'|\') as `title`, group_concat(distinct `posts_texts`.`lang`) as `pt_lang`')
       ))->
       join('posts_texts', 'posts.id', '=', 'posts_texts.post_id')->
       join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct()->groupBy('posts.id');
@@ -174,21 +170,23 @@ class BlogController extends BaseController {
               $query = $query->orWhere('content', 'like', '%' . $split_second . '%');
           }
         });
-        //$posts = $posts->where('content', 'like', '%' . $and_split . '%');
       }
-      //$posts = $posts->where('content', 'like', '%'.$input['content'].'%');
     }
 
     // Launch the request
     $posts = $posts->get();
 
-    // test
-    //$res = array('success' => 'True', 'data' => array_values($posts->toArray()), 'sql' => DB::getQueryLog());
-    //return Response::json($res);
-
     $ret = array();
     foreach ($posts as $post)
     {
+      $title = '';
+      foreach (explode('|', $post->title) as $value)
+      {
+        if (substr($value, 0, 2) == App::getLocale())
+          $title = substr($value, 2);
+      }
+      if (! $title)
+        $title = $post->meta_title;
       $ret[$post->id] = array(
         'affair_id'   => $post->affair_id,
         'importance'  => ($post->importance == 4) ? 'CR' : $post->importance,
@@ -197,7 +195,8 @@ class BlogController extends BaseController {
         'url'         => $post->url(),
         'nature'      => $post->nature,
         'date'        => date('d/m/Y', strtotime($post->p_date)),
-        'title'       => $post->title,
+        'title'       => $title,
+        'lang_avail'  => $post->pt_lang,
       );
     }
 //    $res = array('success' => 'True', 'data' => array_values($ret));
