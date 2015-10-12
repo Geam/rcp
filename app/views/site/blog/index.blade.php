@@ -239,6 +239,8 @@ $( document ).ready(function() {
       }, 250);
     });
 
+  document.querySelector('#r_oml').setAttribute('onChange', 'requestData(true)');
+
   requestData(true);
 });
 
@@ -266,8 +268,6 @@ function checkEnter(elem,e) {
     requestData(true);
     }
 }
-
-$('#only_my_lang').on('change', requestData);
 
 function generateUrl() {
   var page = document.querySelector('#searchNext');

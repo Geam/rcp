@@ -178,7 +178,7 @@ class BlogController extends BaseController {
     //$posts = $posts->get();
     //$posts = $posts->limit($input['page_len'])->
     //  skip($input['page'] * $input['page_len'])->get();
-    $posts = $posts->paginate($input['page_len']);
+    $posts = $posts->orderBy('p_date', 'desc')->paginate($input['page_len']);
 
     $ret = array();
     foreach ($posts as $post)
