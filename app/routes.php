@@ -141,7 +141,10 @@ Route::group(array('before' => 'detectLang'), function()
   });
 
   # search result
-  Route::post('search', 'BlogController@postSearch');
+  Route::get('search', array(
+    'as' => 'search',
+    'uses' => 'BlogController@getSearch'
+  ));
 
   # language selector
   Route::get('language/{lang}', array(

@@ -85,7 +85,7 @@
 
 {{-- Scripts --}}
 @section('scripts')
-<script src="asset('assets/jstree/js/jstree.min.js') }}"></script>
+<script src="{{ asset('assets/jstree/js/jstree.min.js') }}"></script>
 <script>
 $( document ).ready(function() {
   var langSelect = $('#langSelect')

@@ -86,7 +86,7 @@ class AdminBlogsController extends AdminController {
       $this->post->lang             = $input['post_lang'];
       $this->post->state            = $input['state'];
       $this->post->p_date           = date('Y-m-d', strtotime($input['p_date']));
-      $this->post->meta_title       = $input['meta-title'];
+      $this->post->meta_title       = ($input['meta-title']) ? $input['meta_title'] : $input['title'];
       $this->post->meta_description = $input['meta-description'];
       $this->post->meta_keywords    = $input['meta-keywords'];
       $this->post->user_id          = $user->id;

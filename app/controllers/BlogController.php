@@ -34,11 +34,7 @@ class BlogController extends BaseController {
    */
   public function getIndex()
   {
-    // Get all the blog posts
-    $posts = $this->post->orderBy('created_at', 'DESC')->paginate(10);
-
-    // Show the page
-    return View::make('site/blog/index', compact('posts', 'posts_texts', 'tree'));
+    return View::make('site/blog/index');
   }
 
   /**
@@ -82,7 +78,7 @@ class BlogController extends BaseController {
    *
    * @return json
    */
-  public function postSearch()
+  public function getSearch()
   {
     $input = Input::all();
 
@@ -96,7 +92,9 @@ class BlogController extends BaseController {
       'date'        => 'date',
       'date_2'      => 'date',
       'oml'         => 'in:true,false',
-      'nature'      => 'in:all,judgement,decision'
+      'nature'      => 'in:all,judgement,decision',
+      'page'        => 'integer|min:0',
+      'page_len'    => 'integer|min:10'
     );
 
     $validator = Validator::make($input, $rules);
@@ -173,13 +171,20 @@ class BlogController extends BaseController {
       }
     }
 
+    // total number of query matching
+    //$nb_matching = $posts->get()->count();
+
     // Launch the request
-    $posts = $posts->get();
+    //$posts = $posts->get();
+    //$posts = $posts->limit($input['page_len'])->
+    //  skip($input['page'] * $input['page_len'])->get();
+    $posts = $posts->paginate($input['page_len']);
 
     $ret = array();
     foreach ($posts as $post)
     {
       $title = '';
+      $title_backup = '';
       foreach (explode('|', $post->title) as $value)
       {
         if (substr($value, 0, 2) == App::getLocale())
@@ -200,7 +205,13 @@ class BlogController extends BaseController {
       );
     }
 //    $res = array('success' => 'True', 'data' => array_values($ret));
-    $res = array('success' => 'True', 'data' => array_values($ret), 'sql' => DB::getQueryLog());
+    $res = array(
+      'page'              => $input['page'],
+      'success'           => 'True',
+      'data'              => array_values($ret),
+      'sql'               => DB::getQueryLog(),
+      'links'             => $posts->getLastPage(),
+      );
     return Response::json($res);
   }
 }

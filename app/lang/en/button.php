@@ -8,6 +8,7 @@ return array(
   'create'  => 'Create',
   'delete'  => 'Delete',
   'edit'    => 'Edit',
+  'next'    => 'Next',
   'reset'   => 'Reset',
   'search'  => 'Search',
   'update'  => 'Update',
