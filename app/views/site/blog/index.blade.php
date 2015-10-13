@@ -284,7 +284,7 @@ function generateUrl() {
   url += "&date_2=" + encodeURIComponent($('#r_date_2')[0].value);
   url += "&lang=" + encodeURIComponent($('#r_lang')[0].value);
   url += "&state=" + encodeURIComponent($('#r_state')[0].value);
-  url += "&oml=" + encodeURIComponent($('#only_my_lang').is(':checked'));
+  url += "&oml=" + encodeURIComponent($('#r_oml').is(':checked'));
   url += "&content=" + encodeURIComponent($('#r_content')[0].value);
   url += "&category=" + encodeURIComponent($('#tree').jstree(true).get_selected());
 
@@ -333,12 +333,13 @@ function requestData(reset) {
               newEl('h4', {}, item.title),
               newEl('hr', {}, ""),
               newEl('div', { class: "row"}, [
-                newEl('div', { class: "col-sm-2" }, item.affair_id),
+                newEl('div', { class: "col-sm-1" }, item.affair_id),
                 newEl('div', { class: "col-sm-2" }, item.state),
                 newEl('div', { class: "col-sm-2" }, item.date),
                 newEl('div', { class: "col-sm-2" }, item.lang),
                 newEl('div', { class: "col-sm-2" }, item.nature),
                 newEl('div', { class: "col-sm-2" }, item.lang_avail),
+                newEl('div', { class: "col-sm-1" }, item.importance),
                 ]),
             ]));
         });
