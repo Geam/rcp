@@ -100,9 +100,14 @@
           <div class="col-md-6">
             <label class="control-label" for="post_lang">{{ Lang::get('admin/blogs/create_edit.post_lang') }}</label>
             {{ Form::selectStateOrLang('post_lang', 'lang', [
-              'attr' => ['class' => 'form-control'],
+              'attr' => [
+                'class' => 'form-control',
+                'value' => Input::old('post_lang', isset($post) ? $post->lang : null)
+                ],
               'noall' => 'noall',
-              'avail' => ['default' => isset($post) ? $post->lang : null]
+              'avail' => [
+                'default' => Input::old('post_lang', isset($post) ? $post->lang : null)
+                ]
               ]) }}
             {{ $errors->first('post_lang', '<span class="help-block">:message</span>') }}
           </div>
@@ -113,7 +118,9 @@
             {{ Form::selectStateOrLang('state', 'state', [
               'attr' => ['class' => 'form-control'],
               'noall' => 'noall',
-              'avail' => ['default' => isset($post) ? $post->state : null]
+              'avail' => [
+                'default' => Input::old('state', isset($post) ? $post->state : null)
+                ]
               ]) }}
             {{ $errors->first('state', '<span class="help-block">:message</span>') }}
           </div>

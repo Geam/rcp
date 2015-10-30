@@ -34,7 +34,8 @@ class BlogController extends BaseController {
    */
   public function getIndex()
   {
-    return View::make('site/blog/index');
+    $input = Input::all();
+    return View::make('site/blog/index', compact('input'));
   }
 
   /**

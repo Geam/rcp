@@ -71,8 +71,21 @@ p.affair h4 {
       <div class="form-group">
         <!-- Post Content -->
         <div class="col-md-12">
-          {{ Form::label_tooltip('r_content', Lang::get('filters.content'), Lang::get('tooltips.main_content'),  [ 'class' => 'control-label' ]) }}
-          {{ Form::text('r_content', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => 'r_content' ]) }}
+          {{ Form::label_tooltip(
+            'r_content',
+            Lang::get('filters.content'),
+            Lang::get('tooltips.main_content'),
+            [ 'class' => 'control-label' ]
+            ) }}
+          {{ Form::text(
+            'r_content',
+            (Input::has('content')) ? $input['content'] : null,
+            [
+              'class'   => 'form-control',
+              'onkeyup' => 'checkEnter(this, event)',
+              'id'      => 'r_content',
+              ]
+            ) }}
         </div>
         <!-- ./ post content -->
       </div>
@@ -80,21 +93,47 @@ p.affair h4 {
       <div class="form-group">
         <!-- Post Title -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_title', Lang::get('filters.title'), Lang::get('tooltips.main_title'), [ 'class' => 'control-label' ]) }}
-          {{ Form::text('r_title', null, [ 'class' => 'form-control', 'id' => "r_title", 'onkeyup' => 'checkEnter(this, event)' ]) }}
+          {{ Form::label_tooltip(
+            'r_title',
+            Lang::get('filters.title'),
+            Lang::get('tooltips.main_title'),
+            [ 'class' => 'control-label' ])
+            }}
+          {{ Form::text(
+            'r_title',
+            (Input::has('title')) ? $input['title'] : null,
+            [
+              'class'   => 'form-control',
+              'id'      => 'r_title',
+              'onkeyup' => 'checkEnter(this, event)'
+              ]
+            ) }}
         </div>
         <!-- ./ post title -->
 
         <!-- Post state -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_state', Lang::get('filters.state'), Lang::get('tooltips.main_state'),  [ 'class' => "control-label" ]) }}
-          {{ Form::selectStateOrLang('r_state', 'state', [
-            'attr' => [
-              'class' => 'form-control',
-              'onchange' => 'requestData(true)'
-            ],
-            'avail' => null
-            ]) }}
+          {{ Form::label_tooltip(
+            'r_state',
+            Lang::get('filters.state'),
+            Lang::get('tooltips.main_state'),
+            [
+              'class' => "control-label"
+              ]
+            ) }}
+          {{ Form::selectStateOrLang(
+            'r_state',
+            'state',
+            [
+              'attr'  => [
+                'class'    => 'form-control',
+                'onchange' => 'requestData(true)',
+                ],
+              'avail' => [
+                'default'  => (Input::has('state')) ? $input['state'] : '00'
+                ]
+              ]
+            ) }}
         </div>
         <!-- ./ post state -->
       </div>
@@ -102,15 +141,37 @@ p.affair h4 {
       <div class="form-group">
         <!-- Post affair_id -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_affair_id', Lang::get('filters.affair_id'), Lang::get('tooltips.main_affair_id'), [ 'class' => 'control-label' ]) }}
-          {{ Form::text('r_affair_id', null, [ 'class' => 'form-control', 'onkeyup' => 'checkEnter(this, event)', 'id' => "r_affair_id" ]) }}
+          {{ Form::label_tooltip(
+            'r_affair_id',
+            Lang::get('filters.affair_id'),
+            Lang::get('tooltips.main_affair_id'),
+            [
+              'class' => 'control-label'
+              ]
+            ) }}
+          {{
+            Form::text('r_affair_id',
+            (Input::has('affair_id')) ? $input['affair_id'] : null,
+            [
+              'class'   => 'form-control',
+              'onkeyup' => 'checkEnter(this, event)',
+              'id'      => "r_affair_id"
+              ]
+            ) }}
         </div>
         <!-- ./ post affair_id -->
 
         <!-- Post date -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_date', Lang::get('filters.date'), Lang::get('tooltips.main_date'), [ 'class' => 'control-label' ]) }}
-          {{ Form::inputDate('r_date', True) }}
+          {{ Form::label_tooltip(
+            'r_date',
+            Lang::get('filters.date'),
+            Lang::get('tooltips.main_date'),
+            [
+              'class' => 'control-label'
+              ]
+            ) }}
+          {{ Form::inputDate('r_date', True, $input) }}
         </div>
         <!-- ./ post date -->
       </div>
@@ -118,27 +179,51 @@ p.affair h4 {
       <div class="form-group">
         <!-- Post post_lang -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_lang', Lang::get('filters.lang'), Lang::get('tooltips.main_lang'), [ 'class' => 'control-label' ]) }}
-          {{ Form::selectStateOrLang('r_lang', 'lang', [
-            'attr' => [
-              'class' => 'form-control',
-              'onchange' => 'requestData(true)'
-            ],
-            'avail' => null
-            ]) }}
+          {{ Form::label_tooltip(
+            'r_lang',
+            Lang::get('filters.lang'),
+            Lang::get('tooltips.main_lang'),
+            [
+              'class' => 'control-label'
+              ]
+            ) }}
+          {{ Form::selectStateOrLang(
+            'r_lang',
+            'lang',
+            [
+              'attr' => [
+                'class'    => 'form-control',
+                'onchange' => 'requestData(true)',
+                ],
+              'avail' => [
+                'default'  => (Input::has('lang')) ? $input['lang'] : null
+                ]
+              ]
+            ) }}
         </div>
         <!-- ./ post post_lang -->
 
         <!-- post nature -->
         <div class="col-md-6">
-          {{ Form::label_tooltip('r_nature', Lang::get('filters.nature'), Lang::get('tooltips.main_nature'), [ 'class' => "control-label" ]) }}
-          {{ Form::nature('r_nature', [
-            'attr' => [
-              'class' => 'form-control',
-              'onchange' => 'requestData(true)'
+          {{ Form::label_tooltip(
+            'r_nature',
+            Lang::get('filters.nature'),
+            Lang::get('tooltips.main_nature'),
+            [
+              'class' => "control-label"
+              ]
+            ) }}
+          {{ Form::nature(
+            'r_nature',
+            [
+              'attr' => [
+                'class'    => 'form-control',
+                'onchange' => 'requestData(true)',
+              ],
+              'default'  => (Input::has('nature')) ? $input['nature'] : null
             ],
-            'default' => null
-          ], true) }}
+            true
+            ) }}
         </div>
         <!-- ./ post nature -->
       </div>
@@ -146,12 +231,29 @@ p.affair h4 {
       <div class="form-group">
         <!-- Post importance -->
         <div class="col-md-12">
-          {{ Form::label_tooltip('r_importance', Lang::get('filters.importance'), Lang::get('tooltips.main_importance'), [ 'class' => "control-label" ]) }}
+          {{ Form::label_tooltip(
+            'r_importance',
+            Lang::get('filters.importance'),
+            Lang::get('tooltips.main_importance'),
+            [
+              'class' => "control-label"
+              ]
+            ) }}
           {{ Form::select(
             'r_importance',
-            [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR'],
-            0,
-            [ 'class' => "form-control", 'id' => "r_importance", 'onchange' => 'requestData(true)' ]
+            [
+              0 => Lang::get('filters.all'),
+              1 => 1,
+              2 => 2,
+              3 => 3,
+              4 => 'CR'
+              ],
+            (Input::has('importance')) ? $input['importance'] : 0,
+            [
+              'class'    => "form-control",
+              'id'       => "r_importance",
+              'onchange' => 'requestData(true)'
+              ]
           ) }}
         </div>
         <!-- ./ post importance -->
@@ -159,7 +261,12 @@ p.affair h4 {
 
       <div class="form-group">
         <div class="col-md-12">
-          {{ Form::only_my_lang('r_oml', Lang::get('filters.oml_extend'), Lang::get('tooltips.main_oml'), 'value') }}
+          {{  Form::only_my_lang(
+            'r_oml',
+            Lang::get('filters.oml_extend'),
+            Lang::get('tooltips.main_oml'),
+            (Input::has('oml')) ? $input['oml'] : "false"
+            ) }}
         </div>
       </div>
     </div>
@@ -226,7 +333,7 @@ $( document ).ready(function() {
     requestData(true);
     })
   .bind("hover_node.jstree", function (e, data) {
-    console.log(data.node.original.long);
+    //console.log(data.node.original.long);
     });
 
   // highlight tree node based on search
@@ -246,15 +353,15 @@ $( document ).ready(function() {
 
 function reset() {
   $('#r_title')[0].value = '';
-  $('#r_importance')[0].value = '';
-  $('#r_nature')[0].value = 'judgement';
+  $('#r_importance')[0].value = '0';
+  $('#r_nature')[0].value = 'all';
   $('#r_affair_id')[0].value = '';
   $('#r_date')[0].value = '';
   $('#r_date_2')[0].value = '';
   $('#r_lang')[0].value = '00';
   $('#r_state')[0].value = '00';
   $('#r_content')[0].value = '';
-  $('#only_my_lang').prop( "checked", false );
+  $('#r_oml').prop( "checked", false );
   if (! $( '#alerts' )[0].className.match('hide')) {
     $( '#alerts' )[0].className += 'hide';
     $( '#alerts' ).empty();
@@ -269,6 +376,22 @@ function checkEnter(elem,e) {
     }
 }
 
+function serialiseData() {
+  var data = {};
+  data['r_title'] = document.querySelector('#r_title').value;
+  data['r_importance'] = document.querySelector('#r_importance').value;
+  data['r_nature'] = document.querySelector('#r_nature').value;
+  data['r_affair_id'] = document.querySelector('#r_affair_id').value;
+  data['r_date'] = document.querySelector('#r_date').value;
+  data['r_date_2'] = document.querySelector('#r_date_2').value;
+  data['r_lang'] = document.querySelector('#r_lang').value;
+  data['r_state'] = document.querySelector('#r_state').value;
+  data['r_oml'] = document.querySelector('#r_oml').checked;
+  data['r_content'] = document.querySelector('#r_content').value;
+  data['r_tree'] = $('#tree').jstree(true).get_selected();
+  return JSON.stringify(data);
+}
+
 function generateUrl() {
   var page = document.querySelector('#searchNext');
   var url = "";
@@ -279,7 +402,6 @@ function generateUrl() {
   url += "&importance=" + encodeURIComponent($('#r_importance')[0].value);
   url += "&nature=" + encodeURIComponent($('#r_nature')[0].value);
   url += "&affair_id=" + encodeURIComponent($('#r_affair_id')[0].value);
-  url += "&date=" + encodeURIComponent($('#r_date')[0].value);
   url += "&date=" + encodeURIComponent($('#r_date')[0].value);
   url += "&date_2=" + encodeURIComponent($('#r_date_2')[0].value);
   url += "&lang=" + encodeURIComponent($('#r_lang')[0].value);
@@ -323,7 +445,10 @@ function requestData(reset) {
     document.querySelector('#searchNext').value = "1";
     $('#searchNext').removeClass('hide');
   }
-  $.getJSON(generateUrl(), function() {
+  var url = generateUrl();
+  var args = url.substring(url.search("title="))
+  window.history.pushState(serialiseData(), "test", "?" + args)
+  $.getJSON(url, function() {
   })
     .done(function(json) {
       $( '#alerts' ).addClass('hide').empty();
@@ -333,12 +458,12 @@ function requestData(reset) {
               newEl('h4', {}, item.title),
               newEl('hr', {}, ""),
               newEl('div', { class: "row"}, [
-                newEl('div', { class: "col-sm-1" }, item.affair_id),
+                newEl('div', { class: "col-sm-2" }, item.affair_id),
                 newEl('div', { class: "col-sm-2" }, item.state),
                 newEl('div', { class: "col-sm-2" }, item.date),
                 newEl('div', { class: "col-sm-2" }, item.lang),
                 newEl('div', { class: "col-sm-2" }, item.nature),
-                newEl('div', { class: "col-sm-2" }, item.lang_avail),
+                newEl('div', { class: "col-sm-1" }, item.lang_avail),
                 newEl('div', { class: "col-sm-1" }, item.importance),
                 ]),
             ]));
@@ -360,6 +485,21 @@ function requestData(reset) {
       addContent('#alerts', {}, "{{ Lang::get('messages.error') }}");
       $('#alerts').removeClass('hide');
     });
+}
+
+window.onpopstate = function(event) {
+  var data = JSON.parse(event.state);
+  document.querySelector('#r_title').value = data['r_title'];
+  document.querySelector('#r_importance').value = data['r_importance'];
+  document.querySelector('#r_nature').value = data['r_nature'];
+  document.querySelector('#r_affair_id').value = data['r_affair_id'];
+  document.querySelector('#r_date').value = data['r_date'];
+  document.querySelector('#r_date_2').value = data['r_date_2'];
+  document.querySelector('#r_lang').value = data['r_lang'];
+  document.querySelector('#r_state').value = data['r_state'];
+  document.querySelector('#r_content').value = data['r_content'];
+  document.querySelector('#r_oml').checked = data['r_oml'];
+  requestData(true);
 }
 </script>
 @stop

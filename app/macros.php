@@ -94,7 +94,7 @@ Form::macro('nature', function($name, array $options, $all_option)
   return $ret;
 });
 
-Form::macro('inputDate', function($name, $range)
+Form::macro('inputDate', function($name, $range, $input)
 {
   $ret = '<div class="input-group">' .
     '<span class="input-group-addon">' .
@@ -102,14 +102,18 @@ Form::macro('inputDate', function($name, $range)
     '</span>' .
     '<input type="text" class="form-control" id="' .
     $name . '" name="' .
-    $name . '"onchange="requestData()">';
+    $name . '" onchange="requestData()"';
+  $ret .= (Input::has('date')) ? ' value="' + $input['date'] + '"' : "";
+  $ret .= '>';
   if ($range)
   {
     $ret .= '<span class="input-group-addon">' .
       Lang::get('filters.to') . '</span>' .
       '<input type="text" class="form-control" id="' .
       $name . '_2" name="' .
-      $name . '_2" onchange="requestData()">';
+      $name . '_2" onchange="requestData()"';
+    $ret .= (Input::has('date_2')) ? ' value="' + $input['date_2'] + '"' : "";
+    $ret .= '>';
   }
   $ret .= '</div>';
   return $ret;
@@ -132,8 +136,13 @@ Form::macro('jsTreeSearch', function($name)
 Form::macro('only_my_lang', function($name, $label, $tooltip, $value)
 {
   $ret = '<div class="col-md-12 form-group form-inline">' .
-    '<input type="checkbox" value="' . $value . '" name="' . $name . '" id="' . $name . '" class="form-control" onchange="requestData()">' .
-    ' <label class="control-label" for="' . $name . '">' . $label;
+    '<input type="checkbox"';
+  $ret .= ($value == "true") ? "checked=checked" : "";
+  $ret .= '" name="' . $name .
+    '" id="' . $name .
+    '" class="form-control" onchange="requestData()">' .
+    ' <label class="control-label" for="' . $name .
+    '">' . $label;
   if ($tooltip) {
     $ret .= '<span href="#" class="myTooltip"> (?)<span>' .
     '<img class="callout" src="assets/tooltip/img/callout.gif" />' .
