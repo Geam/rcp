@@ -85,7 +85,7 @@ class BlogController extends BaseController {
 
     // Rules for validator
     $rules = array(
-      'category'    => 'array',
+      'category'    => 'regex:/[0-9]+(,[0-9]+)*/',
       'importance'  => 'min:0|max:4',
       'affair_id'   => 'min:2',
       'lang'        => 'size:2',
@@ -118,8 +118,10 @@ class BlogController extends BaseController {
       join('posts_cats', 'posts.id', '=', 'posts_cats.post_id')->distinct()->groupBy('posts.id');
 
     // search the post that match categories
-    if (Input::has('category') && count($input['category']) > 0)
-      $posts = $posts->whereIn('cat_id', $input['category']);
+    if (Input::has('category') && $input['category'] != "") {
+      $cat = explode(',', $input['category']);
+      $posts = $posts->whereIn('cat_id', $cat);
+    }
 
     // add filter by affair_id
     if (Input::has('affair_id'))
