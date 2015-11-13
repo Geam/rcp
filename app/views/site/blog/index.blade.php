@@ -312,13 +312,6 @@ $( document ).ready(function() {
     format: "dd-mm-yyyy",
       });
 
-  // get categories from url if url is recall
-  // var temp = decodeURIComponent(window.location.href);
-  // var cat = temp.substring(temp.search('category=') + 9));
-  // if (cat != "") {
-  //  cats = cat.split(",");
-  //  now check app/controllers/admin/AdminBlogsController.php
-  // }
 
   // init the categorie tree
   $('#tree').jstree({
@@ -342,6 +335,22 @@ $( document ).ready(function() {
     })
   .bind("hover_node.jstree", function (e, data) {
     //console.log(data.node.original.long);
+    })
+  .bind("loaded.jstree", function (e, data) {
+    // get categories from url if url is recall
+    var temp = decodeURIComponent(window.location.href);
+    var pos = temp.search('category=');
+    if (pos != -1) {
+      var cat = temp.substring(pos + 9);
+      if (cat != "") {
+        cats = cat.split(",");
+        var ref = $(this).jstree(true);
+        cats.map( function(item) {
+          ref.check_node(item);
+          });
+        }
+      }
+    requestData(true);
     });
 
   // highlight tree node based on search
@@ -355,8 +364,6 @@ $( document ).ready(function() {
     });
 
   document.querySelector('#r_oml').setAttribute('onChange', 'requestData(true)');
-
-  requestData(true);
 });
 
 function reset() {
