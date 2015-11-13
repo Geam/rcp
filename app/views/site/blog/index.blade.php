@@ -312,6 +312,14 @@ $( document ).ready(function() {
     format: "dd-mm-yyyy",
       });
 
+  // get categories from url if url is recall
+  // var temp = decodeURIComponent(window.location.href);
+  // var cat = temp.substring(temp.search('category=') + 9));
+  // if (cat != "") {
+  //  cats = cat.split(",");
+  //  now check app/controllers/admin/AdminBlogsController.php
+  // }
+
   // init the categorie tree
   $('#tree').jstree({
     core: {
@@ -444,6 +452,9 @@ function requestData(reset) {
     $('#results').empty();
     document.querySelector('#searchNext').value = "1";
     $('#searchNext').removeClass('hide');
+  } else {
+    if (document.querySelector('#searchNext').value == "-1")
+      return ;
   }
   var url = generateUrl();
   var args = url.substring(url.search("title="))
@@ -469,8 +480,10 @@ function requestData(reset) {
             ]));
         });
         addContent('#results', children);
-        if (parseInt(json.page) == json.links)
+        if (parseInt(json.page) == json.links) {
           $('#searchNext').addClass('hide');
+          document.querySelector('#searchNext').value = "-1";
+        }
       } else {
         var children = newEl('ul', {}, json.msgs.map(function (item) {
             return newEl('li', {}, item);
@@ -501,5 +514,11 @@ window.onpopstate = function(event) {
   document.querySelector('#r_oml').checked = data['r_oml'];
   requestData(true);
 }
+
+window.onscroll = function(ev) {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    requestData(false);
+  }
+};
 </script>
 @stop
