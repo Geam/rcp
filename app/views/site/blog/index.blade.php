@@ -196,7 +196,8 @@ p.affair h4 {
                 'onchange' => 'requestData(true)',
                 ],
               'avail' => [
-                'default'  => (Input::has('lang')) ? $input['lang'] : null
+                'default'  => (Input::has('lang')) ? $input['lang'] : null,
+                'data' => array_flip(Config::get('app.available_language'))
                 ]
               ]
             ) }}

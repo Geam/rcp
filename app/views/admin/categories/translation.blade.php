@@ -21,7 +21,10 @@
     {{ Form::selectStateOrLang('edit_lang', 'lang', [
       'attr' => ['class' => 'form-control', 'autocomplete' => 'off'],
       'noall' => 'noall',
-      'avail' => ['default' => App::getLocale() ]
+      'avail' => [
+        'default' => App::getLocale(),
+        'data' => array_flip(Config::get('app.available_language'))
+        ]
       ]) }}
     </div>
   </div>

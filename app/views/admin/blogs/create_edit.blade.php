@@ -106,7 +106,8 @@
                 ],
               'noall' => 'noall',
               'avail' => [
-                'default' => Input::old('post_lang', isset($post) ? $post->lang : null)
+                'default' => Input::old('post_lang', isset($post) ? $post->lang : null),
+                'data' => array_flip(Config::get('app.available_language'))
                 ]
               ]) }}
             {{ $errors->first('post_lang', '<span class="help-block">:message</span>') }}
