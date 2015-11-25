@@ -132,7 +132,7 @@
         <div class="form-group {{{ $errors->has('content') ? 'has-error' : '' }}}">
           <div class="col-md-12">
             <label class="control-label" for="content">{{ Lang::get('admin/blogs/create_edit.content') }}</label>
-            <textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
+            <textarea class="form-control" name="content" id="content" value="content" rows="10">{{{ Input::old('content', isset($post) ? $post->content('en') : null) }}}</textarea>
             {{ $errors->first('content', '<span class="help-block">:message</span>') }}
           </div>
         </div>
@@ -151,31 +151,31 @@
       <!-- Meta Data tab -->
       <div class="tab-pane" id="tab-meta-data">
         <!-- Meta Title -->
-        <div class="form-group {{{ $errors->has('meta-title') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('meta_title') ? 'error' : '' }}}">
           <div class="col-md-12">
-            <label class="control-label" for="meta-title">{{ Lang::get('admin/blogs/create_edit.meta_title') }}</label>
-            <input class="form-control" type="text" name="meta-title" id="meta-title" value="{{{ Input::old('meta-title', isset($post) ? $post->meta_title : null) }}}" />
-            {{ $errors->first('meta-title', '<span class="help-block">:message</span>') }}
+            <label class="control-label" for="meta_title">{{ Lang::get('admin/blogs/create_edit.meta_title') }}</label>
+            <input class="form-control" type="text" name="meta_title" id="meta_title" value="{{{ Input::old('meta_title', isset($post) ? $post->meta_title : null) }}}" />
+            {{ $errors->first('meta_title', '<span class="help-block">:message</span>') }}
           </div>
         </div>
         <!-- ./ meta title -->
 
         <!-- Meta Description -->
-        <div class="form-group {{{ $errors->has('meta-description') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('meta_description') ? 'error' : '' }}}">
           <div class="col-md-12 controls">
-            <label class="control-label" for="meta-description">{{ Lang::get('admin/blogs/create_edit.meta_description') }}</label>
-            <input class="form-control" type="text" name="meta-description" id="meta-description" value="{{{ Input::old('meta-description', isset($post) ? $post->meta_description : null) }}}" />
-            {{ $errors->first('meta-description', '<span class="help-block">:message</span>') }}
+            <label class="control-label" for="meta_description">{{ Lang::get('admin/blogs/create_edit.meta_description') }}</label>
+            <input class="form-control" type="text" name="meta_description" id="meta_description" value="{{{ Input::old('meta_description', isset($post) ? $post->meta_description : null) }}}" />
+            {{ $errors->first('meta_description', '<span class="help-block">:message</span>') }}
           </div>
         </div>
         <!-- ./ meta description -->
 
         <!-- Meta Keywords -->
-        <div class="form-group {{{ $errors->has('meta-keywords') ? 'error' : '' }}}">
+        <div class="form-group {{{ $errors->has('meta_keywords') ? 'error' : '' }}}">
           <div class="col-md-12">
-            <label class="control-label" for="meta-keywords">{{ Lang::get('admin/blogs/create_edit.meta_keywords') }}</label>
-            <input class="form-control" type="text" name="meta-keywords" id="meta-keywords" value="{{{ Input::old('meta-keywords', isset($post) ? $post->meta_keywords : null) }}}" />
-            {{ $errors->first('meta-keywords', '<span class="help-block">:message</span>') }}
+            <label class="control-label" for="meta_keywords">{{ Lang::get('admin/blogs/create_edit.meta_keywords') }}</label>
+            <input class="form-control" type="text" name="meta_keywords" id="meta_keywords" value="{{{ Input::old('meta_keywords', isset($post) ? $post->meta_keywords : null) }}}" />
+            {{ $errors->first('meta_keywords', '<span class="help-block">:message</span>') }}
           </div>
         </div>
         <!-- ./ meta keywords -->
@@ -226,35 +226,69 @@ $(document).ready(function() {
       @foreach ($post->categories()->get() as $cat)
         ref.check_node("{{ $cat->id }}");
       @endforeach
-        console.log(ref.get_selected());
     });
 
     $('#form').submit( function (e) {
       e.preventDefault();
       var form = this;
+
+      // categories form
       $.ajax({
-      url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/category') }}",
+        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/category') }}",
         method: "POST",
         data: {
-        _token: $('input[name=_token]')[0].value,
+          _token: $('input[name=_token]')[0].value,
           _id: $('#affair_id')[0].value,
           _cat: $('#tree').jstree(true).get_selected()
         }
       })
         .done( function (ret) {
           if (ret.success)
-            form.submit();
+            //form.submit();
+            ;
           else
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         })
-          .fail( function (ret) {
+        .fail( function (ret) {
+            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+        });
+
+      // main form
+      $.ajax({
+        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}",
+        method: "POST",
+        data: {
+          _token: $('input[name=_token]')[0].value,
+          affair_id: $('#affair_id')[0].value,
+          title: $('#title')[0].value,
+          importance: $('#importance')[0].value,
+          nature: $('#nature')[0].value,
+          slug: $('#slug')[0].value,
+          p_date: $('#p_date')[0].value,
+          post_lang: $('#post_lang')[0].value,
+          state: $('#state')[0].value,
+          content: CKEDITOR.instances.content.getData()
+          meta_title: $('#meta_title')[0].value,
+          meta_description: $('#meta_description')[0].value,
+          meta_keywords: $('#meta_keywords')[0].value
+        }
+      })
+        .done( function (ret) {
+          if (ret.success)
+            //form.submit();
+            ;
+          else
+            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+        })
+        .fail( function (ret) {
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         });
     });
+
     @endif
 
       $('#p_date').datepicker({
-      startView: 1,
+        startView: 1,
         orientation: "top auto",
         language: "{{ App::getLocale() }}",
         autoclose: true,

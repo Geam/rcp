@@ -23,7 +23,7 @@
   <div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
     <div class="col-md-12">
       {{ Form::label('content', Lang::get('admin/blogs/create_edit.content'), array('class' => 'control-label')) }}
-      <textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', $post->content($lang)) }}}</textarea>
+      <textarea class="form-control" name="content" value="content" rows="10">{{{ Input::old('content', $post->content($lang)) }}}</textarea>
     {{ $errors->first('content', '<span class="help-block">:message</span>') }}
     </div>
   </div>

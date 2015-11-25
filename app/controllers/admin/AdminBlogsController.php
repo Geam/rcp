@@ -184,9 +184,9 @@ class AdminBlogsController extends AdminController {
       $post->lang             = $input['post_lang'];
       $post->state            = $input['state'];
       $post->p_date           = date('Y-m-d', strtotime($input['p_date']));
-      $post->meta_title       = $input['meta-title'];
-      $post->meta_description = $input['meta-description'];
-      $post->meta_keywords    = $input['meta-keywords'];
+      $post->meta_title       = $input['meta_title'];
+      $post->meta_description = $input['meta_description'];
+      $post->meta_keywords    = $input['meta_keywords'];
 
       // Was the blog post updated?
       if($post->save())

@@ -49,8 +49,6 @@
 
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/wysihtml5/css/prettify.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/wysihtml5/css/bootstrap-wysihtml5.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/colorbox/css/colorbox.css') }}">
 
   <style>
@@ -116,8 +114,7 @@ _gaq.push(['_trackPageview']);
   <!-- Javascripts -->
   <script src="{{ asset('assets/jquery/js/jquery.min.js') }}"></script>
   <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/wysihtml5/js/wysihtml5-0.3.0.js') }}"></script>
-  <script src="{{ asset('assets/wysihtml5/js/bootstrap-wysihtml5.js') }}"></script>
+  <script src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
   <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('assets/datatables/js/dataTables.bootstrap.js') }}"></script>
   <script src="{{ asset('assets/colorbox/js/jquery.colorbox.js') }}"></script>
@@ -144,7 +141,10 @@ $(document).ready(function(){
     event.preventDefault();
   });
 });
-$('.wysihtml5').wysihtml5();
+CKEDITOR.replace( 'content', {
+  forcePasteAsPlainText: true,
+  enterMode: CKEDITOR.ENTER_BR
+});
 $(prettyPrint)
   </script>
 

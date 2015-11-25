@@ -22,7 +22,7 @@
         <div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
           <div class="col-md-12">
                         <label class="control-label" for="content">Content</label>
-            <textarea class="form-control full-width wysihtml5" name="content" value="content" rows="10">{{{ Input::old('content', $comment->content) }}}</textarea>
+            <textarea class="form-control" name="content" value="content" rows="10">{{{ Input::old('content', $comment->content) }}}</textarea>
             {{ $errors->first('content', '<span class="help-inline">:message</span>') }}
           </div>
         </div>
