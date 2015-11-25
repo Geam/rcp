@@ -49,8 +49,8 @@
             'importance',
             [ 0 => Lang::get('filters.all'), 1 => 1, 2 => 2, 3 => 3, 4 => 'CR' ],
             Input::old('importance', isset($post) ? $post->importance : null),
-            [ 'class' => "form-control", 'id' => "importance", 'onchange' => 'requestData()'
-          ]) }}
+            [ 'class' => "form-control", 'id' => "importance" ]
+            ) }}
             {{ $errors->first('importance', '<span class="help-block">:message</span>') }}
           </div>
           <!-- ./ post importance -->
@@ -68,7 +68,7 @@
           <!-- ./ post nature -->
         </div>
 
-        <!-- Post slug -->
+        <!-- Post slug --><!--
         <div class="form-group {{{ $errors->has('slug') ? 'error' : '' }}}">
           <div class="col-md-12">
             <label class="control-label" for="slug">{{ Lang::get('admin/blogs/create_edit.slug') }}</label>
@@ -76,7 +76,7 @@
             {{ $errors->first('slug', '<span class="help-block">:message</span>') }}
           </div>
         </div>
-        <!-- ./ post slug -->
+        --><!-- ./ post slug -->
 
         <div class="form-group {{{ $errors->has('affair_id') ? 'error' : '' }}}">
           <!-- Post affair_id -->
@@ -244,8 +244,8 @@ $(document).ready(function() {
       })
         .done( function (ret) {
           if (ret.success)
-            //form.submit();
-            ;
+            form.submit();
+            //;
           else
             alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
         })
@@ -254,35 +254,34 @@ $(document).ready(function() {
         });
 
       // main form
-      $.ajax({
-        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}",
-        method: "POST",
-        data: {
-          _token: $('input[name=_token]')[0].value,
-          affair_id: $('#affair_id')[0].value,
-          title: $('#title')[0].value,
-          importance: $('#importance')[0].value,
-          nature: $('#nature')[0].value,
-          slug: $('#slug')[0].value,
-          p_date: $('#p_date')[0].value,
-          post_lang: $('#post_lang')[0].value,
-          state: $('#state')[0].value,
-          content: CKEDITOR.instances.content.getData()
-          meta_title: $('#meta_title')[0].value,
-          meta_description: $('#meta_description')[0].value,
-          meta_keywords: $('#meta_keywords')[0].value
-        }
-      })
-        .done( function (ret) {
-          if (ret.success)
-            //form.submit();
-            ;
-          else
-            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
-        })
-        .fail( function (ret) {
-            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
-        });
+//      $.ajax({
+//        url: "{{ URL::to('admin/affairs/manage/' . $post->id . '/edit') }}",
+//        method: "POST",
+//        data: {
+//          _token: $('input[name=_token]')[0].value,
+//          affair_id: $('#affair_id')[0].value,
+//          title: $('#title')[0].value,
+//          importance: $('#importance')[0].value,
+//          nature: $('#nature')[0].value,
+//          p_date: $('#p_date')[0].value,
+//          post_lang: $('#post_lang')[0].value,
+//          state: $('#state')[0].value,
+//          content: CKEDITOR.instances.content.getData(),
+//          meta_title: $('#meta_title')[0].value,
+//          meta_description: $('#meta_description')[0].value,
+//          meta_keywords: $('#meta_keywords')[0].value
+//        }
+//      })
+//        .done( function (ret) {
+//          if (ret.success)
+//            //form.submit();
+//            ;
+//          else
+//            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+//        })
+//        .fail( function (ret) {
+//            alert("{{ Lang::get('admin/blogs/messages.update.error') }}");
+//        });
     });
 
     @endif

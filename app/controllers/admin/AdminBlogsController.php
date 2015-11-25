@@ -58,10 +58,9 @@ class AdminBlogsController extends AdminController {
   {
     // Declare the rules for the form validation
     $rules = array(
-      'title'       =>  'required|min:3',
+      'title'       =>  'required|min:3|unique:posts,slug',
       'content'     =>  'required|min:3',
       'importance'  =>  'required|numeric|digits_between:0,4',
-      'slug'        =>  'required|min:3|unique:posts,slug',
       'nature'      =>  array('required', 'Regex:/^(judgement|decision)$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
@@ -80,15 +79,15 @@ class AdminBlogsController extends AdminController {
 
       // Update the blog post data
       $this->post->importance       = $input['importance'];
-      $this->post->slug             = Str::slug($input['slug']);
+      $this->post->slug             = Str::slug($input['title']);
       $this->post->nature           = $input['nature'];
       $this->post->affair_id        = $input['affair_id'];
       $this->post->lang             = $input['post_lang'];
       $this->post->state            = $input['state'];
       $this->post->p_date           = date('Y-m-d', strtotime($input['p_date']));
-      $this->post->meta_title       = ($input['meta-title']) ? $input['meta_title'] : $input['title'];
-      $this->post->meta_description = $input['meta-description'];
-      $this->post->meta_keywords    = $input['meta-keywords'];
+      $this->post->meta_title       = ($input['meta_title']) ? $input['meta_title'] : $input['title'];
+      $this->post->meta_description = $input['meta_description'];
+      $this->post->meta_keywords    = $input['meta_keywords'];
       $this->post->user_id          = $user->id;
 
       // Was the blog post updated?
@@ -162,7 +161,6 @@ class AdminBlogsController extends AdminController {
       'title'       =>  'required|min:3',
       'content'     =>  'required|min:3',
       'importance'  =>  'required|numeric|digits_between:0,4',
-      'slug'        =>  'required|min:3|unique:posts,slug,' . $post->id,
       'nature'      =>  array('required', 'Regex:/^(judgement|decision)$/'),
       'affair_id'   =>  'required|min:3',
       'post_lang'   =>  'required|between:2,3',
@@ -178,7 +176,6 @@ class AdminBlogsController extends AdminController {
     {
       // Update the blog post data
       $post->importance       = $input['importance'];
-      $post->slug             = Str::slug($input['slug']);
       $post->nature           = $input['nature'];
       $post->affair_id        = $input['affair_id'];
       $post->lang             = $input['post_lang'];

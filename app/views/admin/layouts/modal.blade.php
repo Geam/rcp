@@ -140,12 +140,16 @@ $(document).ready(function(){
     });
     event.preventDefault();
   });
+
+  if (document.getElementById('content')) {
+    CKEDITOR.replace( 'content', {
+      forcePasteAsPlainText: true,
+      enterMode: CKEDITOR.ENTER_BR
+    });
+  }
+
+  $(prettyPrint)
 });
-CKEDITOR.replace( 'content', {
-  forcePasteAsPlainText: true,
-  enterMode: CKEDITOR.ENTER_BR
-});
-$(prettyPrint)
   </script>
 
     @yield('scripts')
