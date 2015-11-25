@@ -142,10 +142,7 @@ $(document).ready(function(){
   });
 
   if (document.getElementById('content')) {
-    CKEDITOR.replace( 'content', {
-      forcePasteAsPlainText: true,
-      enterMode: CKEDITOR.ENTER_BR
-    });
+    CKEDITOR.replace( 'content' );
   }
 
   $(prettyPrint)
