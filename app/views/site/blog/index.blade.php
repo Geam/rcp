@@ -473,7 +473,7 @@ function requestData(reset) {
       $( '#alerts' ).addClass('hide').empty();
       if (json.success) {
         var children = json.data.map(function (item) {
-          return newEl('p', { class: "affair"}, newEl('a', { href: item.url }, [
+          return newEl('p', { class: "affair"}, newEl('a', { href: item.url, target:"_blank" }, [
               newEl('h4', {}, item.title),
               newEl('hr', {}, ""),
               newEl('div', { class: "row"}, [
