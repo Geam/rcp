@@ -72,7 +72,7 @@ class AdminAffairsTranslationController extends AdminController {
         $posts_text = new Posts_text;
 
       $posts_text->title    = $input['title'];
-      $posts_text->content  = $input['content'];
+      $posts_text->content  = str_replace(array("\n", "\r", "<p>&nbsp;</p>"), '', $input['content']);
       $posts_text->post_id  = $post->id;
       $posts_text->lang     = $lang;
 
