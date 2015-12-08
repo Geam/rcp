@@ -279,6 +279,8 @@ p.affair h4 {
 </div>
 
 <div class="well">
+  <div id="resultHeader">
+  </div>
   <div id="results"></div>
   {{ Form::button(Lang::get('button.next'), [
     'class'   => 'btn btn-default',
@@ -365,6 +367,25 @@ $( document ).ready(function() {
     });
 
   document.querySelector('#r_oml').setAttribute('onChange', 'requestData(true)');
+
+
+  addContent('#resultHeader',
+    newEl('p', { class: "affair"},
+      newEl('a', { href: '#' }, [
+        newEl('h4', {}, "{{ Lang::get('filters.title') }}"),
+        newEl('hr', {}, ""),
+        newEl('div', { class: "row"}, [
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.affair_id') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.state') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.date') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.lang') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.nature') }}"),
+          newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.lang_avail') }}"),
+          newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.importance') }}"),
+        ]),
+      ])
+    )
+  );
 });
 
 function reset() {
@@ -473,7 +494,8 @@ function requestData(reset) {
       $( '#alerts' ).addClass('hide').empty();
       if (json.success) {
         var children = json.data.map(function (item) {
-          return newEl('p', { class: "affair"}, newEl('a', { href: item.url, target:"_blank" }, [
+          return newEl('p', { class: "affair"},
+            newEl('a', { href: item.url, target:"_blank" }, [
               newEl('h4', {}, item.title),
               newEl('hr', {}, ""),
               newEl('div', { class: "row"}, [
@@ -484,8 +506,9 @@ function requestData(reset) {
                 newEl('div', { class: "col-sm-2" }, item.nature),
                 newEl('div', { class: "col-sm-1" }, item.lang_avail),
                 newEl('div', { class: "col-sm-1" }, item.importance),
-                ]),
-            ]));
+              ]),
+            ])
+          );
         });
         addContent('#results', children);
         if (parseInt(json.page) == json.links) {
