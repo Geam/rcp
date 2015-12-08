@@ -102,7 +102,7 @@
             {{ Form::selectStateOrLang('post_lang', 'lang', [
               'attr' => [
                 'class' => 'form-control',
-                'value' => Input::old('post_lang', isset($post) ? $post->lang : null)
+                'multiple' => ''
                 ],
               'noall' => 'noall',
               'avail' => [

@@ -133,7 +133,7 @@ class BlogController extends BaseController {
 
     // add lang filter
     if (Input::has('lang') && $input['lang'] != '00')
-      $posts = $posts->where('posts.lang', $input['lang']);
+      $posts = $posts->where('posts.lang', 'LIKE', '%' . $input['lang'] . '%');
 
     // add state filter
     if (Input::has('state') && $input['state'] != '00')
@@ -198,7 +198,7 @@ class BlogController extends BaseController {
       $ret[$post->id] = array(
         'affair_id'   => $post->affair_id,
         'importance'  => ($post->importance == 4) ? 'CR' : $post->importance,
-        'lang'        => Lang::get('langs.' . $post->lang),
+        'lang'        => (!strpos($post->lang, ',')) ? Lang::get('langs.' . $post->lang) : $post->lang,
         'state'       => Lang::get('states.' . $post->state),
         'url'         => $post->url(),
         'nature'      => $post->nature,

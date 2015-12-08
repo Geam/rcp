@@ -63,7 +63,7 @@ class AdminBlogsController extends AdminController {
       'importance'  =>  'required|numeric|digits_between:0,4',
       'nature'      =>  array('required', 'Regex:/^(judgement|decision)$/'),
       'affair_id'   =>  'required|min:3',
-      'post_lang'   =>  'required|between:2,3',
+      'post_lang'   =>  'array|required',
       'state'       =>  'required|min:2,3',
       'p_date'      =>  'required|date'
     );
@@ -77,12 +77,21 @@ class AdminBlogsController extends AdminController {
       // Create a new blog post
       $user = Auth::user();
 
+      $post_lang = "";
+      foreach ($input['post_lang'] as $value)
+      {
+        if ($post_lang == "")
+          $post_lang = $value;
+        else
+          $post_lang .= ',' . $value;
+      }
+
       // Update the blog post data
       $this->post->importance       = $input['importance'];
       $this->post->slug             = Str::slug($input['title']);
       $this->post->nature           = $input['nature'];
       $this->post->affair_id        = $input['affair_id'];
-      $this->post->lang             = $input['post_lang'];
+      $this->post->lang             = $post_lang;
       $this->post->state            = $input['state'];
       $this->post->p_date           = date('Y-m-d', strtotime($input['p_date']));
       $this->post->meta_title       = ($input['meta_title']) ? $input['meta_title'] : $input['title'];
@@ -163,7 +172,7 @@ class AdminBlogsController extends AdminController {
       'importance'  =>  'required|numeric|digits_between:0,4',
       'nature'      =>  array('required', 'Regex:/^(judgement|decision)$/'),
       'affair_id'   =>  'required|min:3',
-      'post_lang'   =>  'required|between:2,3',
+      'post_lang'   =>  'array|required',
       'state'       =>  'required|min:2,3',
       'p_date'      =>  'required|date'
     );
@@ -174,11 +183,21 @@ class AdminBlogsController extends AdminController {
     // Check if the form validates with success
     if ($validator->passes())
     {
+
+      $post_lang = "";
+      foreach ($input['post_lang'] as $value)
+      {
+        if ($post_lang == "")
+          $post_lang = $value;
+        else
+          $post_lang .= ',' . $value;
+      }
+
       // Update the blog post data
       $post->importance       = $input['importance'];
       $post->nature           = $input['nature'];
       $post->affair_id        = $input['affair_id'];
-      $post->lang             = $input['post_lang'];
+      $post->lang             = $post_lang;
       $post->state            = $input['state'];
       $post->p_date           = date('Y-m-d', strtotime($input['p_date']));
       $post->meta_title       = $input['meta_title'];
@@ -318,7 +337,6 @@ class AdminBlogsController extends AdminController {
       ->where('posts_texts.lang', '=', 'en');
     return Datatables::of($posts)
 
-      ->edit_column('lang', '{{ Lang::get(\'langs.\' . $lang) }}')
       ->edit_column('state', '{{ Lang::get(\'states.\' . $state) }}')
       ->edit_column('importance', '{{ ($importance == 4) ? "CR" : $importance }}')
 

@@ -32,7 +32,10 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
 {
   if ($display != 'lang' && $display != 'state')
     return Null;
-  $ret = '<select id="' . $name . '" name="' . $name . '" ';
+  $ret = '<select id="' . $name . '" name="' . $name;
+  if (isset($options['attr']) && isset($options['attr']['multiple']))
+    $ret .= "[]";
+  $ret .= '" ';
   if (isset($options['attr'])) {
     foreach ($options['attr'] as $key => $value)
     {
@@ -58,10 +61,16 @@ Form::macro('selectStateOrLang', function($name, $display, array $options)
       $all[$key] = Lang::get($display . 's.' . $key);
   }
   asort($all);
+  $default = [];
+  if (isset($options['avail']['default']))
+  {
+    foreach (explode(',', $options['avail']['default']) as $value)
+      $default[$value] = $value;
+  }
   foreach ($all as $key => $value)
   {
     $ret .= '<option value="' . $key;
-    if (isset($options['avail']['default']) && $key == $options['avail']['default'])
+    if (isset($default[$key]))
       $ret .= '" selected="selected';
     $ret .= '">' . $value . '</option>';
   }
