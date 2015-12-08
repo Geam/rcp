@@ -123,6 +123,7 @@ $( document ).ready(function() {
       },
         plugins: [
           "checkbox",
+          "sort",
         ],
     })
     .bind('loaded.jstree', function (e, data) {

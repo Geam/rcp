@@ -218,6 +218,7 @@ $(document).ready(function() {
       plugins: [
         "checkbox", // allow multi selecting
         "search", // search in the tree (need additional code)
+        "sort",
         "wholerow",
       ]
     })

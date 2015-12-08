@@ -157,6 +157,7 @@ $(document).ready(function() {
     plugins: [
       "contextmenu",
       "search",
+      "sort",
       "wholerow"
     ],
     contextmenu: {

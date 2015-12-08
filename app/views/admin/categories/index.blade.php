@@ -52,6 +52,7 @@ $(document).ready(function() {
     "plugins" : [
       "dnd", // drag 'n drop
       "search", // search in the tree (nedd additional code)
+      "sort",
       "wholerow" // click everywhere on the row to select
     ]
   })

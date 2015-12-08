@@ -152,6 +152,7 @@ $(document).ready(function() {
       "contextmenu", // context menu
       "dnd", // drag 'n drop
       "search", // search in the tree (need additional code)
+      "sort",
       "wholerow" // click everywhere on the row to select
     ],
     contextmenu: {
