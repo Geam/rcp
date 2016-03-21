@@ -157,6 +157,12 @@
                   @endforeach
                 </ul>
               </li>
+              <li>
+                @if (App::getLocale() == "ru")
+                <img src="{{{ asset('assets/pictures/barreau_de_paris_solidarite.png') }}}" alt="Barreau de Paris" height="45" width="90">
+                @endif
+                <img src="{{{ asset('assets/pictures/ue.png') }}}" alt="Barreau de Paris" height="45" width="70">
+              <li>
             </ul>
             <!-- ./ nav-collapse -->
           </div>

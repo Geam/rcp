@@ -157,14 +157,17 @@ class BlogController extends BaseController {
       $posts = $posts->where('posts_texts.lang', App::getLocale());
 
     // add title filter
-    if (Input::has('title'))
-      $posts = $posts->where('title', 'like', '%'.$input['title'].'%');
+    if (Input::has('title')) {
+      foreach (explode(' ', $input['title']) as $split) {
+        $posts = $posts->where('title', 'like', '%'.$split.'%');
+      }
+    }
 
     // add content filter
     if (Input::has('content')) {
-      foreach (explode('+', $input['content']) as $split_first) {
+      foreach (explode('AND', $input['content']) as $split_first) {
         $posts = $posts->where(function($query) use ($split_first) {
-          foreach (explode('|', $split_first) as $key => $split_second) {
+          foreach (explode('OR', $split_first) as $key => $split_second) {
             if ($key == 0)
               $query = $query->where('content', 'like', '%' . $split_second . '%');
             else
