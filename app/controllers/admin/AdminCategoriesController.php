@@ -53,7 +53,7 @@ class AdminCategoriesController extends AdminController
    */
   public function getDatadefault()
   {
-    return Response::json(Category::jsTree('en'));
+    return Response::json(Category::jsTree('en', False));
   }
 
   /**

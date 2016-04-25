@@ -16,6 +16,7 @@ return array(
   'importance'    => "Importance",
   'lang'          => "Case language",
   'lang_avail'    => "Lang available",
+  'lang_orig'     => "Original Language",
   'nature'        => "Nature",
   'oml_extend'    => "Show only the documents available in my language",
   'only_my_lang'  => "Only my lang",

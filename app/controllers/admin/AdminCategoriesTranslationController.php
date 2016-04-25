@@ -31,7 +31,7 @@ class AdminCategoriesTranslationController extends AdminCategoriesController
    */
   public function getData($lang)
   {
-    return Response::json(Category::jsTree($lang));
+    return Response::json(Category::jsTree($lang, False));
   }
 
   /**

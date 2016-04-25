@@ -371,21 +371,19 @@ $( document ).ready(function() {
 
 
   addContent('#resultHeader',
-    newEl('p', { class: "affair"},
-      newEl('a', { href: '#' }, [
+    newEl('p', { class: "affair"}, [
         newEl('h4', {}, "{{ Lang::get('filters.title') }}"),
         newEl('hr', {}, ""),
         newEl('div', { class: "row"}, [
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.affair_id') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.state') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.date') }}"),
-          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.lang') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.lang_orig') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.nature') }}"),
           newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.lang_avail') }}"),
           newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.importance') }}"),
         ]),
       ])
-    )
   );
 });
 

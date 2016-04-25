@@ -42,7 +42,7 @@ class Category extends Eloquent {
       return $tree[$id]['short_name'];
   }
 
-  static public function jsTree($lang)
+  static public function jsTree($lang, $hide)
   {
     $all = Category::select(
       'categories.id',
@@ -50,6 +50,8 @@ class Category extends Eloquent {
     )->get();
     for ($i = 0; $i < count($all); $i++) {
       $temp = $all[$i]->cats_text($lang);
+      if ($hide)
+        $temp->short_name = preg_replace('/([0-9]+ )(.+)/', '<span class="hide">${1}</span>${2}', $temp->short_name);
       $all[$i]['text'] = $temp->short_name;
       $all[$i]['long'] = $temp->long_name;
       if ($all[$i]['parent'] == '0')

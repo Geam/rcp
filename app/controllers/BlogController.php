@@ -71,7 +71,7 @@ class BlogController extends BaseController {
    */
   public function getCattree()
   {
-    return Response::json(Category::jsTree(App::getLocale()));
+    return Response::json(Category::jsTree(App::getLocale(), True));
   }
 
   /**
@@ -165,9 +165,9 @@ class BlogController extends BaseController {
 
     // add content filter
     if (Input::has('content')) {
-      foreach (explode('AND', $input['content']) as $split_first) {
+      foreach (explode(' AND ', $input['content']) as $split_first) {
         $posts = $posts->where(function($query) use ($split_first) {
-          foreach (explode('OR', $split_first) as $key => $split_second) {
+          foreach (explode(' OR ', $split_first) as $key => $split_second) {
             if ($key == 0)
               $query = $query->where('content', 'like', '%' . $split_second . '%');
             else
