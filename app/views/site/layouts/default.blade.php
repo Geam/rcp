@@ -85,9 +85,9 @@
             <ul class="nav navbar-nav">
               <li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}"><span class="glyphicon glyphicon-home"></span> {{ Lang::get('general.home') }}</a></li>
               @if (Auth::check())
-                @if (Auth::user()->hasRole('admin'))
+                <!-- @if (Auth::user()->hasRole('admin'))
                   <li {{ (Request::is('admin') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin') }}}"><span class="glyphicon glyphicon-lock"></span> {{ Lang::get('general.admin_panel') }}</a></li>
-                @endif
+                @endif -->
                 @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('affairs manager') || Auth::user()->hasRole('affairs translator'))
                   <li class="dropdown{{{ (Request::is('admin/affairs*') ? ' active' : '') }}}">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/categories/translate') }}}">
