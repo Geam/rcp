@@ -39,12 +39,24 @@
     <link rel="stylesheet" href="{{{ asset('assets/bootstrap/css/bootstrap.min.css') }}}">
     <style>
         body {
-          padding: 60px 0;
         }
         .scrollable-dropdown {
           height: auto;
           max-height: 200px;
           overflow-y: auto;
+        }
+        #wrap {
+          min-height: 100%;
+          position: relative;
+        }
+        #content {
+          padding-bottom: 60px;
+        }
+        #footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 60px;
         }
     </style>
     @section('styles')
@@ -170,32 +182,29 @@
       </div>
       <!-- ./ navbar -->
 
-    <!-- Container -->
-    <div class="container">
-    <!-- Notifications -->
-    @include('notifications')
-    <!-- ./ notifications -->
+      <!-- Container -->
+      <div class="container" id="content">
+        <!-- Notifications -->
+        @include('notifications')
+        <!-- ./ notifications -->
 
-    <!-- Content -->
-    @yield('content')
-    <!-- ./ content -->
-  </div>
-  <!-- ./ container -->
+        <!-- Content -->
+        @yield('content')
+        <!-- ./ content -->
+      </div>
+      <!-- ./ container -->
 
-  <!-- the following div is needed to make a sticky footer -->
-  <div id="push"></div>
-  </div>
-  <!-- ./wrap -->
-
-
-  <div id="footer">
-    <div class="container">
-    @section('footer')
-    <p class="muted credit">Fund by the European Commission</p>
-    <!--          <p class="muted credit">Laravel 4 Starter Site on <a href="https://github.com/andrew13/Laravel-4-Bootstrap-Starter-Site">Github</a>.</p>-->
-    @show
+      <footer id="footer" class="footer">
+        <div class="container">
+        @section('footer')
+        <p class="muted credit">Fund by the European Commission</p>
+        <!--          <p class="muted credit">Laravel 4 Starter Site on <a href="https://github.com/andrew13/Laravel-4-Bootstrap-Starter-Site">Github</a>.</p>-->
+        @show
+        </div>
+      </footer>
     </div>
-  </div>
+    <!-- ./wrap -->
+
 
     <!-- Javascripts
     ================================================== -->
