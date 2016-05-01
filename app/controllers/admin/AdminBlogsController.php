@@ -111,7 +111,7 @@ class AdminBlogsController extends AdminController {
 
         // Affect new value
         $posts_text->title    = $input['title'];
-        $posts_text->content  = str_replace(array("\n", "\r", "<p>&nbsp;</p><p>&nbsp;</p>"), '', $input['content']);
+        $posts_text->content  = html_entity_decode(str_replace(array("\n", "\r", "<p>&nbsp;</p><p>&nbsp;</p>"), '', $input['content']));
         $posts_text->post_id  = $this->post->id;
         $posts_text->lang     = "en";
 
@@ -216,7 +216,8 @@ class AdminBlogsController extends AdminController {
 
         // Affect new value
         $posts_text->title    = $input['title'];
-        $posts_text->content  = str_replace(array("\n", "\r", "<p>&nbsp;</p><p>&nbsp;</p>"), '', $input['content']);
+        $posts_text->content  = html_entity_decode(str_replace(array("\n", "\r", "<p>&nbsp;</p><p>&nbsp;</p>"), '', $input['content']));
+        //$posts_text->content  = html_entity_decode($input['content']);
         $posts_text->post_id  = $post->id;
         $posts_text->lang     = "en";
 
