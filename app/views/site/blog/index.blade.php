@@ -378,9 +378,9 @@ $( document ).ready(function() {
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.affair_id') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.state') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.date') }}"),
-          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.lang_orig') }}"),
+          newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.lang_orig') }}"),
           newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.nature') }}"),
-          newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.lang_avail') }}"),
+          newEl('div', { class: "col-sm-2" }, "{{ Lang::get('filters.lang_avail') }}"),
           newEl('div', { class: "col-sm-1" }, "{{ Lang::get('filters.importance') }}"),
         ]),
       ])
@@ -501,9 +501,9 @@ function requestData(reset) {
                 newEl('div', { class: "col-sm-2" }, item.affair_id),
                 newEl('div', { class: "col-sm-2" }, item.state),
                 newEl('div', { class: "col-sm-2" }, item.date),
-                newEl('div', { class: "col-sm-2" }, item.lang),
+                newEl('div', { class: "col-sm-1" }, item.lang),
                 newEl('div', { class: "col-sm-2" }, item.nature),
-                newEl('div', { class: "col-sm-1" }, item.lang_avail),
+                newEl('div', { class: "col-sm-2" }, item.lang_avail),
                 newEl('div', { class: "col-sm-1" }, item.importance),
               ]),
             ])

@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{{{ asset('assets/bootstrap/css/bootstrap.min.css') }}}">
     <style>
         body {
+          padding: 60px 0;
         }
         .scrollable-dropdown {
           height: auto;
