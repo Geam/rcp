@@ -16,5 +16,6 @@ return array(
   'title' => 'Rcp archive',
   'contact_us' => 'Contact Us',
   'sign_up' => 'Sign Up',
+  'footer' => 'Fund by the European Commission',
 
 );

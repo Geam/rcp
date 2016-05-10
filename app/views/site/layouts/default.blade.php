@@ -198,7 +198,7 @@
       <footer id="footer" class="footer">
         <div class="container">
         @section('footer')
-        <p class="muted credit">Fund by the European Commission</p>
+        <p class="muted credit">{{ Lang::get('site.footer'); }}</p>
         <!--          <p class="muted credit">Laravel 4 Starter Site on <a href="https://github.com/andrew13/Laravel-4-Bootstrap-Starter-Site">Github</a>.</p>-->
         @show
         </div>
