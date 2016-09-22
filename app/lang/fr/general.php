@@ -22,5 +22,6 @@ return array(
 	"users" => "Utilisateurs",
 	"roles" => "Rôles",
 	"site_lang" => "Langue",
+	"search_scroll_down" => "Résultats de recherche mis à jour, voir plus bas",
 
 );
