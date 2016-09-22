@@ -2,13 +2,14 @@
 
 return array(
 
-  'back'    => 'Retour',
-  'cancel'  => 'Annuler',
-  'create'  => 'Créer',
-  'content' => 'Contenu',
-	'delete'  => 'Supprimer',
-	'edit'    => 'Éditer',
-  'reset'   => 'Réinitialiser',
-  'search'  => 'Recherche',
-  'update'  => 'Mettre à jour',
+	"back" => "Retour",
+	"cancel" => "Annuler",
+	"content" => "Contenu",
+	"create" => "Créer",
+	"delete" => "Supprimer",
+	"edit" => "Modifier",
+	"next" => "Suivant",
+	"reset" => "Réinitialiser",
+	"search" => "Chercher",
+	"update" => "Actualiser",
 );

@@ -2,6 +2,6 @@
 
 return array(
 
-  'select_lang'   => "Sélectionnez la langue dans laquelle éditer",
+	"select_lang" => "Choisir la langue à modifier",
 
 );

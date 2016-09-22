@@ -2,23 +2,23 @@
 
 return array(
 
-	'already_exists' => "Ce role existe déjà !",
-	'does_not_exist' => "Ce role n'existe pas",
-	'name_required'  => "Le champ de nom est requis",
+	"already_exists" => "Le rôle existe déjà!",
+	"does_not_exist" => "Le rôle n'existe pas.",
+	"name_required" => "Le champ Nom est obligatoire",
 
-	'create' => array(
-		'error'   => "Le role n'a pas été créé, ré-éssayez plus tard.",
-		'success' => "Le role à bien été créé."
-	),
+  'create' => array(
+	"error" => "Le rôle n'a pas été créé, veuillez réessayer",
+	"success" => "Rôle créé",
+  ),
 
-	'update' => array(
-		'error'   => "Le role n'a pas été mis à jour, ré-éssayez plus tard",
-		'success' => "Le role à bien été mis à jour."
-	),
+  'update' => array(
+	"error" => "Le rôle n'a pas été actualisé, veuillez réessayer",
+	"success" => "Rôle actualisé",
+  ),
 
-	'delete' => array(
-		'error'   => "Le role n'a pas été supprimé, ré-éssayez plus tard",
-		'success' => "Le role à bien été supprimé"
-	)
+  'delete' => array(
+	"error" => "Un problème s'est produit lors de la suppression du rôle. Veuillez réessayer",
+	"success" => "Le rôle a été supprimé",
+  )
 
 );

@@ -2,14 +2,14 @@
 
 return array(
   'error' => array(
-    'unknown' => "Une erreur est survenue, ré-éssayez plus tard",
+	"unknown" => "Une erreur s'est produite, veuillez réessayer",
   ),
   'success' => array(
-    'addChild'  => "Categorie ajoutée",
-    'update'    => "Mise à jour réussie",
+	"addChild" => "Mot-clé ajouté",
+	"update" => "Mot-clé actualisé",
   ),
-  'tooltip'       => "Renseignez un nom complémentaire",
-  'tooltip_extra' => "Si laissé vide, le nom précédement rempli sera utilisé",
-  'delete'        => "Si vous continuez, vous allez supprimer cette catégorie et",
-  'delete_end'    => "autre(s) en dessous de celle-ci",
+	"tooltip" => "Veuillez indiquer une info bulle",
+	"tooltip_extra" => "Si le champ reste vide, le texte ci-dessus sera utilisé",
+	"delete" => "En continuant vous allez supprimer cette catégorie",
+	"delete_end" => "et toutes les sous-catégories",
 );

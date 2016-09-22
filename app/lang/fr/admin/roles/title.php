@@ -2,9 +2,9 @@
 
 return array(
 
-	'role_management'    => "Gestion des Roles",
-	'role_update'        => "Mettre à Jour un Role",
-	'role_delete'        => "Supprimer un Role",
-	'create_a_new_role'  => "Créer un nouveau Role",
+	"role_management" => "Gestion des rôles",
+	"role_update" => "Actualiser un rôle",
+	"role_delete" => "Supprimer un rôle",
+	"create_a_new_role" => "Créer un nouveau rôle",
 
 );

@@ -2,27 +2,27 @@
 
 return array(
 
-	'already_exists'    => "L'utilisateur existe déjà",
-	'does_not_exist'    => "L'utilisateur n'existe pas",
-	'login_required'    => "Le champ de login est requis",
-	'password_required' => "Le champ de mot de passe est requis",
-	'password_does_not_match' => "Les mots de passes fournis ne sont pas identiques",
+	"already_exists" => "L'utilisateur existe déjà !",
+	"does_not_exist" => "L'utilisateur n'existe pas",
+	"login_required" => "La connexion est obligatoire",
+	"password_required" => "Le mot de passe est obligatoire",
+	"password_does_not_match" => "Le mot de passe ne correspond pas",
 
-	'create' => array(
-		'error'   => "L'utilisateur n'a pas été créé, ré-éssayez plus tard.",
-		'success' => "L'utilisateur à bien été créé."
-	),
+  'create' => array(
+	"error" => "L'utilisateur n'a pas été créé, veuillez réessayer",
+	"success" => "L'utilisateur a été créé",
+  ),
 
-    'edit' => array(
-        'impossible' => "Vous ne pouvez pas vous éditer vous-même.",
-        'error'      => "L'utilisateur n'a pas été édité, ré-éssayez plus tard.",
-        'success'    => "L'utilisateur à bien été édité."
-    ),
+  'edit' => array(
+	"impossible" => "Vous ne pouvez pas modifier",
+	"error" => "Un problème s'est produit lors de la modification de l'utilisateur. Veuillez réessayer",
+	"success" => "L'utilisateur a été modifié",
+  ),
 
-    'delete' => array(
-        'impossible' => "Vous ne pouvez pas vous supprimer vous-même.",
-        'error'      => "L'utilisateur n'a pas été supprimé, ré-éssayez plus tard.",
-        'success'    => "L'utilisateur a bien été supprimé."
-    )
+  'delete' => array(
+	"impossible" => "Vous ne pouvez pas supprimer",
+	"error" => "Un problème s'est produit lors de la suppression de l'utilisateur. Veuillez réessayer",
+	"success" => "L'utilisateur a été supprimé",
+  )
 
 );

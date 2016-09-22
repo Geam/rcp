@@ -2,8 +2,8 @@
 
 return array(
 
-  'categories_management'       => "Gestion des Catégories",
-  'categories_tree_management'  => "Gestion de l'arborescence",
-  'categories_translation'      => "Traduction du nom des catégories",
+	"categories_management" => "Gestion des mots-clés",
+	"categories_tree_management" => "Gestion de l'arborescence des mots-clés",
+	"categories_translation" => "Traduction des mots-clés",
 
 );

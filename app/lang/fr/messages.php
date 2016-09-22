@@ -1,5 +1,6 @@
 <?php
 
 return array(
-  'no_text' => "Cette affaire n'as pas de contenu",
+	"no_text" => "Cette affaire n'a aucun contenu",
+	"error" => "Une erreur s'est produite. Veuillez réessayer plus tard",
 );

@@ -2,6 +2,6 @@
 
 return array(
 
-  'select_lang' => "Selectonnez la langue de traduction"
+	"select_lang" => "Choisir langue à traduire",
 
 );

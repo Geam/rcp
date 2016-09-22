@@ -2,21 +2,21 @@
 
 return array(
 
-	'does_not_exist' => "L'affaire n'existe pas.",
+	"does_not_exist" => "L'affaire n'existe pas",
 
-	'create' => array(
-		'error'   => "L'affaire n'a pas été créée.",
-		'success' => "L'affaire a bien été créée."
-	),
+  'create' => array(
+	"error" => "L'affaire n'a pas été créée, veuillez réessayer",
+	"success" => "L'affaire a été créée",
+  ),
 
-	'update' => array(
-		'error'   => "L'affaire n'a pas été mise à jour.",
-		'success' => "L'affaire a bien été mise à jour."
-	),
+  'update' => array(
+	"error" => "L'affaire n'a pas été actualisée, veuillez réessayer",
+	"success" => "Affaire actualisée",
+  ),
 
-	'delete' => array(
-		'error'   => "L'affaire n'a pas été supprimée",
-		'success' => "L'affaire a bien été supprimée"
-	)
+  'delete' => array(
+	"error" => "Un problème s'est produit lors de la suppression de l'affaire. Veuillez réessayer",
+	"success" => "L'arrêt a été supprimé",
+  )
 
 );

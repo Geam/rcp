@@ -2,19 +2,20 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Site Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used by the paginator library to build
-	| the simple pagination links. You are free to change them to anything
-	| you want to customize your views to better match your application.
-	|
-	*/
+  /*
+  |--------------------------------------------------------------------------
+  | Site Language Lines
+  |--------------------------------------------------------------------------
+  |
+  | The following language lines are used by the paginator library to build
+  | the simple pagination links. You are free to change them to anything
+  | you want to customize your views to better match your application.
+  |
+   */
 
-  'title' => 'Rcp archive',
-	'contact_us' => 'Contactez Nous',
-  'sign_up' => 'Enregistrez-vous',
+	"title" => "Archive Rcp",
+	"contact_us" => "Contact",
+	"sign_up" => "Inscription",
+	"footer" => "Financé par la Commission européenne",
 
 );

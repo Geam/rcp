@@ -2,23 +2,23 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| User Language Lines
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
+  /*
+  |--------------------------------------------------------------------------
+  | User Language Lines
+  |--------------------------------------------------------------------------
+  |
+  |
+   */
 
-	'register'                      => "Créer un compte",
-	'login'                         => "Login",
-	'login_first'                   => "Login first",
-	'account'                       => "Compte",
-	'forgot_password'               => "Mot de passe oublié",
-	'settings'                      => "Paramètres",
-	'profile'                       => "Profil",
-	'user_account_is_not_confirmed' => "Le compte utilisateur n'est pas confirmé",
-	'user_account_updated'          => "Compte Utilisateur Mis à Jour",
-	'user_account_created'          => "Compte Utilisateur Créé le",
+	"register" => "Enregistrement",
+	"login" => "Connexion",
+	"login_first" => "Première connexion",
+	"account" => "Compte",
+	"forgot_password" => "Mot de passe oublié",
+	"settings" => "Paramètres",
+	"profile" => "Profil",
+	"user_account_is_not_confirmed" => "Le compte de l'utilisateur n'a pas été confirmé",
+	"user_account_updated" => "Compte de l'utilisateur actualisé",
+	"user_account_created" => "Compte de l'utilisateur créé",
 
 );

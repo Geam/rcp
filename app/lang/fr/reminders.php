@@ -2,23 +2,23 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Password Reminder Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are the default lines which match reasons
-	| that are given by the password broker for a password update attempt
-	| has failed, such as for an invalid token or invalid new password.
-	|
-	*/
+  /*
+  |--------------------------------------------------------------------------
+  | Password Reminder Language Lines
+  |--------------------------------------------------------------------------
+  |
+  | The following language lines are the default lines which match reasons
+  | that are given by the password broker for a password update attempt
+  | has failed, such as for an invalid token or invalid new password.
+  |
+   */
 
-	"password" => "Les mots de passe doivent avoir 6 caractères et être identique à la confirmation.",
+	"password" => "Le mot de passe doit contenir six caractères et correspondre à la confirmation",
 
-	"user"     => "Aucun utilisateur trouvé avec cette adresse email.",
+	"user" => "Impossible de trouver un utilisateur avec cette adresse e-mail",
 
-	"token"    => "Le token de validation est incorrect.",
+	"token" => "Le code pour réinitialiser le mot de passe n'est pas valide",
 
-	"sent"     => "L'aide de mot de passe à été envoyé.",
+	"sent" => "Le mot de passe vous a été envoyé",
 
 );

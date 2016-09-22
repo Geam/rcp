@@ -2,26 +2,22 @@
 
 return array(
 
-  'general'           => "Générale",
-  'categories'        => "Catégories",
-  'meta'              => "Meta Titre",
+	"general" => "Général",
+	"categories" => "Mots-clés",
+	"meta" => "Informations sur l'affaire",
 
-  'title'             => "Titre de l'Affaire",
-  'importance'        => "Importance de l'Affaire",
-  'slug'              => "URL de l'Affaire",
-  'nature'            => "Nature de l'Affaire",
-  'affair_id'         => "Numéro d'Application",
-  'post_date'         => "Date de l'Affaire",
-  'post_lang'         => "Langue de l'Affaire",
-  'state'             => "État de l'Affaire",
-  'content'           => "Contenu",
+	"title" => "Titre",
+	"importance" => "Importance",
+	"slug" => "Slug (url)",
+	"nature" => "Nature de l'affaire",
+	"affair_id" => "Numéro de requête",
+	"post_date" => "Date",
+	"post_lang" => "Langue",
+	"state" => "État de l'affaire",
+	"content" => "Contenu",
 
-  'meta_title'        => 'Meta Titre',
-  'meta_description'  => 'Meta Description',
-  'meta_keywords'     => 'Meta Mot Clé',
-
-  'cancel'            => 'Annuler',
-  'reset'             => 'Ré-initialiser',
-  'submit'            => 'Mettre à jour',
+	"meta_title" => "Titre",
+	"meta_description" => "Description",
+	"meta_keywords" => "Mots-clés",
 
 );
