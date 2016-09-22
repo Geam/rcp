@@ -16,6 +16,7 @@ return array(
 	'importance' => 'Importanza',
 	'lang' => 'Lingua',
 	'lang_avail' => 'Lingue disponibili',
+	'lang_orig' => 'Lingua originale',
 	'nature' => 'Natura',
 	'oml_extend' => 'Mostra solo i documenti disponibili nella lingua corrente',
 	'only_my_lang' => 'Solo lingua corrente',

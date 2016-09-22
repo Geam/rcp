@@ -9,7 +9,6 @@ return array(
 	'ca' => 'Catalano',
 	'cs' => 'Ceco',
 	'da' => 'Danese',
-	'de' => 'Deutch',
 	'de' => 'Tedesco',
 	'el' => 'Greco',
 	'en' => 'Inglese',

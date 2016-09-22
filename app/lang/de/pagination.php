@@ -4,7 +4,7 @@ return array(
 
   /*
   |--------------------------------------------------------------------------
-  | Site Language Lines
+  | Pagination Language Lines
   |--------------------------------------------------------------------------
   |
   | The following language lines are used by the paginator library to build
@@ -13,9 +13,7 @@ return array(
   |
    */
 
-	'title' => 'Archivio Rcp',
-	'contact_us' => 'Contattaci',
-	'sign_up' => 'Iscriviti',
-	'footer' => 'Finanziato dalla Commissione europea',
+	"previous" => "Vorherige",
+	"next" => "Nächste",
 
 );

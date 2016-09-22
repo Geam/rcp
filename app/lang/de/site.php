@@ -13,9 +13,8 @@ return array(
   |
    */
 
-	'title' => 'Archivio Rcp',
-	'contact_us' => 'Contattaci',
-	'sign_up' => 'Iscriviti',
-	'footer' => 'Finanziato dalla Commissione europea',
+	"title" => "Rcp Archiven",
+	"contact_us" => "Uns kontaktieren",
+	"sign_up" => "Sign Up",
 
 );

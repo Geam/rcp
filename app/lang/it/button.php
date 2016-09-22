@@ -8,7 +8,6 @@ return array(
 	'create' => 'Crea',
 	'delete' => 'Cancella',
 	'edit' => 'Modifica',
-	'exit' => 'Esci',
 	'next' => 'Avanti',
 	'reset' => 'Cancella campi',
 	'search' => 'Cerca',
