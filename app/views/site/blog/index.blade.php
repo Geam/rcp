@@ -485,6 +485,7 @@ function newEl(tag, attrs, content) {
   return el;
 }
 
+var hideNotification;
 
 function requestData(reset) {
   if (reset) {
@@ -496,6 +497,7 @@ function requestData(reset) {
       return ;
   }
   $('#searchNotification').addClass('hide');
+  clearTimeout(hideNotification);
   var url = generateUrl();
   var args = url.substring(url.search("title="))
   window.history.pushState(serialiseData(), "test", "?" + args)
@@ -504,7 +506,7 @@ function requestData(reset) {
     .done(function(json) {
       $( '#alerts' ).addClass('hide').empty();
       $('#searchNotification').removeClass('hide');
-      setTimeout(function () { $('#searchNotification').addClass('hide'); }, 5000);
+      hideNotification = setTimeout(function () { $('#searchNotification').addClass('hide'); }, 5000);
       if (json.success) {
         var children = json.data.map(function (item) {
           return newEl('p', { class: "affair"},
