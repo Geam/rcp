@@ -22,5 +22,6 @@ return array(
   'users'                   => 'Users',
   'roles'                   => 'Roles',
   'site_lang'               => 'Choose the website language',
+  'search_scroll_down'      => 'Search result updated, scroll down to see',
 
 );

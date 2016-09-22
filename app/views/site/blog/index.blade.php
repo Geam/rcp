@@ -41,6 +41,16 @@ p.affair h4 {
   margin-bottom: 2px;
   margin-top: 0px;
 }
+
+div#searchNotification {
+  position: fixed;
+  top: 50px;
+  min-height: 20px;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  text-align: center;
+}
 </style>
 
 <!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/select2/select2.min.css') }}"> -->
@@ -58,6 +68,7 @@ p.affair h4 {
 {{-- Content --}}
 @section('content')
 <div id="alerts" class="alert alert-warning hide" role="alert"></div>
+<div id="searchNotification" class="bg-info hide"><div class="container info">{{ Lang::get('general.search_scroll_down') }}</div></div>
 <div class="jumbotron">
 {{ Form::token() }}
 
@@ -484,6 +495,7 @@ function requestData(reset) {
     if (document.querySelector('#searchNext').value == "-1")
       return ;
   }
+  $('#searchNotification').addClass('hide');
   var url = generateUrl();
   var args = url.substring(url.search("title="))
   window.history.pushState(serialiseData(), "test", "?" + args)
@@ -491,6 +503,8 @@ function requestData(reset) {
   })
     .done(function(json) {
       $( '#alerts' ).addClass('hide').empty();
+      $('#searchNotification').removeClass('hide');
+      setTimeout(function () { $('#searchNotification').addClass('hide'); }, 5000);
       if (json.success) {
         var children = json.data.map(function (item) {
           return newEl('p', { class: "affair"},
